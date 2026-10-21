@@ -58,9 +58,9 @@ function	script	F_IQ_Bounty	{
 			mes "^0000CCWANTED: " + .@name$[.@c] + "^000000";
 			mes "Hunt ^FF0000150^000000 of them and return";
 			mes "to this board for the reward:";
-			mes " - " + F_InsertComma(getmonsterinfo(.@mob, MOB_BASEEXP) * 150) + " Base EXP";
-			mes " - " + F_InsertComma(getmonsterinfo(.@mob, MOB_JOBEXP) * 150) + " Job EXP";
-			mes " - " + F_InsertComma(getmonsterinfo(.@mob, MOB_LV) * 100) + " Zeny";
+			mes " - " + callfunc("F_InsertComma", getmonsterinfo(.@mob, MOB_BASEEXP) * 150) + " Base EXP";
+			mes " - " + callfunc("F_InsertComma", getmonsterinfo(.@mob, MOB_JOBEXP) * 150) + " Job EXP";
+			mes " - " + callfunc("F_InsertComma", getmonsterinfo(.@mob, MOB_LV) * 100) + " Zeny";
 			.@s = checkquest(.@qid, HUNTING);
 			if (.@s == 2) {
 				mes "You have finished this one.";
