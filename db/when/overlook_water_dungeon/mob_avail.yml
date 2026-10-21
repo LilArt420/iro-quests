@@ -1,0 +1,35 @@
+Header:
+  Type: MOB_AVAIL_DB
+  Version: 1
+
+Body:
+  - Mob: AGED_CORNUTUS
+    Sprite: CORNUTUS
+  - Mob: AGED_DEVIACE
+    Sprite: DEVIACE
+  - Mob: AGED_HYDRA
+    Sprite: HYDRA
+  - Mob: AGED_KUKRE
+    Sprite: KUKRE
+  - Mob: AGED_MARC
+    Sprite: MARC
+  - Mob: AGED_MARINA
+    Sprite: MARINA
+  - Mob: AGED_MARINE_SPHERE
+    Sprite: MARINE_SPHERE
+  - Mob: AGED_MARSE
+    Sprite: MARSE
+  - Mob: AGED_MERMAN
+    Sprite: MERMAN
+  - Mob: AGED_OBEAUNE
+    Sprite: OBEAUNE
+  - Mob: AGED_PHEN
+    Sprite: PHEN
+  - Mob: AGED_PLANKTON
+    Sprite: PLANKTON
+  - Mob: AGED_STROUF
+    Sprite: STROUF
+  - Mob: AGED_SWORD_FISH
+    Sprite: SWORD_FISH
+  - Mob: AGED_VADON
+    Sprite: VADON

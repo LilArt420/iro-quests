@@ -1,0 +1,582 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Eye of the Beholder (iRO)
+//===== Description: =========================================
+//= Beho, a beholder living in Rachel Temple, has fallen for
+//= Bianca, who is terrified of beholders. Help him win her
+//= over: chocolate from Kyara, a song with Doina, a necklace
+//= from Lilla, a bouquet from Kees and the Pope's blessing.
+//= Base level 50. Reward: 500,000 Base EXP, 375,000 Job EXP,
+//= 5 Yggdrasil Berries and 1 Eden Merit Badge (iRO's non-VIP
+//= reward).
+//=
+//= Steps, positions and rewards follow iROWiki's "Eye of the
+//= Beholder"; quest-log ids are the iRO client's own
+//= (61001-61029). The dialogue is written for this mod.
+//=
+//= Character variable: iq_beho = the quest-log entry the
+//= character is on (0 = not started, 1 = done).
+//============================================================
+
+// Starts the quest, and takes anyone to Beho.
+airplane_01,238,57,4	script	Beholder#iqbeho1	1633,{
+	mes "[Beholder]";
+	if (iq_beho == 0) {
+		mes "Psst. Over here, in the shadow.";
+		mes "Don't scream. Everyone screams.";
+		mes "I'm not like the ones that float";
+		mes "around Juperos zapping people.";
+		next;
+		mes "[Beholder]";
+		mes "My friend ^0000FFBeho^000000 lives in Rachel";
+		mes "Temple. He's in trouble... the";
+		mes "heart kind of trouble. Could you";
+		mes "talk to him? I can send you there.";
+		next;
+		if (BaseLevel < 50) {
+			mes "[Beholder]";
+			mes "...Hm, on second thought, the";
+			mes "temple is no place for a beginner.";
+			mes "Come back when you're stronger.";
+			mes "^777777(Base Level 50)^000000";
+			close;
+		}
+		if (select("Sure, send me to Beho.:No, thanks.") == 2) {
+			mes "[Beholder]";
+			mes "Everyone says that. *sigh*";
+			close;
+		}
+		iq_beho = 61001;
+		setquest 61001;
+		mes "[Beholder]";
+		mes "Thank you! Hold still...";
+		close2;
+		warp "ra_temin", 268, 318;
+		end;
+	}
+	if (iq_beho == 1) {
+		mes "Beho and Bianca send their love.";
+		mes "Literally. They won't stop.";
+		close;
+	}
+	mes "Want to go back to Beho?";
+	next;
+	if (select("Yes, please.:Not now.") == 2)
+		close;
+	close2;
+	warp "ra_temin", 268, 318;
+	end;
+}
+ra_temple,104,185,4	duplicate(Beholder#iqbeho1)	Beholder#iqbeho2	1633
+
+ra_temin,268,321,4	script	Beho#iqbeho	1633,{
+	mes "[Beho]";
+	switch (iq_beho) {
+	case 0:
+		mes "*blink*";
+		mes "...Oh. A visitor. Hello.";
+		close;
+	case 61001:
+	case 61002:
+		mes "You came! My friend on the airship";
+		mes "said someone kind might. I'm Beho.";
+		next;
+		callfunc "F_IQ_Next", 61001, 61002;
+		mes "[Beho]";
+		mes "There's a girl who reads in the";
+		mes "temple's lower libraries. ^0000FFBianca^000000.";
+		mes "She has the most beautiful eyes.";
+		mes "Two of them! Imagine that.";
+		next;
+		mes "[Beho]";
+		mes "I've never spoken to her. Every";
+		mes "time she sees me, she runs.";
+		mes "Could you talk to her? Find out";
+		mes "what she thinks of... well, me?";
+		callfunc "F_IQ_Next", 61002, 61003;
+		iq_beho = 61003;
+		close;
+	case 61003:
+		mes "Bianca is in one of the lower";
+		mes "floor libraries. Please, find out";
+		mes "what she thinks of me.";
+		close;
+	case 61004:
+	case 61005:
+		mes "She's... afraid of beholders?";
+		mes "*blink blink*";
+		next;
+		callfunc "F_IQ_Next", 61004, 61005;
+		mes "[Beho]";
+		mes "No! I won't give up. If she knew";
+		mes "me, she'd see I'm harmless. I";
+		mes "need a gift, something sweet.";
+		next;
+		mes "[Beho]";
+		mes "^0000FFKyara^000000 runs the kitchen in the";
+		mes "sanctuary, in the west. She makes";
+		mes "a dessert everyone talks about.";
+		mes "Could you get some for Bianca?";
+		callfunc "F_IQ_Next", 61005, 61006;
+		iq_beho = 61006;
+		close;
+	case 61006:
+	case 61007:
+		mes "Kyara is in the west of the";
+		mes "sanctuary. Her specialty is";
+		mes "something sweet, I'm sure of it.";
+		close;
+	case 61008:
+		if (!countitem(White_Chocolate)) {
+			mes "Kyara made something for Bianca?";
+			mes "Where is it? Did you... eat it?";
+			mes "^777777(Get another from Kyara.)^000000";
+			close;
+		}
+		mes "White Chocolate! It's perfect.";
+		mes "I'll keep it safe until the day";
+		mes "I see her.";
+		delitem White_Chocolate, 1;
+		next;
+		mes "[Beho]";
+		mes "Bianca loves music. There's a";
+		mes "singer visiting the temple called";
+		mes "^0000FFDoina^000000. If she wrote a song for";
+		mes "Bianca... from me...";
+		callfunc "F_IQ_Next", 61008, 61009;
+		iq_beho = 61009;
+		close;
+	case 61009:
+	case 61010:
+		mes "Doina is somewhere in the temple,";
+		mes "on this floor. Ask her for a song.";
+		close;
+	case 61011:
+		if (!countitem(Scroll)) {
+			mes "Doina wrote the song? Where is";
+			mes "the score? ^777777(Ask Doina again.)^000000";
+			close;
+		}
+		mes "A real song! I can't read music,";
+		mes "but it looks wonderful.";
+		delitem Scroll, 1;
+		next;
+		mes "[Beho]";
+		mes "One last thing: a present she can";
+		mes "keep. ^0000FFLilla^000000 at the Rachel Inn makes";
+		mes "jewelry. Ask her for something";
+		mes "as pretty as Bianca's eyes.";
+		callfunc "F_IQ_Next", 61011, 61012;
+		iq_beho = 61012;
+		close;
+	case 61012:
+	case 61013:
+	case 61014:
+	case 61015:
+	case 61016:
+	case 61017:
+		mes "Lilla is at the Rachel Inn, on the";
+		mes "second floor.";
+		close;
+	case 61018:
+	case 61019:
+	case 61020:
+	case 61021:
+	case 61022:
+	case 61023:
+		mes "Flowers, from Kees the gardener?";
+		mes "Lilla is clever. Kees works by";
+		mes "the houses north of the inn.";
+		close;
+	case 61024:
+		mes "A necklace and a bouquet! I don't";
+		mes "know how to thank you.";
+		next;
+		mes "[Beho]";
+		mes "I can't give them to her myself.";
+		mes "She'd faint. Please take all of";
+		mes "my gifts to her. The chocolate,";
+		mes "the song, everything.";
+		getitem White_Chocolate, 1;
+		getitem Scroll, 1;
+		next;
+		mes "[Beho]";
+		mes "But first, ask the ^0000FFPope^000000 for his";
+		mes "blessing. He's near the temple's";
+		mes "entrance on the first floor. With";
+		mes "Freyja's blessing, she might listen.";
+		callfunc "F_IQ_Next", 61024, 61025;
+		iq_beho = 61025;
+		close;
+	case 61025:
+		mes "The Pope is near the entrance of";
+		mes "the temple, on the first floor.";
+		close;
+	case 61026:
+	case 61027:
+		mes "Did she take the gifts? Did she";
+		mes "like the song? Go, go!";
+		close;
+	case 61028:
+	case 61029:
+		mes "She'll meet me?! In the gardens";
+		mes "west of the temple entrance?";
+		mes "I'm going right now!";
+		close;
+	default:
+		mes "Bianca and I walk in the gardens";
+		mes "every evening. Thank you, friend.";
+		close;
+	}
+}
+
+ra_temin,301,112,4	script	Bianca#iqbeho	4_F_ARUNA_POP,{
+	mes "[Bianca]";
+	switch (iq_beho) {
+	case 61003:
+		mes "Oh! You scared me. I thought you";
+		mes "were... never mind.";
+		next;
+		mes "[Bianca]";
+		mes "A beholder? Here? Don't even say";
+		mes "it! There's one upstairs that";
+		mes "stares at me. One huge eye...";
+		mes "I'm so scared of beholders.";
+		callfunc "F_IQ_Next", 61003, 61004;
+		iq_beho = 61004;
+		close;
+	case 61026:
+		if (!countitem(White_Chocolate) || !countitem(Scroll) || !countitem(Penetration) || !countitem(Bunch_Of_Flowers)) {
+			mes "Gifts? For me? ...You don't seem";
+			mes "to have them with you.";
+			mes "^777777(White Chocolate, the song, the";
+			mes "Necklace of Wisdom and the Bouquet.)^000000";
+			close;
+		}
+		mes "Chocolate, a necklace, flowers...";
+		mes "and a song? Who are these from?";
+		next;
+		mes "[Bianca]";
+		mes "Sing it for me, please. If you";
+		mes "know the words.";
+		next;
+		setarray .@line$[0], "When I look in your eyes", "I feel my heart beat strong.", "I cried those nights", "million of tears as in this song...";
+		setarray .@bad$[0], "When I look at your shoes", "I feel my knees go weak.", "I slept those nights", "a bucket of tears for this song...";
+		for (.@i = 0; .@i < 4; .@i++) {
+			if (rand(2))
+				.@c = select(.@line$[.@i] + ":" + .@bad$[.@i]);
+			else
+				.@c = 3 - select(.@bad$[.@i] + ":" + .@line$[.@i]);
+			if (.@c != 1) {
+				mes "[Bianca]";
+				mes "...That's not how a love song";
+				mes "goes. Do you even know it?";
+				close;
+			}
+			mes "^0000FF~ " + .@line$[.@i] + " ~^000000";
+		}
+		next;
+		delitem White_Chocolate, 1;
+		delitem Scroll, 1;
+		delitem Penetration, 1;
+		delitem Bunch_Of_Flowers, 1;
+		callfunc "F_IQ_Next", 61026, 61027;
+		iq_beho = 61027;
+		mes "[Bianca]";
+		mes "That's beautiful... Tell me,";
+		mes "who sent all of this?";
+		close;
+	case 61027:
+		mes "Beho? The... beholder?";
+		mes "*long silence*";
+		next;
+		mes "[Bianca]";
+		mes "Someone who'd do all this just to";
+		mes "say hello can't be scary.";
+		mes "Tell him I'll meet him in the";
+		mes "^0000FFgardens west of the temple";
+		mes "entrance^000000.";
+		callfunc "F_IQ_Next", 61027, 61028;
+		iq_beho = 61028;
+		close;
+	case 1:
+		mes "Have you seen Beho? He said he'd";
+		mes "bring me a book today.";
+		close;
+	default:
+		mes "Shh. This is a library.";
+		close;
+	}
+}
+
+ra_temin,31,70,4	script	Kyara#iqbeho	4_F_02,{
+	mes "[Kyara]";
+	if (iq_beho == 61006) {
+		mes "A gift for a sweetheart? Then you";
+		mes "want my specialty, of course.";
+		mes "You do know my specialty?";
+		next;
+		if (select("Strawberry Cake:White Chocolate:Honey Pastry:Rice Cake") != 2) {
+			mes "[Kyara]";
+			mes "Hmph. Everyone in Rachel knows";
+			mes "Kyara's specialty. Ask around.";
+			close;
+		}
+		mes "[Kyara]";
+		mes "Exactly! My White Chocolate.";
+		mes "Who's the lucky one?";
+		getitem White_Chocolate, 1;
+		callfunc "F_IQ_Next", 61006, 61007;
+		iq_beho = 61007;
+		close;
+	}
+	if (iq_beho == 61007) {
+		mes "Wait. Bianca? And the gift is";
+		mes "from a ^FF0000beholder^000000?!";
+		next;
+		select("Beho is gentle and honest.:He's harmless, really.");
+		mes "[Kyara]";
+		mes "...Well, he has always been polite";
+		mes "to me. Fine. I'll put in a good";
+		mes "word with Bianca. Off you go.";
+		if (!countitem(White_Chocolate))
+			getitem White_Chocolate, 1;
+		callfunc "F_IQ_Next", 61007, 61008;
+		iq_beho = 61008;
+		close;
+	}
+	mes "Welcome to the sanctuary kitchen.";
+	mes "Nobody leaves here hungry.";
+	close;
+}
+
+ra_temin,165,101,4	script	Doina#iqbeho	4_F_MAYSEL,{
+	mes "[Doina]";
+	if (iq_beho == 61009 || iq_beho == 61010) {
+		if (iq_beho == 61009) {
+			mes "A song? For a girl who's afraid";
+			mes "of her admirer? How romantic!";
+			callfunc "F_IQ_Next", 61009, 61010;
+			iq_beho = 61010;
+			next;
+			mes "[Doina]";
+		}
+		mes "Let's write it together. Give me";
+		mes "the first word that comes to you";
+		mes "when you think of love.";
+		next;
+		.@a = select("Eyes:Heart:Tears:Hunger");
+		mes "[Doina]";
+		mes "And the feeling?";
+		next;
+		.@b = select("Strong:Itchy:Sleepy:Loud");
+		if (.@a == 4 || .@b > 2) {
+			mes "[Doina]";
+			mes "...No. No, that won't do at all.";
+			mes "Let's start over.";
+			close;
+		}
+		mes "[Doina]";
+		mes "^0000FF~ When I look in your eyes,";
+		mes "I feel my heart beat strong. ~^000000";
+		mes "That's it! I'll write the score.";
+		next;
+		mes "[Doina]";
+		mes "Here. And my autograph on it, for";
+		mes "the young lady.";
+		getitem Scroll, 1;
+		callfunc "F_IQ_Next", 61010, 61011;
+		iq_beho = 61011;
+		close;
+	}
+	mes "La la laaa~";
+	mes "The temple's echo is divine.";
+	close;
+}
+
+ra_temin,169,147,4	script	Pope#iqbeho	936,{
+	mes "[Pope]";
+	if (iq_beho == 61025) {
+		mes "A blessing for a beholder's love?";
+		mes "Freyja has seen stranger things.";
+		next;
+		mes "[Pope]";
+		mes "Love that is honest, patient and";
+		mes "kind is always blessed. Go, and";
+		mes "may the goddess guide your steps.";
+		specialeffect2 EF_BLESSING;
+		callfunc "F_IQ_Next", 61025, 61026;
+		iq_beho = 61026;
+		close;
+	}
+	mes "May the blessings of Freyja be";
+	mes "with you.";
+	close;
+}
+
+ra_in01,343,130,4	script	Lilla#iqbeho	4_F_01,{
+	mes "[Lilla]";
+	switch (iq_beho) {
+	case 61012:
+		mes "A necklace for Bianca? I'd love";
+		mes "to, but my beads! I've lost all";
+		mes "^0000FF4 bags of beads^000000 somewhere in";
+		mes "the inn.";
+		next;
+		mes "[Lilla]";
+		mes "I always hide them in silly";
+		mes "places. The flowerpot upstairs,";
+		mes "maybe? Find them for me, in the";
+		mes "order I hid them, and I'll make";
+		mes "you the prettiest necklace.";
+		callfunc "F_IQ_Next", 61012, 61013;
+		iq_beho = 61013;
+		close;
+	case 61013:
+	case 61014:
+	case 61015:
+	case 61016:
+		mes "Upstairs flowerpot, the pot on";
+		mes "the roof, the diner, the lobby...";
+		mes "I think that was the order.";
+		close;
+	case 61017:
+		mes "All four bags! Give me a moment...";
+		next;
+		mes "^777777Lilla's fingers fly over the beads.^000000";
+		next;
+		mes "[Lilla]";
+		mes "Done! A ^0000FFNecklace of Wisdom^000000.";
+		mes "Now, a girl wants flowers too.";
+		mes "My friend ^0000FFKees^000000 the gardener";
+		mes "works outside, north of the inn.";
+		rentitem Penetration, 259200;	// a loan for the quest: 3 days, cannot be traded
+		callfunc "F_IQ_Next", 61017, 61018;
+		iq_beho = 61018;
+		close;
+	default:
+		mes "Handmade jewelry! Well, when I";
+		mes "haven't lost my beads.";
+		close;
+	}
+}
+
+// Lilla's beads, found in order: 61013 -> 61014 -> 61015 -> 61016 -> 61017.
+ra_in01,374,123,0	script	Flowerpot#iqbeho1	CLEAR_NPC,{
+	.@n = atoi(charat(strnpcinfo(2), 6));
+	if (iq_beho != 61012 + .@n) {
+		mes "Nothing here but dirt.";
+		close;
+	}
+	mes "Tucked away here: a little bag";
+	mes "of beads!";
+	callfunc "F_IQ_Next", iq_beho, iq_beho + 1;
+	iq_beho = iq_beho + 1;
+	close;
+}
+rachel,106,168,0	duplicate(Flowerpot#iqbeho1)	Flowerpot#iqbeho2	CLEAR_NPC
+ra_in01,308,37,0	duplicate(Flowerpot#iqbeho1)	Flowerpot#iqbeho3	CLEAR_NPC
+ra_in01,388,68,0	duplicate(Flowerpot#iqbeho1)	Sofa#iqbeho4	CLEAR_NPC
+
+rachel,122,196,4	script	Kees#iqbeho	4_M_RACHOLD,{
+	mes "[Kees]";
+	switch (iq_beho) {
+	case 61018:
+		mes "Lilla sent you? A bouquet for a";
+		mes "lady? Then pick them yourself,";
+		mes "it means more.";
+		next;
+		mes "[Kees]";
+		mes "A ^FF0000Rose^000000 and an ^0000FFIris^000000 in the beds";
+		mes "north of me, a ^CC9900Mimosa^000000 by the";
+		mes "house to the south, and a ^777777Lily^000000";
+		mes "by the house northwest of the pool.";
+		mes "In that order, mind!";
+		callfunc "F_IQ_Next", 61018, 61019;
+		iq_beho = 61019;
+		close;
+	case 61019:
+	case 61020:
+	case 61021:
+	case 61022:
+		mes "Rose, Iris, Mimosa, Lily.";
+		mes "In that order!";
+		close;
+	case 61023:
+		mes "Lovely picks. Let me tie them up.";
+		next;
+		mes "[Kees]";
+		mes "There. Any girl would smile at";
+		mes "that.";
+		getitem Bunch_Of_Flowers, 1;
+		callfunc "F_IQ_Next", 61023, 61024;
+		iq_beho = 61024;
+		close;
+	default:
+		mes "Don't step on the flowerbeds,";
+		mes "please.";
+		close;
+	}
+}
+
+// The flowers, picked in order: 61019 -> 61020 -> 61021 -> 61022 -> 61023.
+rachel,123,201,0	script	Flowerbed#iqbeho1	4_RED_FLOWER,{
+	.@n = atoi(charat(strnpcinfo(2), 6));
+	if (iq_beho != 61018 + .@n) {
+		mes "Neatly kept flowers.";
+		mes "Kees would not like you picking them.";
+		close;
+	}
+	mes "You carefully pick a flower.";
+	callfunc "F_IQ_Next", iq_beho, iq_beho + 1;
+	iq_beho = iq_beho + 1;
+	close;
+}
+rachel,126,201,0	duplicate(Flowerbed#iqbeho1)	Flowerbed#iqbeho2	4_BLUE_FLOWER
+rachel,123,184,0	duplicate(Flowerbed#iqbeho1)	Flowerbed#iqbeho3	4_YELL_FLOWER
+rachel,112,190,0	duplicate(Flowerbed#iqbeho1)	Flowerbed#iqbeho4	4_BLUE_FLOWER
+
+ra_temple,68,158,6	script	Beho#iqbeho2	1633,{
+	if (iq_beho != 61028 && iq_beho != 61029) {
+		mes "[Beho]";
+		mes "*blink* Lovely evening, isn't it?";
+		close;
+	}
+	if (iq_beho == 61028) {
+		mes "[Beho]";
+		mes "B-Bianca. Hello. I'm... Beho.";
+		next;
+		mes "[Bianca]";
+		mes "I know. Kyara told me all about";
+		mes "you. And the song... was it";
+		mes "really for me?";
+		next;
+		mes "[Beho]";
+		mes "Every word.";
+		next;
+		mes "[Bianca]";
+		mes "*giggle*";
+		mes "You know, one eye is plenty if";
+		mes "it only looks at me.";
+		mes "Hey, you! Come out from behind";
+		mes "that tree. We know you're there.";
+		callfunc "F_IQ_Next", 61028, 61029;
+		iq_beho = 61029;
+		close;
+	}
+	mes "[Bianca]";
+	mes "Thank you for bringing us together.";
+	mes "Beho wanted you to have these.";
+	next;
+	mes "[Beho]";
+	mes "And this badge, from the Eden";
+	mes "Group. I asked a friend.";
+	mes "*happy blink*";
+	if (checkquest(61029) >= 0)
+		completequest 61029;
+	iq_beho = 1;
+	getexp 500000, 375000;
+	getitem Yggdrasilberry, 5;
+	getitem Eden_Merit_Badge, 1;
+	close;
+}
+ra_temple,70,158,4	duplicate(Beho#iqbeho2)	Bianca#iqbeho2	4_F_ARUNA_POP

@@ -1,0 +1,41 @@
+# iRO Quests: the Overlook Water Dungeon hunts (they need its Aged monsters).
+Header:
+  Type: QUEST_DB
+  Version: 3
+
+Body:
+  - Id: 50531
+    Title: "Overlook Water Dungeon"
+    Targets:
+      - Mob: AGED_PLANKTON
+        Count: 20
+      - Mob: AGED_MARINA
+        Count: 20
+  - Id: 50532
+    Title: "Overlook Water Dungeon"
+    Targets:
+      - Mob: AGED_VADON
+        Count: 40
+      - Mob: AGED_KUKRE
+        Count: 40
+  - Id: 50533
+    Title: "Overlook Water Dungeon"
+    Targets:
+      - Mob: AGED_OBEAUNE
+        Count: 60
+      - Mob: AGED_MARSE
+        Count: 60
+  - Id: 50534
+    Title: "Overlook Water Dungeon"
+    Targets:
+      - Mob: AGED_MARC
+        Count: 80
+      - Mob: AGED_PHEN
+        Count: 80
+  - Id: 50535
+    Title: "Overlook Water Dungeon"
+    Targets:
+      - Mob: AGED_STROUF
+        Count: 100
+      - Mob: AGED_MERMAN
+        Count: 100

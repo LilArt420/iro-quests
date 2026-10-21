@@ -44,7 +44,30 @@ for qid in sorted(quests):
     q = quests[qid]
     y += ['  - Id: %d' % qid, '    Title: "%s"' % ascii(q['title']).replace('"', "'"),
           '    Targets:', '      - Mob: %s' % q['aegis'], '        Count: 150']
+
+# Story quests: the iRO client's own ids and titles; targets for the hunts.
+client = json.load(open(os.path.join(W, 'quests_client.json')))['QuestInfoList']
+STORY = list(range(40001, 40027)) + list(range(50531, 50536)) + list(range(61001, 61030))
+TARGETS = {50531: [('AGED_PLANKTON', 20), ('AGED_MARINA', 20)], 50532: [('AGED_VADON', 40), ('AGED_KUKRE', 40)],
+           50533: [('AGED_OBEAUNE', 60), ('AGED_MARSE', 60)], 50534: [('AGED_MARC', 80), ('AGED_PHEN', 80)],
+           50535: [('AGED_STROUF', 100), ('AGED_MERMAN', 100)]}
+y.append('')
+y.append('# Story quests: Criminal Activities (40001-40026), Eye of the Beholder (61001-61029).')
+y.append('# The Overlook hunts (50531-50535) are in db/when/overlook_water_dungeon/: they need its monsters.')
+ow = ['# iRO Quests: the Overlook Water Dungeon hunts (they need its Aged monsters).', 'Header:', '  Type: QUEST_DB', '  Version: 3', '', 'Body:']
+story = []
+for qid in STORY:
+    v = client[str(qid)]
+    story.append(qid)
+    tgt = ow if qid in TARGETS else y
+    tgt += ['  - Id: %d' % qid, '    Title: "%s"' % ascii(v['Title']).replace('"', "'").strip()]
+    if qid in TARGETS:
+        tgt.append('    Targets:')
+        for mob, n in TARGETS[qid]:
+            tgt += ['      - Mob: %s' % mob, '        Count: %d' % n]
 open(os.path.join(M, 'db', 'quest_db.yml'), 'w').write('\n'.join(y) + '\n')
+os.makedirs(os.path.join(M, 'db', 'when', 'overlook_water_dungeon'), exist_ok=True)
+open(os.path.join(M, 'db', 'when', 'overlook_water_dungeon', 'quest_db.yml'), 'w').write('\n'.join(ow) + '\n')
 
 # ---- System/OngoingQuestInfoList.lub ----------------------------------------
 os.makedirs(os.path.join(M, 'System'), exist_ok=True)
@@ -57,6 +80,13 @@ for qid in sorted(quests):
     L += ['\t[%d] = {' % qid, '\t\tTitle = "%s",' % ascii(q['title']).replace('"', '\\"'),
           '\t\tSummary = "Hunt 150 %s",' % ascii(q['name']).replace('"', '\\"'),
           '\t\tIconName = "ico_nq.bmp",', '\t\tDescription = { "%s" },' % desc, '\t},']
+def cl(t): return ascii(re.sub(r'\s+', ' ', str(t or ''))).replace('\\', '\\\\').replace('"', '\\"').strip()
+for qid in story:
+    v = client[str(qid)]
+    dd = v.get('Description') or {}
+    dd = ' '.join(str(dd[k]) for k in sorted(dd, key=int)) if isinstance(dd, dict) else str(dd)
+    L += ['\t[%d] = {' % qid, '\t\tTitle = "%s",' % cl(v['Title']), '\t\tSummary = "%s",' % cl(v.get('Summary')),
+          '\t\tIconName = "%s",' % (v.get('IconName') or 'ico_nq.bmp'), '\t\tDescription = { "%s" },' % cl(dd), '\t},']
 L.append('}')
 open(os.path.join(M, 'System', 'OngoingQuestInfoList.lub'), 'w').write('\n'.join(L) + '\n')
 
