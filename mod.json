@@ -1,0 +1,19 @@
+{
+  "name": "iro-quests",
+  "version": "0.1.0",
+  "author": "Lil Art",
+  "description": "iRO's permanent quests the server has no script for. First part: the Bounty Boards, 314 repeatable hunts on 65 boards in 28 towns and dungeons.",
+  "requires": {
+    "app": ">=1.6.7",
+    "era": "renewal"
+  },
+  "settings": [
+    {
+      "key": "bounty_boards",
+      "type": "boolean",
+      "default": true,
+      "label": "Bounty Boards",
+      "description": "iRO's Bounty Boards in 28 towns and dungeons: hunt 150 of a monster for EXP, zeny and Eden Merit Badges. Turning them off keeps everyone's hunts in their quest log."
+    }
+  ]
+}
