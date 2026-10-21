@@ -1,8 +1,8 @@
 {
   "name": "iro-quests",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Lil Art",
-  "description": "iRO's permanent quests the server has no script for. First part: the Bounty Boards, 314 repeatable hunts on 65 boards in 28 towns and dungeons.",
+  "description": "iRO's permanent quests the server has no script for: the Bounty Boards (314 hunts on 65 boards), Criminal Activities, Eye of the Beholder and the Overlook Water Dungeon.",
   "requires": {
     "app": ">=1.6.7",
     "era": "renewal"
@@ -14,6 +14,27 @@
       "default": true,
       "label": "Bounty Boards",
       "description": "iRO's Bounty Boards in 28 towns and dungeons: hunt 150 of a monster for EXP, zeny and Eden Merit Badges. Turning them off keeps everyone's hunts in their quest log."
+    },
+    {
+      "key": "criminal_activities",
+      "type": "boolean",
+      "default": true,
+      "label": "Criminal Activities",
+      "description": "iRO's Criminal Activities Quest (Base Level 70): free Vince Noir's band from Jymmy the Thumb, from Geffen to the domestic airship. Starts with Agent York in the Geffen inn."
+    },
+    {
+      "key": "eye_of_the_beholder",
+      "type": "boolean",
+      "default": true,
+      "label": "Eye of the Beholder",
+      "description": "iRO's Eye of the Beholder (Base Level 50): help Beho the beholder win Bianca's heart in Rachel. Starts with the Beholder on the international airship's deck."
+    },
+    {
+      "key": "overlook_water_dungeon",
+      "type": "boolean",
+      "default": true,
+      "label": "Overlook Water Dungeon",
+      "description": "iRO's Overlook Water Dungeon (Base Level 30-85): the Byalan copy under The Sign west of Geffen, with its 15 Aged monsters and 5 floor hunts. Turning it off removes the monsters and the hunts."
     }
   ]
 }

@@ -1,0 +1,638 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Criminal Activities Quest (iRO)
+//===== Description: =========================================
+//= Agent York needs a way into Jymmy the Thumb's gang: Vince
+//= Noir's band mates, Ling Mynmei, Howard Moon and Naota, are
+//= working for Jymmy against their will. Free them one by one,
+//= sabotage Jymmy's casino airship and bring it down near Izlude.
+//= Base level 70. Reward: 1,000,000 Base EXP, 700,000 Job EXP
+//= and an Old Purple Box (iRO's non-VIP reward).
+//=
+//= Steps, positions and rewards follow iROWiki's "Criminal
+//= Activities Quest"; quest-log ids are the iRO client's own
+//= (40001-40026). The dialogue is written for this mod.
+//=
+//= Character variables: iq_crim (step), iq_crim_q (main quest-log
+//= entry), iq_crim_bits (valves 1-4, chicken 16, detectors 32-128),
+//= iq_crim_steak (Old Lady Kroot took the Bomber Steak).
+//============================================================
+
+geffen_in,77,57,4	script	Agent York#iqcrim	4_M_MIDDLE1,{
+	mes "[Agent York]";
+	if (iq_crim >= 13) {
+		mes "Jymmy the Thumb is behind bars,";
+		mes "and the band is playing again.";
+		mes "Nice work. Keep your eyes open,";
+		mes "there are always more of his kind.";
+		close;
+	}
+	if (iq_crim >= 1) {
+		mes "You're on the case. Vince Noir";
+		mes "hangs around the fountain,";
+		mes "south of here. He knows the band";
+		mes "and he knows Jymmy's people.";
+		close;
+	}
+	mes "Keep it down. I'm with the Rune-";
+	mes "Midgarts investigation office.";
+	mes "A crime lord called ^0000FFJymmy the";
+	mes "Thumb^000000 is running crooked games";
+	mes "all over the kingdom.";
+	next;
+	mes "[Agent York]";
+	mes "We can't touch him. Nobody talks.";
+	mes "But I've got a lead: a musician";
+	mes "named ^0000FFVince Noir^000000, by the Geffen";
+	mes "fountain. His friends are in deep";
+	mes "with Jymmy, and not by choice.";
+	next;
+	if (BaseLevel < 70) {
+		mes "[Agent York]";
+		mes "...Then again, this is dangerous";
+		mes "work. Come back when you have";
+		mes "more experience, kid. ^777777(Base Level 70)^000000";
+		close;
+	}
+	if (select("I'll talk to Vince.:Not my business.") == 2) {
+		mes "[Agent York]";
+		mes "Suit yourself. Forget you saw me.";
+		close;
+	}
+	iq_crim = 1;
+	callfunc "F_IQ_Next", 0, 40001;
+	iq_crim_q = 40001;
+	mes "[Agent York]";
+	mes "Good. Find Vince Noir near the";
+	mes "fountain and hear him out.";
+	mes "Whatever he needs, help him:";
+	mes "every friend of his we get out";
+	mes "is one witness Jymmy loses.";
+	close;
+}
+
+geffen,107,48,4	script	Vince Noir#iqcrim	4_M_BARD,{
+	mes "[Vince Noir]";
+	if (iq_crim == 1) {
+		mes "Agent York sent you? Then you";
+		mes "know about Jymmy. My band, the";
+		mes "^0000FFMighty Boosh^000000... they signed with";
+		mes "him while I was out of town.";
+		mes "Now they play his joints for";
+		mes "nothing, and they can't quit.";
+		next;
+		mes "[Vince Noir]";
+		mes "Ling Mynmei, our singer, is stuck";
+		mes "behind the bar of the Geffen pub.";
+		mes "Old Lady Kroot owns her contract.";
+		mes "Howard Moon runs a stall for";
+		mes "Jymmy's shop in town, and Naota";
+		mes "was taken to his airship.";
+		next;
+		mes "[Vince Noir]";
+		mes "Give Ling this ^0000FFRaccoon Doll^000000.";
+		mes "She'll know I sent you.";
+		getitem Raccoondog_Doll, 1;
+		iq_crim = 2;
+		callfunc "F_IQ_Next", iq_crim_q, 40002;
+		iq_crim_q = 40002;
+		close;
+	}
+	if (iq_crim >= 2 && iq_crim < 12) {
+		mes "Ling's at the pub, Howard's by the";
+		mes "shops in the southeast, Naota's";
+		mes "on the domestic airship.";
+		mes "Get them out of there, mate.";
+		close;
+	}
+	if (iq_crim >= 12) {
+		mes "You brought down a whole airship?";
+		mes "That's the most rock and roll";
+		mes "thing I've ever heard!";
+		close;
+	}
+	mes "La la la... Geffen has the best";
+	mes "acoustics in all of Rune-Midgarts.";
+	mes "Shame there's no band to play them.";
+	close;
+}
+
+geffen_in,30,131,4	script	Ling Mynmei#iqcrim	4_F_CHNDRESS1,{
+	mes "[Ling Mynmei]";
+	if (iq_crim == 2) {
+		if (!countitem(Raccoondog_Doll)) {
+			mes "Can I get you a drink?";
+			mes "...Sorry, I can't talk now.";
+			mes "She's watching.";
+			close;
+		}
+		mes "That doll... Vince sent you!";
+		mes "Oh, I miss the band so much.";
+		next;
+		delitem Raccoondog_Doll, 1;
+		mes "[Ling Mynmei]";
+		mes "I can't leave this bar while";
+		mes "^0000FFOld Lady Kroot^000000 holds my contract.";
+		mes "She's right over there. Please,";
+		mes "talk her into letting me go.";
+		iq_crim = 3;
+		callfunc "F_IQ_Next", iq_crim_q, 40003;
+		iq_crim_q = 40003;
+		close;
+	}
+	if (iq_crim == 3) {
+		mes "Please, talk to Old Lady Kroot.";
+		mes "She's tough, but she likes a";
+		mes "challenge, and she loves to eat.";
+		close;
+	}
+	if (iq_crim == 4) {
+		mes "You did it? I'm free?!";
+		mes "Thank you, thank you!";
+		next;
+		mes "[Ling Mynmei]";
+		mes "Now Howard. ^0000FFHoward Moon^000000 runs";
+		mes "a stall for Jymmy's shop in the";
+		mes "southeast of Geffen. He's clever,";
+		mes "he'll have a plan. Help him!";
+		iq_crim = 5;
+		callfunc "F_IQ_Next", iq_crim_q, 40010;
+		iq_crim_q = 40010;
+		close;
+	}
+	if (iq_crim > 4) {
+		mes "Howard's stall is in the southeast";
+		mes "of town. Naota is on the airship.";
+		mes "Thank you for doing this.";
+		close;
+	}
+	mes "Welcome! Can I get you a drink?";
+	close;
+}
+
+geffen_in,33,131,4	script	Old Lady Kroot#iqcrim	8_F_GRANDMOTHER,{
+	.@price = (iq_crim_steak ? 50000 : 100000);
+	mes "[Old Lady Kroot]";
+	if (iq_crim != 3) {
+		mes "What're you staring at?";
+		mes "Order something or get out.";
+		close;
+	}
+	mes "Ling? Let her go? Hah!";
+	mes "That girl's contract is worth";
+	mes "^0000FF" + callfunc("F_InsertComma", .@price) + " zeny^000000 to me.";
+	next;
+	switch (select("Arm wrestle you for it (5,000 zeny):" + (iq_crim_steak ? "" : "Offer her a Bomber Steak") + ":Buy the contract (" + callfunc("F_InsertComma", .@price) + " zeny):Leave")) {
+	case 1:
+		if (checkquest(40006) < 0)
+			setquest 40006;
+		if (Zeny < 5000) {
+			mes "[Old Lady Kroot]";
+			mes "No money, no match.";
+			close;
+		}
+		Zeny -= 5000;
+		mes "[Old Lady Kroot]";
+		mes "Hah! Put your elbow on the table.";
+		mes "Ready... GO!";
+		next;
+		if (rand(100) >= 30) {
+			mes "[Old Lady Kroot]";
+			mes "^FF0000*SLAM*^000000";
+			mes "Hahaha! These arms hauled barrels";
+			mes "for forty years, sonny.";
+			mes "Another round costs 5,000 zeny.";
+			close;
+		}
+		mes "[Old Lady Kroot]";
+		mes "^0000FF*SLAM*^000000";
+		mes "...Ugh. My wrist. Fine! A deal's";
+		mes "a deal. Take the girl.";
+		break;
+	case 2:
+		if (!countitem(Str_Dish03) && !countitem(Str_Dish03_)) {
+			mes "[Old Lady Kroot]";
+			mes "A Bomber Steak? Where? I don't";
+			mes "see a Bomber Steak. Don't tease";
+			mes "an old lady.";
+			close;
+		}
+		if (countitem(Str_Dish03))
+			delitem Str_Dish03, 1;
+		else
+			delitem Str_Dish03_, 1;
+		iq_crim_steak = 1;
+		if (checkquest(40007) < 0)
+			setquest 40007;
+		mes "[Old Lady Kroot]";
+		mes "*munch munch*";
+		mes "Oh... that's the stuff. Alright,";
+		mes "you've softened me up. For you,";
+		mes "the contract is ^0000FF50,000 zeny^000000.";
+		close;
+	case 3:
+		if (Zeny < .@price) {
+			if (checkquest(40008) < 0)
+				setquest 40008;
+			mes "[Old Lady Kroot]";
+			mes "You're short, dearie. Come back";
+			mes "with " + callfunc("F_InsertComma", .@price) + " zeny.";
+			close;
+		}
+		Zeny -= .@price;
+		mes "[Old Lady Kroot]";
+		mes "Pleasure doing business.";
+		mes "Here's her contract. Go on,";
+		mes "tear it up if you like.";
+		break;
+	case 4:
+		close;
+	}
+	callfunc "F_IQ_Drop", 40006, 40008;
+	iq_crim = 4;
+	callfunc "F_IQ_Next", iq_crim_q, 40009;
+	iq_crim_q = 40009;
+	close;
+}
+
+geffen,183,80,4	script	Howard Moon#iqcrim	4_M_HUMERCHANT,{
+	mes "[Howard Moon]";
+	if (iq_crim == 5) {
+		mes "Ling's free? Brilliant! But I'm";
+		mes "different. Jymmy owns the shop;";
+		mes "if I just walk off, he'll come";
+		mes "after the whole band.";
+		next;
+		mes "[Howard Moon]";
+		mes "The shop has to close by itself.";
+		mes "An ^0000FFaccident^000000. What if the";
+		mes "storage room... flooded?";
+		next;
+		mes "[Howard Moon]";
+		mes "There are ^0000FF4 flood controls^000000 around";
+		mes "Geffen: one by the west houses,";
+		mes "one south of the old houses, one";
+		mes "on the northeast wall and one by";
+		mes "the pointed tower. Turn them all off!";
+		iq_crim = 6;
+		iq_crim_bits = iq_crim_bits & ~15;
+		callfunc "F_IQ_Next", iq_crim_q, 40011;
+		iq_crim_q = 40011;
+		close;
+	}
+	if (iq_crim == 6) {
+		if ((iq_crim_bits & 15) != 15) {
+			mes "Still dry in there. Find all";
+			mes "^0000FF4 flood controls^000000 and switch";
+			mes "them off.";
+			close;
+		}
+		mes "Do you hear that? The storage";
+		mes "room's a swimming pool! What a";
+		mes "terrible, terrible accident.";
+		mes "The shop is finished, and I'm free.";
+		next;
+		mes "[Howard Moon]";
+		mes "Last is Naota. Jymmy keeps him on";
+		mes "the ^0000FFdomestic airship^000000, playing in";
+		mes "the casino. Board it in Juno,";
+		mes "Hugel, Einbroch or Lighthalzen.";
+		callfunc "F_IQ_Drop", 40012, 40015;
+		iq_crim = 7;
+		callfunc "F_IQ_Next", iq_crim_q, 40016;
+		iq_crim_q = 40016;
+		close;
+	}
+	if (iq_crim > 6) {
+		mes "Naota's on the domestic airship.";
+		mes "Good luck up there.";
+		close;
+	}
+	mes "Fresh goods, fair prices!";
+	mes "...well, fresh goods anyway.";
+	close;
+}
+
+// The four flood controls. Each one switched off adds its entry (40012-40015).
+geffen,33,138,0	script	Flood Control#iqcrim1	CLEAR_NPC,{
+	.@bit = 1 << (atoi(charat(strnpcinfo(2), 6)) - 1);
+	if (iq_crim != 6) {
+		mes "A big valve wheel. Better leave";
+		mes "it alone.";
+		close;
+	}
+	if (iq_crim_bits & .@bit) {
+		mes "This flood control is already off.";
+		close;
+	}
+	mes "A big valve wheel, marked";
+	mes "'FUUDMAART - STORAGE'.";
+	next;
+	if (select("Turn it off:Leave it") == 2)
+		close;
+	iq_crim_bits = iq_crim_bits | .@bit;
+	.@n = 0;
+	for (.@i = 0; .@i < 4; .@i++)
+		if (iq_crim_bits & (1 << .@i))
+			.@n++;
+	setquest 40011 + .@n;
+	specialeffect2 EF_BUBBLE;
+	mes "*creak... creak... CLUNK*";
+	mes "Water rushes somewhere below.";
+	mes "^0000FF(" + .@n + " of 4 flood controls)^000000";
+	close;
+}
+geffen,75,43,0	duplicate(Flood Control#iqcrim1)	Flood Control#iqcrim2	CLEAR_NPC
+geffen,194,183,0	duplicate(Flood Control#iqcrim1)	Flood Control#iqcrim3	CLEAR_NPC
+geffen,139,166,0	duplicate(Flood Control#iqcrim1)	Flood Control#iqcrim4	CLEAR_NPC
+
+airplane,102,62,4	script	Naota#iqcrim	1_M_BARD,{
+	mes "[Naota]";
+	if (iq_crim == 7) {
+		mes "Shh! Jymmy's goons are everywhere.";
+		mes "Howard sent you? And Ling's out?";
+		mes "...Then it's my turn.";
+		next;
+		mes "[Naota]";
+		mes "The games here are rigged. If";
+		mes "the dealer gets caught cheating,";
+		mes "the whole casino goes down.";
+		next;
+		mes "[Naota]";
+		mes "First, the guards. Put this in the";
+		mes "^0000FFCooked Chicken^000000 in the kitchen, by";
+		mes "the crew. Then put a ^0000FFcheat";
+		mes "detector^000000 on each of the 3 machines:";
+		mes "two slot machines and the roulette.";
+		next;
+		mes "[Naota]";
+		mes "When it's all set up, talk to";
+		mes "the ^0000FFDealer^000000. He'll crack.";
+		iq_crim = 8;
+		iq_crim_bits = iq_crim_bits & ~240;
+		callfunc "F_IQ_Next", iq_crim_q, 40017;
+		iq_crim_q = 40017;
+		close;
+	}
+	if (iq_crim == 8) {
+		mes "The chicken in the kitchen, the";
+		mes "3 machines, then the Dealer.";
+		close;
+	}
+	if (iq_crim == 9) {
+		mes "You caught him! Now nothing stops";
+		mes "Jymmy from running, unless the";
+		mes "ship can't go anywhere...";
+		next;
+		mes "[Naota]";
+		mes "Behind the casino there's a switch";
+		mes "shaped like a ^0000FFsword^000000. It opens the";
+		mes "way to the lower deck, where the";
+		mes "ship's ^0000FFcannon^000000 is. Point it at";
+		mes "the engines and fire!";
+		next;
+		mes "[Naota]";
+		mes "Then corner Jymmy in the Captain's";
+		mes "Quarters. I'll get the guys to";
+		mes "Izlude. See you on the ground!";
+		iq_crim = 10;
+		callfunc "F_IQ_Next", iq_crim_q, 40023;
+		iq_crim_q = 40023;
+		close;
+	}
+	if (iq_crim >= 10 && iq_crim < 13) {
+		mes "The sword switch behind the";
+		mes "casino! Go, go!";
+		close;
+	}
+	mes "*strum strum*";
+	mes "Another tune for the high rollers...";
+	close;
+}
+
+airplane,44,61,0	script	Cooked Chicken#iqcrim	CLEAR_NPC,{
+	if (iq_crim != 8) {
+		mes "A tray of roast chicken for the";
+		mes "crew. Smells great.";
+		close;
+	}
+	if (iq_crim_bits & 16) {
+		mes "The chicken is... seasoned.";
+		close;
+	}
+	mes "A tray of roast chicken for the";
+	mes "guards' supper.";
+	next;
+	if (select("Add Naota's 'seasoning':Leave it") == 2)
+		close;
+	iq_crim_bits = iq_crim_bits | 16;
+	setquest 40018;
+	mes "A pinch here, a pinch there.";
+	mes "That should put the goons to sleep.";
+	close;
+}
+
+airplane,46,79,0	script	Slot Machine#iqcrim1	2_SLOT_MACHINE,{
+	.@bit = 32 << (atoi(charat(strnpcinfo(2), 6)) - 1);
+	if (iq_crim != 8) {
+		mes "^777777*ding ding ding*^000000";
+		mes "The machine flashes, but the";
+		mes "jackpot never seems to come.";
+		close;
+	}
+	if (iq_crim_bits & .@bit) {
+		mes "The cheat detector is in place.";
+		close;
+	}
+	mes "^777777*ding ding ding*^000000";
+	next;
+	if (select("Install a cheat detector:Leave it") == 2)
+		close;
+	iq_crim_bits = iq_crim_bits | .@bit;
+	.@n = 0;
+	for (.@i = 5; .@i < 8; .@i++)
+		if (iq_crim_bits & (1 << .@i))
+			.@n++;
+	setquest 40018 + .@n;
+	mes "You slip the little device behind";
+	mes "the panel. Nobody noticed.";
+	mes "^0000FF(" + .@n + " of 3 cheat detectors)^000000";
+	close;
+}
+airplane,24,70,0	duplicate(Slot Machine#iqcrim1)	Roulette Wheel#iqcrim2	2_SLOT_MACHINE
+airplane,44,45,0	duplicate(Slot Machine#iqcrim1)	Slot Machine#iqcrim3	2_SLOT_MACHINE
+
+airplane,32,52,4	script	Dealer#iqcrim	4_F_ROGUE,{
+	mes "[Dealer]";
+	if (iq_crim == 8) {
+		if ((iq_crim_bits & 240) != 240) {
+			mes "Place your bets, place your bets!";
+			mes "^777777(Naota's plan isn't ready yet:";
+			mes "the chicken, then 3 detectors.)^000000";
+			close;
+		}
+		mes "Place your bets... hey, why are";
+		mes "the machines beeping like that?";
+		next;
+		mes "[Dealer]";
+		mes "W-what detectors? I don't know";
+		mes "anything about loaded machines!";
+		mes "...Guards? GUARDS?! Why is";
+		mes "everybody asleep?!";
+		next;
+		mes "[Dealer]";
+		mes "Alright, alright! The games are";
+		mes "rigged! Jymmy makes us do it!";
+		mes "Don't hurt me!";
+		callfunc "F_IQ_Drop", 40018, 40021;
+		iq_crim = 9;
+		callfunc "F_IQ_Next", iq_crim_q, 40022;
+		iq_crim_q = 40022;
+		close;
+	}
+	mes "Place your bets, place your bets!";
+	mes "The house always... I mean, ";
+	mes "anyone can win!";
+	close;
+}
+
+airplane,18,62,0	script	Switch#iqcrim	CLEAR_NPC,{
+	if (iq_crim < 10 || iq_crim > 11) {
+		mes "A decoration shaped like a sword.";
+		mes "It's bolted to the wall.";
+		close;
+	}
+	mes "A switch shaped like a sword.";
+	next;
+	if (select("Pull it:Leave it") == 2)
+		close;
+	if (iq_crim == 10) {
+		iq_crim = 11;
+		callfunc "F_IQ_Next", iq_crim_q, 40024;
+		iq_crim_q = 40024;
+	}
+	close2;
+	warp "airplane", 93, 199;
+	end;
+}
+
+airplane,91,196,0	script	Stairs#iqcrim	CLEAR_NPC,{
+	mes "Stairs back up to the casino.";
+	next;
+	if (select("Go up:Stay") == 2)
+		close;
+	close2;
+	warp "airplane", 20, 62;
+	end;
+}
+
+airplane,95,202,0	script	Cannon Switch#iqcrim	CLEAR_NPC,{
+	if (iq_crim != 11) {
+		mes "The ship's cannon. Its switch is";
+		mes "locked.";
+		close;
+	}
+	mes "The cannon can swing all the way";
+	mes "round... right at the engines.";
+	next;
+	if (select("Aim at the engines and fire:Not yet") == 2)
+		close;
+	specialeffect EF_SUI_EXPLOSION;
+	mes "^FF0000*BOOOOOM*^000000";
+	mes "The whole ship shudders.";
+	mes "Black smoke pours from the engines,";
+	mes "and Jymmy's mobsters come running!";
+	iq_crim = 12;
+	callfunc "F_IQ_Next", iq_crim_q, 40025;
+	iq_crim_q = 40025;
+	if (mobcount("airplane", strnpcinfo(3) + "::OnMobster") < 12)
+		monster "airplane", 95, 199, "Mobster", 1313, 6, strnpcinfo(3) + "::OnMobster";
+	initnpctimer;
+	close;
+
+OnMobster:
+	end;
+
+OnTimer180000:
+	stopnpctimer;
+	killmonster "airplane", strnpcinfo(3) + "::OnMobster";
+	end;
+}
+
+airplane,232,157,4	script	Jymmy the Thumb#iqcrim	4_M_ROGUE,{
+	mes "[Jymmy the Thumb]";
+	if (iq_crim != 12) {
+		mes "Who let you in here?";
+		mes "Get out of my quarters!";
+		close;
+	}
+	mes "YOU! You blew up my engines!";
+	mes "Do you know how much this ship";
+	mes "cost me?!";
+	next;
+	mes "[Jymmy the Thumb]";
+	mes "My dealer's singing to the";
+	mes "investigators, my shop is";
+	mes "underwater, my band ran off...";
+	mes "And now we're going DOWN!";
+	next;
+	mes "^777777The floor tilts. Jymmy grabs a";
+	mes "parachute and you grab the other";
+	mes "one. Below, the fields around";
+	mes "Izlude rush closer...^000000";
+	callfunc "F_IQ_Next", iq_crim_q, 40026;
+	iq_crim_q = 40026;
+	iq_crim_land = 1;
+	close2;
+	warp "prt_fild08", 347, 213;
+	end;
+}
+
+prt_fild08,347,216,4	script	Guard#iqcrim	8W_SOLDIER,{
+	mes "[Guard]";
+	if (iq_crim_land) {
+		mes "An airship came down in the hills,";
+		mes "and you fell out of the sky with";
+		mes "a parachute? ...Of course you did.";
+		next;
+		mes "[Guard]";
+		mes "We caught a man calling himself";
+		mes "Jymmy the Thumb. An agent was";
+		mes "asking for you: Agent York, at";
+		mes "the armory in ^0000FFIzlude^000000.";
+		close;
+	}
+	mes "Izlude is just up the road.";
+	mes "Keep out of trouble.";
+	close;
+}
+
+izlude_in,67,113,4	script	Agent York#iqcrim2	4_M_MIDDLE1,{
+	mes "[Agent York]";
+	if (!iq_crim_land || iq_crim >= 13) {
+		mes "The armory? I'm just looking";
+		mes "around. Official business.";
+		close;
+	}
+	mes "There you are! A whole airship,";
+	mes "in a field! Jymmy is in custody,";
+	mes "and his dealer confessed to all";
+	mes "of it.";
+	next;
+	mes "[Agent York]";
+	mes "Vince and the band are safe and";
+	mes "already rehearsing in the back.";
+	mes "They want you at their first gig.";
+	mes "And the office wants you to have";
+	mes "this. You've earned it.";
+	callfunc "F_IQ_Drop", 40001, 40026;
+	setquest 40026;
+	completequest 40026;
+	iq_crim = 13;
+	iq_crim_land = 0;
+	iq_crim_q = 0;
+	iq_crim_bits = 0;
+	iq_crim_steak = 0;
+	getexp 1000000, 700000;
+	getitem Old_Violet_Box, 1;
+	close;
+}

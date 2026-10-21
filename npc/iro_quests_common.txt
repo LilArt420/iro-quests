@@ -1,0 +1,28 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Helpers shared by the iRO Quests scripts.
+//============================================================
+
+// Moves a quest-log chain on: getarg(0) is the entry the character holds
+// now (0 for none), getarg(1) the next one.
+function	script	F_IQ_Next	{
+	.@old = getarg(0);
+	.@new = getarg(1);
+	if (.@old && checkquest(.@old) >= 0) {
+		if (.@new && checkquest(.@new) < 0) {
+			changequest .@old, .@new;
+			return;
+		}
+		erasequest .@old;
+	}
+	if (.@new && checkquest(.@new) < 0)
+		setquest .@new;
+	return;
+}
+
+// Drops every quest-log entry from getarg(0) to getarg(1) the character holds.
+function	script	F_IQ_Drop	{
+	for (.@i = getarg(0); .@i <= getarg(1); .@i++)
+		if (checkquest(.@i) >= 0)
+			erasequest .@i;
+	return;
+}

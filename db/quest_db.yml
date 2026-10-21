@@ -1578,3 +1578,116 @@ Body:
     Targets:
       - Mob: ILL_GHOUL
         Count: 150
+
+# Story quests: Criminal Activities (40001-40026), Eye of the Beholder (61001-61029).
+# The Overlook hunts (50531-50535) are in db/when/overlook_water_dungeon/: they need its monsters.
+  - Id: 40001
+    Title: "Criminal Investigation"
+  - Id: 40002
+    Title: "Ling Mynmei"
+  - Id: 40003
+    Title: "Freeing Mynmei"
+  - Id: 40004
+    Title: "Invisible Quest"
+  - Id: 40005
+    Title: "Invisible Quest"
+  - Id: 40006
+    Title: "Arm Wrestle an old lady"
+  - Id: 40007
+    Title: "The best way to a woman's heart..."
+  - Id: 40008
+    Title: "Pay off the old lady"
+  - Id: 40009
+    Title: "Ling Mynmei is free!"
+  - Id: 40010
+    Title: "Howard Moon"
+  - Id: 40011
+    Title: "Flooding the Storage Room"
+  - Id: 40012
+    Title: "Flood Control 1"
+  - Id: 40013
+    Title: "Flood Control 2"
+  - Id: 40014
+    Title: "Flood Control 3"
+  - Id: 40015
+    Title: "Flood Control 4"
+  - Id: 40016
+    Title: "Naota"
+  - Id: 40017
+    Title: "Sabotaging Jymmy's operation"
+  - Id: 40018
+    Title: "Drugged Chicken"
+  - Id: 40019
+    Title: "Cheat Detector 1"
+  - Id: 40020
+    Title: "Cheat Detector 2"
+  - Id: 40021
+    Title: "Cheat Detector 3"
+  - Id: 40022
+    Title: "Caught in the act"
+  - Id: 40023
+    Title: "Sabotaging the ship's engine"
+  - Id: 40024
+    Title: "Fire the Cannon"
+  - Id: 40025
+    Title: "Find Jymmy the Thumb"
+  - Id: 40026
+    Title: "Parachuting off of the Airship"
+  - Id: 61001
+    Title: "Eye of the Beholder"
+  - Id: 61002
+    Title: "Eye of the Beholder"
+  - Id: 61003
+    Title: "Eye of the Beholder"
+  - Id: 61004
+    Title: "Eye of the Beholder"
+  - Id: 61005
+    Title: "Eye of the Beholder"
+  - Id: 61006
+    Title: "Eye of the Beholder"
+  - Id: 61007
+    Title: "Eye of the Beholder"
+  - Id: 61008
+    Title: "Eye of the Beholder"
+  - Id: 61009
+    Title: "Eye of the Beholder"
+  - Id: 61010
+    Title: "Eye of the Beholder"
+  - Id: 61011
+    Title: "Eye of the Beholder"
+  - Id: 61012
+    Title: "Eye of the Beholder"
+  - Id: 61013
+    Title: "Eye of the Beholder"
+  - Id: 61014
+    Title: "Eye of the Beholder"
+  - Id: 61015
+    Title: "Eye of the Beholder"
+  - Id: 61016
+    Title: "Eye of the Beholder"
+  - Id: 61017
+    Title: "Eye of the Beholder"
+  - Id: 61018
+    Title: "Eye of the Beholder"
+  - Id: 61019
+    Title: "Eye of the Beholder"
+  - Id: 61020
+    Title: "Eye of the Beholder"
+  - Id: 61021
+    Title: "Eye of the Beholder"
+  - Id: 61022
+    Title: "Eye of the Beholder"
+  - Id: 61023
+    Title: "Eye of the Beholder"
+  - Id: 61024
+    Title: "Eye of the Beholder"
+  - Id: 61025
+    Title: "Eye of the Beholder"
+  - Id: 61026
+    Title: "Eye of the Beholder"
+  - Id: 61027
+    Title: "Eye of the Beholder"
+  - Id: 61028
+    Title: "Eye of the Beholder"
+  - Id: 61029
+    Title: "Eye of the Beholder"
