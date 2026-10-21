@@ -1,0 +1,6 @@
+.DS_Store
+__MACOSX/
+build/
+*.zip
+triage/triage.tsv
+__pycache__/

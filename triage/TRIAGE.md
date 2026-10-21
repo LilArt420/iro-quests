@@ -1,0 +1,1034 @@
+# iRO Quests triage (2026-10-21)
+
+Client quest list: iRO client `System/OngoingQuestInfoList_True.lub` (patch 2026-10-06), 10,445 entries.
+Server side: every quest id referenced by a script on the live server (rAthena EP19 tree + all enabled mods, `npc/`) or in ~/Projects/rathena-ep19/npc.
+
+- **4,848** client quests are referenced by a server script (some only loosely: a number in a quest-using file).
+- **5,597** are not referenced anywhere. Triage of those:
+
+| Pack | Not scripted | Story | Daily | Job change | Hidden/cooldown helpers | Event |
+|---|---:|---:|---:|---:|---:|---:|
+| Older kRO quests (1000-19999) | 1800 | 1321 | 122 | 118 | 239 | 0 |
+| Retired events | 1440 | 0 | 0 | 0 | 0 | 1440 |
+| iRO original quests | 816 | 563 | 102 | 0 | 151 | 0 |
+| kRO-only maps (other session) | 452 | 257 | 86 | 20 | 58 | 31 |
+| iRO Bounty Boards | 420 | 0 | 420 | 0 | 0 | 0 |
+| iRO Gramps weekly turn-ins | 290 | 2 | 287 | 0 | 1 | 0 |
+| Town & field quests (2021 revamp) | 243 | 222 | 15 | 0 | 6 | 0 |
+| New adventurer story (Leno, Jewel of Helion) | 70 | 70 | 0 | 0 | 0 | 0 |
+| Criatura Academy | 66 | 65 | 0 | 0 | 1 | 0 |
+
+**Permanent candidates: 3,307 quest-log entries (1,958 distinct titles).** Left out: 1,440 retired-event entries, 452 on kRO-only maps (Jormungandr/EP20+, Chapter 1-2, Varmundt, Biosphere: the parallel session), and hidden/cooldown helper entries, which come with their chain.
+
+## Caveats
+
+- Quest-log entries are not quests: a chain of 10 entries is often one quest. Distinct titles are closer to the real count.
+- "Older kRO quests" still hold content rAthena already has without a quest-log entry (e.g. 1st/2nd job changes) and some events the keyword filter missed (Valentine chocolates, collabs). Each chain gets checked against the server scripts and iROWiki before it is written.
+- Areas come from the `<NAVI>` positions in the quest text when present (most 2021+ quests), else from an NPC or town named in the text, else from the neighbouring quest id. `?` = no clue.
+- Job change: only the Dragon Knight 4th-job quest exists on the server; the other 4th jobs and the expanded 3rd jobs (Star Emperor, Soul Reaper, Hyper Novice...) have no quest. Counted under "Job change" (118).
+- Overlaps found and respected: mod `eden-rework-2021` already runs 496 of the 2021 town dailies as Eden board missions (same quest ids); rAthena's Gramps at moc_para01 is a stub (no hunts).
+
+## Permanent quests by area (without Bounty Boards and Gramps, which are town-wide systems)
+
+| Area | Total | Older kRO | iRO original | 2021 town & field | New adventurer story | Criatura |
+|---|---:|---:|---:|---:|---:|---:|
+| Geffen | 221 | 104 | 99 | 15 | 3 | 0 |
+| Prontera | 195 | 135 | 11 | 4 | 31 | 14 |
+| ? | 185 | 132 | 9 | 44 | 0 | 0 |
+| Hugel/Thanatos/Odin | 161 | 62 | 79 | 20 | 0 | 0 |
+| Niflheim | 139 | 109 | 30 | 0 | 0 | 0 |
+| Izlude/Byalan | 132 | 38 | 27 | 5 | 11 | 51 |
+| Glast Heim | 128 | 71 | 45 | 12 | 0 | 0 |
+| Morroc | 124 | 75 | 25 | 19 | 5 | 0 |
+| Comodo/Umbala | 112 | 78 | 21 | 8 | 5 | 0 |
+| Alberta/Turtle Is. | 106 | 50 | 30 | 24 | 2 | 0 |
+| Juno | 101 | 87 | 10 | 4 | 0 | 0 |
+| Payon | 98 | 54 | 22 | 12 | 10 | 0 |
+| Malangdo | 97 | 68 | 29 | 0 | 0 | 0 |
+| Brasilis | 92 | 38 | 54 | 0 | 0 | 0 |
+| Al De Baran | 91 | 62 | 29 | 0 | 0 | 0 |
+| Lighthalzen | 82 | 26 | 18 | 36 | 2 | 0 |
+| Rachel | 60 | 54 | 4 | 2 | 0 | 0 |
+| Veins | 52 | 35 | 17 | 0 | 0 | 0 |
+| Moscovia | 36 | 35 | 1 | 0 | 0 | 0 |
+| Amatsu | 31 | 0 | 31 | 0 | 0 | 0 |
+| Einbroch | 29 | 24 | 2 | 3 | 0 | 0 |
+| Dimensional Gap/Instances | 28 | 27 | 1 | 0 | 0 | 0 |
+| Fields/Misc | 27 | 18 | 1 | 7 | 1 | 0 |
+| Rock Ridge | 26 | 18 | 8 | 0 | 0 | 0 |
+| Verus/Phantasmagorika | 24 | 24 | 0 | 0 | 0 | 0 |
+| Lasagna | 21 | 8 | 12 | 1 | 0 | 0 |
+| Airship | 18 | 16 | 2 | 0 | 0 | 0 |
+| New World/Bifrost | 18 | 1 | 2 | 15 | 0 | 0 |
+| Eclage | 17 | 17 | 0 | 0 | 0 | 0 |
+| Louyang | 17 | 1 | 16 | 0 | 0 | 0 |
+| Lutie | 15 | 7 | 8 | 0 | 0 | 0 |
+| El Dicastes | 14 | 6 | 3 | 5 | 0 | 0 |
+| Port Malaya | 13 | 13 | 0 | 0 | 0 | 0 |
+
+## Chains
+
+### New adventurer story (Leno, Jewel of Helion)
+
+- 21900-21902 [Izlude/Byalan] (3): Hello!; Must-Know Services; Is this your first request?
+- 21903-21906 [Prontera] (4): Has anyone seen Leno?; The Whereabouts of the Herb Tracker; Betting with the Herb Tracker; Advice from the Herb Tracker
+- 21907-21909 [Izlude/Byalan] (3): The end of the hub; For a moment of crisis; What's possible with gelophy
+- 21910-21922 [Prontera] (13): Prontera!; Three flyers; Contents of the flyer; Again, to Prontera! …
+- 21923-21925 [Izlude/Byalan] (3): For now, that's it.; Advice for Training; A Call from the Adventurers' Guild
+- 21926 [Alberta/Turtle Is.] (1): Tracking a Goddess Worshipper
+- 21927-21928 [Prontera] (2): Award-winning shipwreck; Village of the Fourlings
+- 21929 [Alberta/Turtle Is.] (1): To Shipwrecked Island
+- 21930-21932 [Prontera] (3): Ring of Blessings; Putting up flyers on the west wall.; Putting up flyers complete!
+- 21933 [Izlude/Byalan] (1): To JobLv 10!
+- 21934-21935 [Payon] (2): Rumin's message; Time to relax
+- 21936 [Prontera] (1): Find the last berry
+- 21937 [Morroc] (1): Invitation to a Meal
+- 21938-21943 [Comodo/Umbala] (5): To Comodo!; Do You Know This Child? 1; Do You Know This Child? 2; Do You Know This Child? 3 …
+- 21944 [Morroc] (1): Who Is This Child?
+- 21946 [Prontera] (1): Join the Orc Subjugation Team
+- 21947 [Fields/Misc] (1): You Need to Be Level 50, Right?
+- 21948-21949 [Morroc] (2): Looking for a Request...!; The Jewel of Helion 1
+- 21950-21954 [Prontera] (5): The Jewel of Helion 2; The Jewel of Helion 3; The Jewel of Helion 4; The Jewel of Helion 5 …
+- 21955-21960 [Payon] (6): The Jewel of Helion 7; The Jewel of Helion 8; The Jewel of Helion 9; The Jewel of Helion 10 …
+- 21961 [Morroc] (1): The Jewel of Helion 13
+- 21962-21964 [Geffen] (3): The Jewel of Helion 14; The Jewel of Helion 15; The Jewel of Helion 16
+- 21965-21966 [Prontera] (2): The Jewel of Helion 17; A Summons from Priest Bampf
+- 21967-21968 [Lighthalzen] (2): The Subject of the Rumor; Searching for the Sound
+- 21969 [Izlude/Byalan] (1): Karma from the Flyers
+- 21970-21971 [Payon] (2): The True Horror of the Haunted Cave; Reach Level 20
+
+### Criatura Academy
+
+- 23020-23034 [Prontera] (14): Critura Work Manual; New Employee Registration Procedure; Regular and Periodic Duties; Document Handling 1 …
+- 23035-23085 [Izlude/Byalan] (51): Document Handling 6; Academy Facilities and Staff Guide; Handling Sudden Situations; Satisfaction Survey …
+
+### Town & field quests (2021 revamp)
+
+- 21004-21006 [Fields/Misc] (3): Basic herbalism; Save location!; Good news for Leno
+- 21011-21013 [Payon] (3): Durevak's Liquor; The Grandson's Whereabouts; I look for one, but there is no one
+- 21023-21039 [Payon] (8): Fox Hunting; The Fox Hunt Continues; A story from a long time ago; It's just a tree …
+- 21046 [Payon] (1): Young bachelor's taste
+- 21065 [Alberta/Turtle Is.] (1): The tomb where secrets sleep
+- 21073-21096 [?] (24): Bonus experience!
+- 21097-21107 [Geffen] (7): Bonus experience!; Hunt a Hunterfly; Hunting Ghouls and Jakks; Hunting Marionettes and Deviruchi
+- 21113-21116 [Geffen] (2): The Sky Petite Is Cute; The Ground Petite Is Cute
+- 21120-21134 [Alberta/Turtle Is.] (9): Rescue a friend; Librarian Worry; Zonda Scammer Rescued; Eating a Kukre liver …
+- 21140-21143 [Rachel] (2): Traveling in peace; Keeper of Beauty
+- 21146-21154 [Alberta/Turtle Is.] (4): Stone Swallowing Stone; Exploring Turtle Island; Eliminate the Turtle Horde 1; Eliminate the Turtle Horde 2
+- 21157 [Other:bat_room] (1): Turtle Island Lost and Found
+- 21158-21166 [Alberta/Turtle Is.] (7): Hunt Assaulters; Delivering resolve; Hide old coins; Hide the old coin again …
+- 21167-21169 [Geffen] (3): Town Trust
+- 21170-21172 [Alberta/Turtle Is.] (3): Town trust; Town Trust
+- 21173 [Geffen] (1): Town trust
+- 21180-21194 [?] (15): Bonus Experience
+- 21195-21196 [Morroc] (2): Bonus Experience; Opening in the Temple
+- 21201-21212 [Morroc] (10): Find the Lost; Giving up an item because of back pain.; I can't sleep.; Sleep doesn't last just one day, …
+- 21221 [Morroc] (1): It's All Experience, Too. 1
+- 21224 [Prontera] (1): It's All Experience, Too. 2
+- 21227 [Izlude/Byalan] (1): People in Trouble 1
+- 21233-21236 [Izlude/Byalan] (3): No News Is Good News..? 1; The Extreme Chef; No News Is Good News..? 2
+- 21241 [Izlude/Byalan] (1): Proof of the God of the Sea
+- 21246-21248 [Prontera] (3): Are You Strong? 1; Are You Strong? 2; Are You Strong? 3
+- 21266-21267 [Geffen] (2): The Supplies Are Here! 1; The Supplies Are Here! 2
+- 21271 [Glast Heim] (1): The Whereabouts of the Acolyte
+- 21276-21279 [Juno] (2): A Mother's Homemade Lunch; Soft and Fluffy
+- 21301-21304 [Einbroch] (2): Please Say Hello to My Brother; A Free Pass for Commuting
+- 21311 [Einbroch] (1): The Situation in Einbroch
+- 21325-21348 [Lighthalzen] (24): A Vacation That Isn't a Vacation; Bonus Experience!
+- 21349-21350 [Juno] (2): Bonus Experience!; Anxious Students
+- 21359-21362 [?] (2): Bonus Experience
+- 21401-21408 [Comodo/Umbala] (8): Que Sera, Sera
+- 21442-21444 [?] (3): The Cute Ones; The Hard Ones; The Gross Ones
+- 21581-21590 [Hugel/Thanatos/Odin] (4): To Odin Temple; Start with the Ones on the Radio Again; Purifying the Demons Again; Before You Are Bewitched Again
+- 21591-21597 [Lighthalzen] (3): To the Biolab; Egnigem Cenia Again; Armeyer Dinze Again
+- 21603-21627 [Lighthalzen] (9): Again Kavach Icarus; Again Errende Ebecee; Again Laurell Weinder; Again Cecil Damon …
+- 21628-21637 [Fields/Misc] (4): To Magma Dungeon; Again Capture Nightmare Terror; Again Capture Deleter; Again Collect Hardened Lava
+- 21638-21674 [Hugel/Thanatos/Odin] (15): Red Dragon of Abyss Lake; Rescue Traveler; Again Dragon of the Lake; Again Wyvern of the Lake …
+- 21680 [Hugel/Thanatos/Odin] (1): Seed of Control Again
+- 21681 [Lasagna] (1): To Glast Heim
+- 21682-21710 [Glast Heim] (11): To Glast Heim; Pitiful Jester Again; A Tiny Bug Again; To Heaven if Alive Again …
+- 21711-21745 [New World/Bifrost] (13): To the Other World; To Mora Village; Girl Draped in Leaves Again; Thrilling Beauty Again …
+- 21748-21760 [El Dicastes] (5): Appearance Is Just a Shell Again; Snap the Single Horn Again; Break the Twin Horns Again; Crunch the Antlers Again …
+- 21763-21766 [Morroc] (2): Morocc's Torment Again; Morocc's Trickery Again
+- 21769-21772 [New World/Bifrost] (2): Fluffy Little Kid Again; Little Mischief Maker Again
+- 21773-21776 [Morroc] (2): In Search of Incarnations of Morocc; Form of an Angel Again
+- 21782-21785 [Morroc] (2): Joy of Subjugation Again; Embodiment of Purity Again
+
+### iRO original quests
+
+- 40000 [Lighthalzen] (1): Lighthalzen Pickpocket
+- 40001 [Airship] (1): Criminal Investigation
+- 40002 [Geffen] (1): Ling Mynmei
+- 40003-40009 [Veins] (5): Freeing Mynmei; Arm Wrestle an old lady; The best way to a woman's heart...; Pay off the old lady …
+- 40010-40014 [Rock Ridge] (5): Howard Moon; Flooding the Storage Room; Flood Control 1; Flood Control 2 …
+- 40015-40024 [Hugel/Thanatos/Odin] (10): Flood Control 4; Naota; Sabotaging Jymmy's operation; Drugged Chicken …
+- 40025-40026 [Rachel] (2): Find Jymmy the Thumb; Parachuting off of the Airship
+- 50001-50009 [?] (9): Weather Beaten Old Man; Lost Treasure?; The Old Man's Treasure
+- 50010-50020 [Comodo/Umbala] (10): A special lock pick; The special lock pick; Use the lock pick; Broken lock pick …
+- 50021-50027 [Al De Baran] (7): J Roger; J Roger's key materials; Conversation with J Roger; Bury the treasure …
+- 50028-50029 [Niflheim] (2): Stolen treasure!; A Pirate's Spirit!
+- 50531-50535 [Geffen] (5): Overlook Water Dungeon
+- 60007 [Dimensional Gap/Instances] (1): Endless Tower Effect
+- 60009 [Fields/Misc] (1): Orc Hero
+- 60010 [Geffen] (1): Derik Ver's Request
+- 60011 [Izlude/Byalan] (1): Investigation of Byalan
+- 60013-60017 [Geffen] (5): Monster Investigation; Geffen Dungeon's Monster Investigation
+- 60018-60021 [Izlude/Byalan] (4): Byalan Dungeon's Monster Investigation
+- 60026-60027 [Al De Baran] (2): Continuing the Investigation; Investigating Aldebaran
+- 60028-60029 [Brasilis] (2): Monster Investigation; Aldebaran Monster Investigation
+- 60030-60031 [Al De Baran] (2): Clock Tower Monster Investigation
+- 60032 [Lutie] (1): Lutie Field Monster Investigation
+- 60033 [Al De Baran] (1): Clock Tower Monster Investigation
+- 60034 [Juno] (1): Clock Tower Monster Investigation
+- 60035-60038 [Al De Baran] (4): Aldebaran Monster Investigation; Clock Tower Monster Investigation
+- 60039-60044 [Glast Heim] (6): Investigation of Glast Heim; Monster Investigation; Glast Heim Monster Investigation
+- 60045 [Other:bat_room] (1): Investigation of Glast Heim
+- 60046-60047 [Juno] (2): Glast Heim Monster Investigation
+- 60048 [Glast Heim] (1): Investigation of Glast Heim
+- 60049 [Veins] (1): Glast Heim Monster Investigation
+- 60050-60057 [Glast Heim] (8): Glast Heim Monster Investigation; Investigation of Glast Heim
+- 60058-60063 [Morroc] (6): Derik Ver's Brother; A history lesson; The Crown of Deceit; A magic solvent …
+- 60205-60210 [Izlude/Byalan] (6): Izlude Arena; God Item Creation; MVP Summoning
+- 60321-60330 [Alberta/Turtle Is.] (10): Let's Kick Permeter Shell; Let's Kick Solider Shell; Let's Kick Freezer Shell; Let's Kick Heater Shell …
+- 60339 [Lighthalzen] (1): Shreds of Evidence
+- 60340-60341 [Einbroch] (2): V.I.P.E.R. Headquarters; Find O'Riley
+- 60418 [Hugel/Thanatos/Odin] (1): West Orc Village Access
+- 60457 [Morroc] (1): Join the Eden Group!
+- 60500 [Juno] (1): Battlegrounds
+- 60563-60564 [Morroc] (2): Drocera Herb Stew Ingredients; Siroma Icetea Ingredients
+- 60566-60569 [Morroc] (3): Warg Blood Cocktail Ingredients; Savage BBQ Ingredients; Minor Brisket Ingredients
+- 60671-60673 [Niflheim] (3): The Fairy Seed; Growing the Fairy Seed
+- 60680-60690 [Niflheim] (9): Growing the Fairy Seed; The Fairy's request; The Fairy; Growing the Fairy seed
+- 60711 [Prontera] (1): The Trials of Astrild
+- 60712 [Hugel/Thanatos/Odin] (1): The Trials of Astrild
+- 60713 [Payon] (1): The Trials of Astrild
+- 60714 [Prontera] (1): The Trials of Astrild
+- 60715-60720 [Payon] (6): The Trials of Astrild
+- 60721 [Prontera] (1): Seal of Megingjard
+- 60722-60724 [Niflheim] (3): Seal of Megingjard
+- 60725 [Amatsu] (1): Seal of Megingjard
+- 60726 [Niflheim] (1): Seal of Megingjard
+- 60727 [Geffen] (1): Seal of Megingjard
+- 60728-60729 [Morroc] (2): Seal of Megingjard
+- 60730 [Alberta/Turtle Is.] (1): Seal of Megingjard
+- 60731 [Al De Baran] (1): Seal of Megingjard
+- 60732 [Prontera] (1): Seal of Megingjard
+- 60733 [Comodo/Umbala] (1): Seal of Megingjard
+- 60734-60735 [Niflheim] (2): Seal of Megingjard
+- 60736 [Hugel/Thanatos/Odin] (1): Seal of Megingjard
+- 60737-60738 [Niflheim] (2): Seal of Megingjard
+- 60739 [Prontera] (1): Seal of Megingjard
+- 60801 [New World/Bifrost] (1): WoE Pet Breeder
+- 60810 [Morroc] (1): Limited VIP Access
+- 60901-60905 [Hugel/Thanatos/Odin] (5): Chefs of Iron; Huge in Hugel; Crustacean Situation; Reaching Rachel …
+- 60906-60907 [Louyang] (2): Hunger pangs in Louyang; Steamed Yams
+- 60908 [Al De Baran] (1): Al De Baran Munch House
+- 60910-60911 [Prontera] (2): Becoming a Master Chef; Man from the stars
+- 60912-60916 [Juno] (5): The master forger; Mime's Weapon Materials; Mime's Weapon; Inside the Lacryma Den …
+- 60917 [Lighthalzen] (1): True Love
+- 60919 [Moscovia] (1): Pinkamenia's Request
+- 60921 [Airship] (1): Stumped Investigators
+- 60922-60956 [Brasilis] (35): Anomalies LLC; Museum Murder Mystery; Orcish Envoy
+- 61001-61029 [Hugel/Thanatos/Odin] (29): Eye of the Beholder
+- 62119-62120 [Niflheim] (2): Anvian's Request; Witch's Request
+- 62141-62147 [Brasilis] (7): Janeway's Request
+- 62236 [Izlude/Byalan] (1): Izlude VIP Dungeon Access
+- 62237 [Payon] (1): Pengineer friend request
+- 62260-62268 [Glast Heim] (9): The Lion's Roar: Orovan's Lost again; The Lion's Roar: Who watches the watches?; The Lion's Roar: Return of the Orovan; The Lion's Roar: Do the statue thing …
+- 62269-62272 [Niflheim] (4): The Lion's Roar: Full Bullspeed ahead; The Lion's Roar: Majourous Blunder; The Lion's Roar: Majourous Timer; The Lion's Roar: Fire Key
+- 62273-62279 [Glast Heim] (7): The Lion's Roar: Humble Beginnings; The Lion's Roar: Roar's head; The Lion's Roar: Top Hat head; The Lion's Roar: Step Right …
+- 62280 [Niflheim] (1): The Lion's Roar: Lost Spirit
+- 62281-62292 [Glast Heim] (12): The Lion's Roar: Orovan again; The Lion's Roar: Orovan at the end; The Lion's Roar: Find the book; The Lion's Roar: Another book? …
+- 62397-62404 [Comodo/Umbala] (5): Cake Hat Check Girl; Ephemeral Brysinggamen; Ephemeral Sleipnir; Ephemeral Mjolnir …
+- 62411-62417 [Hugel/Thanatos/Odin] (7): Factoring O'Reily
+- 62418 [Juno] (1): Factoring O'Reily
+- 62419-62422 [Hugel/Thanatos/Odin] (4): Factoring O'Reily
+- 62423-62424 [Geffen] (2): Limited access on the lab; Amatsu - Yellow Plates
+- 62430-62455 [Geffen] (26): Orcs in the Sewers; Dice game reuse timer; Adventurer's Guild Hunt
+- 62460-62468 [Veins] (9): Clue: Love Letter; Clue: Wedding Dress; Clue: Corpse; Clue: Baby Shoes …
+- 62469-62478 [Louyang] (10): Haunting Resur Timer; Magical Sand Honeymoon
+- 62494-62497 [Geffen] (4): Shady Sam's Carpet
+- 62504 [Geffen] (1): Heroic Desocketing Book timer
+- 62510-62554 [Geffen] (45): Adventurer's Guild Hunt; Jumping Janeway's Request 1; Jumping Janeway's Request 2; Jumping Janeway's Request 3 …
+- 62555 [Prontera] (1): Jumping Janeway's Request 7
+- 62570-62575 [Malangdo] (6): The Lost Child
+- 62580-62587 [Malangdo] (6): Brando Mrs. Brando; Kipp Brando is the name; Kipp Brando Fast Timer; Kipp Brando Slow Timer …
+- 62588-62589 [Lighthalzen] (2): Kipp Brando Check Point 3; Vira's Vegetables
+- 62590-62597 [Amatsu] (7): Winston Tooth Gap; Winston Tooth Filler; Auntie PAIN; Fido's Snacks …
+- 62598 [Prontera] (1): She has the last word
+- 62694 [Geffen] (1): Undead Danielle's friend
+- 62695 [Payon] (1): Zombie Zack
+- 62696 [Malangdo] (1): Packleader
+- 62697-62702 [Geffen] (6): Return to Undead Danielle; Undead Recruiter; Undead Leader 1; Undead Leader 2 …
+- 62703-62709 [Brasilis] (7): Realm of the Unholy Ghost; Find the first seal; Find the second seal; Find the third seal …
+- 62774 [Morroc] (1): The Peco's Roar
+- 62775 [Al De Baran] (1): The Peco's Roar
+- 62776 [Morroc] (1): The Peco's Roar
+- 62777-62786 [Al De Baran] (10): The Peco's Roar
+- 62788 [Prontera] (1): Jumping Janeway's Request 7
+- 62832 [Brasilis] (1): Toucan Hunting
+- 62833 [Morroc] (1): Siorava Hunting
+- 62866 [New World/Bifrost] (1): Parcel Reward Service
+- 62867-62868 [Comodo/Umbala] (2): Parcel Service; Parcel Service Victoria Qwest
+- 62869-62870 [Lutie] (2): Parcel Service R I Pete; Parcel Service Ice Cold Austin
+- 62871 [Rachel] (1): Parcel Service Ishmael
+- 62872-62873 [Comodo/Umbala] (2): Parcel Service Victoria Qwest
+- 62874-62875 [Veins] (2): Parcel Service R I Pete; Parcel Service Ice Cold Austin
+- 62876 [Rachel] (1): Parcel Service Ishmael
+- 62877-62888 [Lasagna] (12): Dally Quen Bonus Ticket; Deviling's Love
+- 62909-62912 [Other:rockrdg1] (4): Repay from good work; Peace of the Family; Back for More Coyotes Tomorrow; Hunting Coyotes again
+- 62913-62914 [Malangdo] (2): Failed to Get Juice Mix Package; Discovered Suspicious Sand Pile
+- 62915 [Other:rockrdg1] (1): Discovered Wasteland Cactuten
+- 62916-62918 [Malangdo] (3): Discovered Suspicious Sand Pile; Discovered Coyote
+- 62919 [Other:rockrdg1] (1): Discovered Cactus Girl
+- 62920-62928 [Malangdo] (9): Discovered Coyote; Discovered Suspicious Sand Pile; Silvervine Quest - Angeling
+- 62929-62939 [Payon] (11): Silvervine Quest - Archangeling; Silvervine Quest - Cat o Nine Tails; Silvervine Quest - Deviling; Silvervine Quest - Dragonfly …
+- 62942-62946 [Rock Ridge] (3): Silvervine Miracle Elixir Buff I; Silvervine Miracle Elixir Buff II; Silvervine Miracle Elixir Buff III
+- 63029-63031 [Other:que_ng] (3): My Dearest Possession
+- 63032 [Niflheim] (1): My Dearest Possession
+- 63034-63037 [Other:que_ng] (4): My Dearest Possession
+- 63243-63244 [Payon] (2): A Simple Request
+- 63282-63288 [Morroc] (6): DR815 Hunting; GC109 Hunting; Kick Step Hunting; Kick and Kick Hunting …
+- 63558-63570 [Lighthalzen] (13): Lighthalzen Adventurer's Guild
+- 63715 [Comodo/Umbala] (1): Corridor of Phantom
+- 63749-63770 [Alberta/Turtle Is.] (19): To the unknown tortoise island; Stranger on Turtle Island 1; Stranger on Turtle Island 2; Stranger on Turtle Island 3 …
+- 70001-70010 [Izlude/Byalan] (10): Searching for the Treasure Map; Searching the Wardrobe; Searching the Plain Barrel; Searching the Weapon Rack …
+- 70011 [Brasilis] (1): The rotted signpost
+- 70012-70014 [Izlude/Byalan] (3): Izlude Irene's Treasure; Looking for Data; Izlude's Lieutenant
+- 70015 [Brasilis] (1): Entrance to Izlude Irene's ship
+- 70016-70017 [Izlude/Byalan] (2): Izlude Irene's treasure
+- 70021-70040 [Amatsu] (20): Blue Harvest; Amatsu - Poison Toad Skin; Amatsu - Daily Quest Timer; Amatsu - Oil Papers
+- 70041 [Geffen] (1): Amatsu - Yellow Plates
+- 70042-70044 [Amatsu] (3): Amatsu - Daily Quest Timer; Amatsu - Worn-out Kimono
+- 70079 [Prontera] (1): Gather Wooden Gnarl
+- 70080 [Morroc] (1): Food Ingredient timer
+- 293443 [Kunlun] (1): A Reward for Brave Bodyguards
+- 297001-297012 [Hugel/Thanatos/Odin] (12): Talk to Pvt Woods Goofus; Collect 30 Little Evil Horns; Bring Horns to Maria in Hugel; Talk to Lt. Don Tyler in Hugel …
+- 297013 [Malangdo] (1): Go see Derpy Cupid in Malangdo
+- 297014 [Hugel/Thanatos/Odin] (1): Bring Derpy's Confession to Lt. Don in Hugel
+- 297015 [Glast Heim] (1): Phendark Hunting
+- 297016-297018 [El Dicastes] (3): Bloody Murderer Hunting; Injustice Hunting; Deviruchi Hunting
+- 297019 [Glast Heim] (1): Rybio Hunting
+- 297020-297027 [Hugel/Thanatos/Odin] (8): Finish All Hunting; Phendark Hunting - Finished; Bloody Murderer Hunting - Finished; Injustice Hunting - Finished …
+- 297028 [Malangdo] (1): Give Derpy Cupid his Pardon in Malangdo
+- 297049-297052 [Lutie] (4): [Daily] Lutie Monster Battle
+- 297058-297060 [Kunlun] (3): [Daily] Old Man Yu's Request; [Daily] Uncle Sun's Request; [Daily] Chef Yao's Request
+- 297117 [Lutie] (1): [Daily] Pampered Problems
+- 297131 [Garden of Time] (1): [Completed] Dimensional Warden
+- 297141-297144 [Louyang] (4): [Daily] Offering to the Divine Flame (30); [Daily] Offering to the Divine Flame (90); [Daily] Offering to the Divine Flame (150); [Daily] Offering to the Divine Flame (200)
+
+### iRO Bounty Boards
+
+- 62556-62569 [Prontera] (14): Bounty Board Goat; Bounty Board Harpy; Bounty Board Sleeper; Bounty Board Grand Peco …
+- 62599-62625 [Prontera] (27): Bounty Board Cornus; Bounty Board Naga; Bounty Board Pinguicula; Bounty Board Luciola Vespa …
+- 62644-62650 [Prontera] (7): Bounty Board Willow; Bounty Board Wolf; Bounty Board Munak; Bounty Board Bongun …
+- 62660-62693 [Prontera] (34): Bounty Board Chonchon; Bounty Board Roda Frog; Bounty Board Mandragora; Bounty Board Ambernite …
+- 62710-62717 [Prontera] (8): Bounty Board Ground Deleter; Bounty Board Flying Deleter; Bounty Board Nightmare Terror; Bounty Board Purple Venatu …
+- 62722-62773 [Prontera] (51): Bounty Board Hornet; Bounty Board Roda Frog; Bounty Board Rocker; Bounty Board Savage Babe …
+- 62789-62831 [Prontera] (41): Bounty Board Red Novus; Bounty Board Yellow Novus; Bounty Board Ancient Mimic; Bounty Board Death Word …
+- 62890-62894 [Prontera] (5): Bounty Board Cursed Box; Bounty Board Cursed Book; Bounty Board Big Bell; Bounty Board Big Ben …
+- 63313-63359 [Prontera] (47): Bounty Board; Bounty Board Worm Tail; Bounty Board Hydra; Bounty Board Pirate Skeleton …
+- 63375-63403 [Prontera] (29): Bounty Board Eggring; Bounty Board Grass Fabre; Bounty Board Hunter Desert Wolf; Bounty Board Leaf Lunatic …
+- 63424-63557 [Prontera] (132): Bounty Board Drainliar; Bounty Board Dustiness; Bounty Board Geographer; Bounty Board Rideword …
+- 63571-63581 [Prontera] (11): Bounty Board Angra Mantis; Bounty Board Little Fatum; Bounty Board Menblatt; Bounty Board Miming …
+- 63735-63748 [Prontera] (14): Bounty Board Angry Nine Tail; Bounty Board Resentful Munak; Bounty Board Resentful Bongun; Bounty Board Resentful Sohee …
+
+### iRO Gramps weekly turn-ins
+
+- 60001-60006 [Izlude/Byalan] (6): Monster Extermination
+- 60146-60153 [Payon] (8): Hunting Skeletons; Hunting Munaks; Hunting Sohees
+- 60154-60160 [Amatsu] (7): Hunting Sohees; Hunting Firelock Soldiers; Hunting Tengus
+- 60161-60171 [Juno] (9): Hunting Venatu; Hunting Archdam; Hunting Siromas; Hunting Siroma …
+- 60172-60178 [Niflheim] (5): Hunting Ice Titans; Hunting Disguises; Hunting Loli Ruri
+- 60180-60186 [Louyang] (6): Hunting Mantis; Hunting Dancing Dragons; Hunting Necromancers
+- 60187-60190 [Juno] (4): Hunting Necromancers; Hunting Apocalypse
+- 60214 [Izlude/Byalan] (1): MVP Summoning Timer
+- 60301-60302 [Geffen] (2): Dragon Hunting
+- 60311-60312 [Geffen] (2): Dragon Hunting
+- 60313-60314 [Ayothaya] (2): Leaf Cat Hunting
+- 60315-60316 [Hugel/Thanatos/Odin] (2): Novus Hunting
+- 60331 [Alberta/Turtle Is.] (1): Remover Hunting
+- 60332-60334 [Hugel/Thanatos/Odin] (3): Remover Hunting; Vanberk Isilla Hunting
+- 60337-60338 [Morroc] (2): Anubis Hunting
+- 60401 [Morroc] (1): Drops Hunt
+- 60402 [Prontera] (1): Lunatic and Fabre Hunt
+- 60403 [Geffen] (1): ChonChon and Pupa Hunt
+- 60404 [Morroc] (1): Peco Peco Egg Hunt
+- 60405 [Payon] (1): Willow and Picky Hunt
+- 60406-60407 [Geffen] (2): Orc Archer Hunting
+- 60408-60409 [Payon] (2): High Orc Hunting
+- 60410-60417 [Hugel/Thanatos/Odin] (8): Isilla Hunting; Vanberk Hunting; Hodremlin Hunting; Agav Hunting
+- 60435-60436 [Niflheim] (2): Egnigem Cenia Hunting
+- 60443 [Morroc] (1): Alarm Hunting
+- 60444-60445 [Hugel/Thanatos/Odin] (2): Hunting Timer 1; Desert Wolf Hunting
+- 60446 [Nameless Island] (1): Ragged Zombie Hunting
+- 60447-60449 [Morroc] (3): Cecil Damon Hunting; Hunting Timer 2; Hunting Timer 3
+- 60450-60452 [Kunlun] (3): Hunting Timer 4; Enchanted Peach Tree Hunting; Zipper Bear Hunting
+- 60453-60454 [Juno] (2): Succubus Hunting; Incubus Hunting
+- 60455-60456 [Morroc] (2): Uni-Horn Scaraba Hunting; Horn Scaraba Hunting
+- 60459-60460 [Morroc] (2): Gazeti Hunting; Ice Titan Hunting
+- 60461-60462 [Hugel/Thanatos/Odin] (2): Skogul Hunting; Frus Hunting
+- 60463-60464 [Morroc] (2): Antler Scaraba Hunting; Rake Scaraba Hunting
+- 60465 [Amatsu] (1): Poison Toad Hunting
+- 60466 [Morroc] (1): Firelock Soldier Hunting
+- 60467-60468 [Niflheim] (2): Dullahan Hunting; Loli Ruri Hunting
+- 60471 [Prontera] (1): Yoyo and Choco Ape Hunt
+- 60472-60474 [Veins] (3): Wootan Fighter Ape Hunt; Wootan Shooter Ape Hunt; Ape Hunter Timer
+- 60476-60477 [Einbroch] (2): Mineral Hunt Hunt; Obsidian Hunt
+- 60480-60481 [Morroc] (2): Laurell Weinder Hunt; Armeyer Dinze Hunt
+- 60482 [Niflheim] (1): Egnigem Cenia Hunt
+- 60483-60491 [Morroc] (9): Errende Ebecee Hunt; Kavach Icarus Hunt; Wickebine Tres Hunt; Hunting Timer 5 …
+- 60492 [El Dicastes] (1): Centipede Hunt
+- 60493-60495 [Morroc] (3): Bradium Golem Hunt; Hunting Timer 1; Hunting Timer 2
+- 60501 [Juno] (1): Raydric Hunting
+- 60502 [Glast Heim] (1): Wanderer Hunting
+- 60503-60504 [Veins] (2): Muscipular Hunting; Drosera Hunting
+- 60505-60506 [Morroc] (2): Ancient Tree Hunting; Phylla Hunting
+- 60507-60508 [Einbroch] (2): Teddy Bear Hunting; Waste Stove Hunting
+- 60509-60512 [Juno] (4): Green Dimik Hunting; Blue Dimik Hunting; Orange Dimik Hunting; Red Dimik Hunting
+- 60513-60514 [Morroc] (2): Knocker Hunting; Imp Hunting
+- 60515-60518 [Hugel/Thanatos/Odin] (4): Anopheles Hunting; Roween Hunting; Agav Hunting; Echio Hunting
+- 60519-60520 [Morroc] (2): Cecil Damon Hunting; Eremes Guile Hunting
+- 60521 [Al De Baran] (1): Margaretha Sorin Hunting
+- 60522 [Morroc] (1): Seyren-Windsor Hunting
+- 60524 [Rock Ridge] (1): Howard Alt-Eisen Hunting
+- 60525-60526 [Einbroch] (2): Metaling Hunting; Porcellio Hunting
+- 60527-60530 [Juno] (4): Purple Venatu Hunting; Green Venatu Hunting; Orange Venatu Hunting; Blue Venatu Hunting
+- 60531-60533 [Morroc] (3): Banshee Hunting; Necromancer Hunting; Hunting Timer 3
+- 60534-60536 [Glast Heim] (3): Hunting Timer 4; Gargoyle Hunting; Arclouse Hunting
+- 60537 [Juno] (1): Stem Worm Hunting
+- 60539-60540 [Hugel/Thanatos/Odin] (2): Ancient Mimic Hunting; Death Word Hunting
+- 60541 [New World/Bifrost] (1): Tatacho Hunting
+- 60542 [Morroc] (1): Dolomedes Hunting
+- 60543-60545 [Hugel/Thanatos/Odin] (3): Axe Kobold Hunting; Hammer Kobold Hunting; Mace Kobold Hunting
+- 60546-60547 [Morroc] (2): Kasa Hunting; Salamander Hunting
+- 60549-60550 [Geffen] (2): Marionette Hunting; Deviruchi Hunting
+- 60551 [Morroc] (1): Arclouse Hunting
+- 60552 [Juno] (1): Ancient Mummy Hunting
+- 60553-60554 [Morroc] (2): Flying Deleter Hunting; Ground Deleter Hunting
+- 60555 [Hugel/Thanatos/Odin] (1): Hodremlin Hunting
+- 60556 [Morroc] (1): Seeker Hunting
+- 60557 [Veins] (1): Skel Prisoner Hunting
+- 60558 [Glast Heim] (1): Injustice Hunting
+- 60559-60560 [New World/Bifrost] (2): Dark Pinguicula Hunting; Naga Hunting
+- 60561-60562 [Morroc] (2): Lude Hunting; Heirozoist Hunting
+- 60565 [Veins] (1): Magmaring Hunting
+- 60570 [Hugel/Thanatos/Odin] (1): Hill Wind Hunting
+- 60571-60572 [Comodo/Umbala] (2): Pest Hunting; Medusa Hunting
+- 60573 [New World/Bifrost] (1): Hillslion Hunting
+- 60575 [Hugel/Thanatos/Odin] (1): Kobold Archer Hunting
+- 60576-60577 [Juno] (2): Violy Hunting; Hunting Timer
+- 60578-60579 [Hugel/Thanatos/Odin] (2): Hunting Timer; Red Novus Hunting
+- 60580 [Juno] (1): Archdam Hunting
+- 60581 [New World/Bifrost] (1): Nepenthes Hunting
+- 60582-60583 [Morroc] (2): Angra Mantis Hunting; Pom Spider Hunting
+- 60584 [Hugel/Thanatos/Odin] (1): Yellow Novus Hunting
+- 60585 [New World/Bifrost] (1): Cornus Hunting
+- 60586-60589 [Morroc] (4): Miming Hunting; Little Fatum Hunting; Heater Hunting; Assaulter Hunting
+- 60590 [Juno] (1): Blazzer Hunting
+- 60591-60598 [Morroc] (8): Lava Golem Hunting; Owl Baron Hunting; Vanberk Hunting; Isilla Hunting …
+- 60599 [Rock Ridge] (1): Margaretha and Howard Hunting
+- 60600-60606 [Morroc] (7): Hunting Timer 7; Uzhas Hunting; Bathory Hunting; Nightmare Terror Hunting …
+- 60607-60608 [Glast Heim] (2): Hunting Timer 6; Rybio Hunting
+- 60609-60614 [Morroc] (5): Alicel Hunting; Ground Petite Hunting; Mavka Hunting; Pinguicula Hunting …
+- 60615-60616 [Juno] (2): Harpy Hunting
+- 60617-60618 [Comodo/Umbala] (2): Medusa Hunting
+- 60619-60620 [Morroc] (2): Kasa Hunting
+- 60815-60827 [Morroc] (13): Removal Hunting; Khalitzburg Hunting; Bloody Butterfly Hunting; Hell Poodle Hunting …
+- 60828 [Veins] (1): Zombie Prisoner Hunting
+- 60829-60833 [Morroc] (5): Incarnation of Morroc Hunting; Evil Druid Hunting; Abysmal Knight Hunting; Shinobi Hunting …
+- 60834 [Geffen] (1): Kapha Hunting
+- 60835-60869 [Morroc] (35): Flame Skull Hunting; Aunoe Hunting; Fanat Hunting; The Paper Hunting …
+
+### Older kRO quests (1000-19999)
+
+- 1015 [?] (1): Your first quest
+- 1194-1205 [Comodo/Umbala] (7): Look out the window, Cheers for Raccoon Hurray team!
+- 1206-1207 [Lutie] (2): Look out the window, Cheers for Raccoon Hurray team!
+- 1213 [Comodo/Umbala] (1): Look out the window, Cheers for Raccoon Hurray team!
+- 1233-1236 [Airship] (4): Swordsman training
+- 1260-1262 [Brasilis] (2): Cursed Swordman
+- 1333-1338 [Verus/Phantasmagorika] (4): Sweet Temtation; Sweetness don't last long; Lucky Sweets; No more Sweets
+- 1341-1344 [Morroc] (4): Metz Brayde; Metz's Trial I; Arian's Trial I; Arian's Trial II
+- 1345-1348 [Verus/Phantasmagorika] (4): Arian's Trial III; Arian's Trial IV; Arian's Trial V; Arian's Trial VI
+- 1349-1352 [Payon] (2): Arian's Trial - Interlude; Metz's Trial II
+- 1353-1356 [Al De Baran] (4): Metz's Trial III; Jornim's Trial I; Jornim's Trial II
+- 1357-1361 [Geffen] (5): Metz's Trial IV; Jesqurienne's Trial; Jesqurienne's Trial - Failed; Jesqurienne's Trial - Passed …
+- 1362-1368 [Comodo/Umbala] (6): Dearles' Trial I; Dearles' Trial II; Dearles' Trial III; Dearles' Trial IV - Failed …
+- 1369-1371 [Alberta/Turtle Is.] (2): Metz's Trial VI; Bakerlan's Trial I
+- 1374-1379 [Al De Baran] (4): Bakerlan's Trial I; Bakerlan's Trial II
+- 1380 [Prontera] (1): Bakerlan's Trial II
+- 1382-1383 [Al De Baran] (2): Bakerlan's Trial II
+- 1384-1390 [Rock Ridge] (5): Sobbing Starlight; Engel Howard; Piecing Starlight
+- 1394-1396 [Geffen] (3): Piecing Starlight; Deciphering the Starlight
+- 1397-1407 [Comodo/Umbala] (7): Deciphering the Starlight; Great Ordeal; Serin's Request
+- 1408-1424 [Niflheim] (16): Ash Bruce; The poor people of Niflheim; Alakina Anne; To be chosen
+- 1427-1443 [Glast Heim] (11): Breaking the Seal
+- 1444 [Prontera] (1): Breaking the Seal
+- 1445-1457 [Niflheim] (12): Symbol of the Nine Realms; A False Desire; For Midgard; To Valhalla …
+- 1458 [Other:job_prist] (1): For Midgard
+- 1459 [Niflheim] (1): For Midgard
+- 1460-1464 [Rock Ridge] (5): The Sign
+- 1465-1466 [Prontera] (2): The Devil's Sorrow
+- 1467-1470 [Juno] (4): To Kiel Hyre Academy; Elly's Request; Gather Cookie Ingredients 1
+- 1472 [Lighthalzen] (1): Gather Cookie Ingredients 1
+- 1473-1476 [Juno] (4): Gather Cookie Ingredients 1; Elly's Request; Elly's Cookies
+- 1477 [Payon] (1): Elly's Cookies
+- 1478-1492 [Juno] (13): Elly's Cookies; The Missing Kiel Hyre; Silent Elly; Kiel Hyre's Request …
+- 1494 [Ayothaya] (1): Mitchell's Investigation
+- 1495-1498 [Juno] (3): Mitchell's Investigation; Kiel Hyre's Past
+- 1502 [Veins] (1): Mitchell's Investigation
+- 1503-1504 [Juno] (2): Runaway Kiel
+- 2042 [Juno] (1): Job Change to Sage
+- 2315 [Morroc] (1): Gift from Reward Cat
+- 2349 [?] (1): Rental Item
+- 3044-3046 [Other:job_prist] (2): The Gigantic Magestic Goat; Sealed Shrine After-effect
+- 3054 [Morroc] (1): Resurrection of Satan Morocc - 5
+- 3137-3138 [?] (2): Nydhorgg's Shadow; Wandering Purple Dragon
+- 3253 [?] (1): My country is calling me!
+- 3265 [?] (1): Request - Missing occult mania
+- 3322 [Prontera] (1): Happiness to share warmth 4
+- 3333 [Prontera] (1): Sweet Drops punishment today too!
+- 3369-3374 [Alberta/Turtle Is.] (4): [Daily] Resurrected Branch; [Daily] Capturing Hungry Savages; [Daily] Songpyeon Preparation; [Daily] Moon Cookies Preparation
+- 3383 [Alberta/Turtle Is.] (1): [Daily] Urgent Visit to Kunlun
+- 3422 [Geffen] (1): Book of Illusion Vol. 2
+- 3423 [Glast Heim] (1): Book of Illusion Vol. 3
+- 3424 [Dimensional Gap/Instances] (1): Defeat Monastery Monsters
+- 4022-4027 [Prontera] (5): Interview with the Prince
+- 4028-4033 [Veins] (6): The prince, Peter's Favor; The Girl's Favor; The Story of Ahrum and Ernst; Conspiracy of the two families …
+- 4198-4227 [Morroc] (28): 86-90 Mission Board Timer; 91-99 Mission Board Timer
+- 4270-4287 [Brasilis] (16): Ninja training - stat explanation; Ninja training- conversation about the skills; Ninja training- explanation about the weapons; Ninjas training- explanation about job change …
+- 5114 [Other:que_lhz] (1): [Shelter] Paladin
+- 5115 [Rachel] (1): [Shelter] High Priest
+- 5116 [Other:que_lhz] (1): [Shelter] Champion
+- 5117 [Geffen] (1): [Shelter] High Wizard
+- 5118 [Other:que_lhz] (1): [Shelter] Professor
+- 5119 [Rock Ridge] (1): [Shelter] Whitesmith
+- 5120-5124 [Other:que_lhz] (5): [Shelter] Creator; [Shelter] Assassin Cross; [Shelter] Stalker; [Shelter] Sniper …
+- 5147 [?] (1): Gunslinger basic training(1)
+- 5160 [Juno] (1): Library's fault
+- 5253-5262 [?] (10): Wood Delivery Mission; [Pending] Wood Delivery Mission; Rope Making Mission; [Pending] Rope Making Mission …
+- 5374-5390 [Prontera] (11): Emergency; Kill the Robert Insects; Kill the Hawkeye Insects; Kill insects called The Giant …
+- 5393-5399 [Other:ant_d02_i] (5): Carnage of Private; Carnage Of the Elite
+- 5470-5472 [Other:job_prist] (2): (Wanted) Pending; (Wanted)
+- 5473-5474 [Port Malaya] (2): (Wanted)
+- 5475 [Glast Heim] (1): (Wanted)
+- 5476 [Prontera] (1): (Wanted)
+- 5477 [Geffen] (1): (Wanted)
+- 5478 [Port Malaya] (1): (Wanted)
+- 5479 [Morroc] (1): (Wanted)
+- 5480 [Port Malaya] (1): (Wanted)
+- 5481 [Other:harboro2] (1): (Wanted)
+- 5482 [Glast Heim] (1): (Wanted)
+- 5483-5485 [Port Malaya] (3): (Wanted)
+- 5486-5487 [Einbroch] (2): (Wanted)
+- 5488 [Port Malaya] (1): (Wanted)
+- 5489 [Other:job_duncer] (1): (Wanted)
+- 5490 [Port Malaya] (1): (Wanted)
+- 5491-5492 [Juno] (2): (Wanted)
+- 5493-5495 [Port Malaya] (3): (Wanted)
+- 5497 [Izlude/Byalan] (1): (A-Delivery Quest)
+- 5498 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5499 [Izlude/Byalan] (1): (A-Delivery Quest)
+- 5502-5504 [Alberta/Turtle Is.] (3): (A-Delivery Quest) Receipt; (A-Delivery Quest)
+- 5505-5506 [Other:in_sphinx5] (2): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5507-5508 [Morroc] (2): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5509-5510 [Malangdo] (2): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5511-5516 [Nameless Island] (6): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5517 [Glast Heim] (1): (A-Delivery Quest)
+- 5518 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5519 [Glast Heim] (1): (A-Delivery Quest)
+- 5520 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5521 [Glast Heim] (1): (A-Delivery Quest)
+- 5522 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5523 [Glast Heim] (1): (A-Delivery Quest)
+- 5524 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5525 [Glast Heim] (1): (A-Delivery Quest)
+- 5526 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5527 [Glast Heim] (1): (A-Delivery Quest)
+- 5528 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5529 [Glast Heim] (1): (A-Delivery Quest)
+- 5530 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5531 [Glast Heim] (1): (A-Delivery Quest)
+- 5532-5534 [Alberta/Turtle Is.] (2): (A-Delivery Quest) Receipt
+- 5535 [Hugel/Thanatos/Odin] (1): (A-Delivery Quest)
+- 5536-5538 [Alberta/Turtle Is.] (2): (A-Delivery Quest) Receipt
+- 5539 [Hugel/Thanatos/Odin] (1): (A-Delivery Quest)
+- 5542 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5543 [Hugel/Thanatos/Odin] (1): (A-Delivery Quest)
+- 5544-5546 [Alberta/Turtle Is.] (2): (A-Delivery Quest) Receipt
+- 5547 [Hugel/Thanatos/Odin] (1): (A-Delivery Quest)
+- 5548-5550 [Alberta/Turtle Is.] (2): (A-Delivery Quest) Receipt
+- 5551 [Juno] (1): (A-Delivery Quest)
+- 5552 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5553 [Glast Heim] (1): (A-Delivery Quest)
+- 5554 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5555-5558 [Al De Baran] (4): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5559 [Glast Heim] (1): (A-Delivery Quest)
+- 5560 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5561 [Glast Heim] (1): (A-Delivery Quest)
+- 5562 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5563-5565 [Glast Heim] (3): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5566 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5567-5570 [Glast Heim] (4): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5571-5572 [Geffen] (2): (A-Delivery Quest); (A-Delivery Quest) Receipt
+- 5573 [Glast Heim] (1): (A-Delivery Quest)
+- 5574 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5575 [Glast Heim] (1): (A-Delivery Quest)
+- 5576 [Alberta/Turtle Is.] (1): (A-Delivery Quest) Receipt
+- 5578 [Payon] (1): (B-Delivery Quest)
+- 5579-5581 [Geffen] (2): (B-Delivery Quest) Receipt
+- 5582-5584 [Prontera] (3): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5585-5591 [Geffen] (7): (B-Delivery Quest) Receipt; (B-Delivery Quest)
+- 5592-5593 [Izlude/Byalan] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5594-5595 [Geffen] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5596 [Payon] (1): (B-Delivery Quest)
+- 5597 [Geffen] (1): (B-Delivery Quest) Receipt
+- 5598 [Payon] (1): (B-Delivery Quest)
+- 5599-5601 [Geffen] (3): (B-Delivery Quest) Receipt; (B-Delivery Quest)
+- 5602 [Alberta/Turtle Is.] (1): (B-Delivery Quest)
+- 5603 [Geffen] (1): (B-Delivery Quest) Receipt
+- 5604 [Alberta/Turtle Is.] (1): (B-Delivery Quest)
+- 5605 [Geffen] (1): (B-Delivery Quest) Receipt
+- 5606-5607 [Other:in_sphinx2] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5608-5609 [Eclage] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5610-5611 [Other:in_sphinx4] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5612 [Morroc] (1): (B-Delivery Quest)
+- 5613 [Geffen] (1): (B-Delivery Quest) Receipt
+- 5614-5615 [Prontera] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5616 [Morroc] (1): (B-Delivery Quest)
+- 5617 [Geffen] (1): (B-Delivery Quest) Receipt
+- 5618-5619 [Other:bat_room] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5620-5629 [Geffen] (10): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5630-5631 [Rachel] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5632-5635 [Geffen] (4): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5636-5637 [Other:mjo_dun03] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5638-5639 [Einbroch] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5640-5641 [Fields/Misc] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5642-5647 [Geffen] (6): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5648-5649 [Hugel/Thanatos/Odin] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5650 [Juno] (1): (B-Delivery Quest)
+- 5651-5655 [Geffen] (5): (B-Delivery Quest) Receipt; (B-Delivery Quest)
+- 5656 [Al De Baran] (1): (B-Delivery Quest)
+- 5657 [Geffen] (1): (B-Delivery Quest) Receipt
+- 5658-5661 [Al De Baran] (4): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5663 [Geffen] (1): (B-Delivery Quest) Receipt
+- 5664-5665 [Prontera] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5666-5667 [Glast Heim] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5668-5669 [Morroc] (2): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5672-5675 [Glast Heim] (4): (B-Delivery Quest); (B-Delivery Quest) Receipt
+- 5677-5678 [Prontera] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5679-5680 [Other:monk_test] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5681 [Al De Baran] (1): (C-Delivery Quest)
+- 5682 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5683 [Payon] (1): (C-Delivery Quest)
+- 5684 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5685-5686 [Morroc] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5687 [Al De Baran] (1): (C-Delivery Quest)
+- 5688 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5689-5690 [Fields/Misc] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5691-5694 [Comodo/Umbala] (4): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5695 [Al De Baran] (1): (C-Delivery Quest)
+- 5696 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5697-5698 [Other:in_sphinx1] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5699-5700 [Morroc] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5701 [Al De Baran] (1): (C-Delivery Quest)
+- 5702 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5703 [Al De Baran] (1): (C-Delivery Quest)
+- 5704 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5705 [Geffen] (1): (C-Delivery Quest)
+- 5706 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5707-5708 [Comodo/Umbala] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5709-5710 [Niflheim] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5711-5712 [Einbroch] (2): (C-Delivery Quest); (C-Delivery Quest) Receipt
+- 5713 [Al De Baran] (1): (C-Delivery Quest)
+- 5714 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5715 [Hugel/Thanatos/Odin] (1): (C-Delivery Quest)
+- 5716-5718 [Prontera] (2): (C-Delivery Quest) Receipt
+- 5719 [Juno] (1): (C-Delivery Quest)
+- 5720 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5721 [Al De Baran] (1): (C-Delivery Quest)
+- 5722 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5723 [Al De Baran] (1): (C-Delivery Quest)
+- 5724 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5725 [Glast Heim] (1): (C-Delivery Quest)
+- 5726 [Prontera] (1): (C-Delivery Quest) Receipt
+- 5846 [Comodo/Umbala] (1): Corridor of Phantom
+- 5857-5860 [Lighthalzen] (4): Befriending Morning
+- 5901-5902 [Payon] (2): Drunk Old Man; Reasons for Attraction
+- 5903-5907 [Comodo/Umbala] (5): Looking For His Secret Training Ground; Into the Deep Luluka Forest; How to Survive; Out of the Forest …
+- 5908-5915 [Dimensional Gap/Instances] (5): Airship Crash Site; Monster Hunting Request (50); Monster Hunting Request (100); Monster Hunting Request (150) …
+- 5943-5944 [Rachel] (2): Flower Room Delivery Service; Flower Delivery Service
+- 5945 [Veins] (1): Flower Delivery Service
+- 5946 [Rachel] (1): Flower Delivery Service
+- 5947 [Fields/Misc] (1): Flower Delivery Service
+- 5950-5960 [Izlude/Byalan] (11): Hyper Novice; Novice's Memories (1); Novice's Memories(2); Novice's Memories(3)
+- 5962-5971 [Al De Baran] (7): [Daily] Devil's Breakfast; [Daily] Devil's Lunch; [Daily] Devil's Dinner; [Weekly] Devil's Special Meal …
+- 6027 [?] (1): KVM Indicator
+- 7125 [?] (1): not used
+- 7181 [Geffen] (1): Karakas's ring
+- 7204 [Lutie] (1): Spring Bringing Flower
+- 7239 [?] (1): Errands for Thorn (hard)
+- 7281 [Al De Baran] (1): Errands List of Nyas
+- 7282 [Malangdo] (1): Errands List of Nyas
+- 7283 [Verus/Phantasmagorika] (1): Errands List of Nyas
+- 7284-7288 [Malangdo] (5): Errands List of Nyas
+- 7289 [Verus/Phantasmagorika] (1): Errands List of Nyas
+- 7290 [Malangdo] (1): Errands List of Nyas
+- 7291 [Lighthalzen] (1): Errands List of Nyas
+- 7292-7323 [Malangdo] (24): Errands List of Nyas
+- 7324-7325 [Verus/Phantasmagorika] (2): Errands List of Nyas
+- 7327-7335 [Malangdo] (9): Errands List of Nyas
+- 7336 [Verus/Phantasmagorika] (1): Errands List of Nyas
+- 7337-7347 [Malangdo] (7): Errands List of Nyas; Delicious Takoyaki
+- 7400 [Port Malaya] (1): Mumbaki of Port Malaya
+- 7461 [Prontera] (1): Forever a-loneliness.
+- 7462-7463 [Geffen] (2): Lennon the idle Warrior's story; Ken the great Wizard's story
+- 7464 [Moscovia] (1): Penn the Stranger's story
+- 7465-7469 [Juno] (3): Richie the young Rich's story; Jinha Lee's ingredient delivery; Jinha's part time business
+- 7488-7489 [Morroc] (2): Trio set of Fire Elements; Silent liquidation plan
+- 7490 [Geffen] (1): Mushroom soup calling memories
+- 7491 [Prontera] (1): Get away to Paradise!
+- 7493-7494 [Morroc] (2): Battle of 17 vs. 1; Cleanup of the mushroom farm
+- 7565 [Morroc] (1): Return of Rayan Moore
+- 7606 [Verus/Phantasmagorika] (1): Phantasmagorika Excavator Recruitment
+- 7630-7631 [Payon] (2): Legenday Blue Unicorn; Hunting Limit
+- 7671-7672 [?] (2): Find my Lost lamb.; The lambs keep running away.
+- 7704 [?] (1): Unchangeable Past
+- 7775 [Other:job3_gen01] (1): Job Change to Geneticist
+- 7833 [Prontera] (1): Ready for today's exciting festivities
+- 7866 [Cat Hand] (1): To the Cat on a Bullet
+- 7889-7891 [Hugel/Thanatos/Odin] (2): Xth Century XXgolt; What Is Valkyrie?
+- 7998-7999 [?] (2): Last Peace to You; Central Room's ''Return''
+- 8136 [Moscovia] (1): The Gray Wolf's Warning
+- 8137-8138 [Geffen] (2): Finding the Keymaker; Blacksmith's Request
+- 8139-8171 [Moscovia] (32): The Golden Key; The Red Ring; Mashenka's Red Ring; Searching the Marsh …
+- 8181-8183 [Other:job_ko] (3): Sight Blaster; Push Back Theory
+- 8184-8189 [Juno] (6): Elemental Converter; Elemental Change; Fire Elemental Change; Earth Elemental Change …
+- 8190 [Comodo/Umbala] (1): Charming Wink
+- 8191 [Prontera] (1): Charming Advisor
+- 8193-8195 [Comodo/Umbala] (3): Selfish Advisor; Drunken Advisor; Kind Canell
+- 8265 [?] (1): One time a one hour!
+- 8281-8289 [?] (9): Poor thing; Let me help you; With all one's wits; I'm gonna put a bell on you. …
+- 8324-8333 [Veins] (10): Delivery to Prontera; Return to Merchant Union; Delivery to Payon; Delivery to Comodo …
+- 8334 [Prontera] (1): Collection from the Prontera Culvert
+- 8335 [Veins] (1): Return to Merchant Union
+- 8336 [Payon] (1): Defeat 10 Bongun
+- 8337 [Veins] (1): Deliver Receipt to Masha
+- 8338 [Alberta/Turtle Is.] (1): Defeat 10 Megaliths
+- 8339 [Veins] (1): Deliver Receipt to Masha
+- 8340 [Al De Baran] (1): Defeat 10 Rideword
+- 8341 [Veins] (1): Deliver Receipt to Masha
+- 8342 [Other:in_sphinx3] (1): Collection from Morroc Sphinx
+- 8343 [Veins] (1): Return to Merchant Union
+- 8344 [Alberta/Turtle Is.] (1): Collection of Biolabs Data
+- 8345 [Veins] (1): Deliver Card to Masha
+- 8346 [Alberta/Turtle Is.] (1): Defeat 3 Eremes Guile
+- 8347 [Veins] (1): Deliver Receipt to Masha
+- 8348 [Alberta/Turtle Is.] (1): Defeat 3 Cecil Damon
+- 8349 [Veins] (1): Deliver Receipt to Masha
+- 8350 [Al De Baran] (1): Defeat 3 Margaretha Sorin
+- 8351-8354 [Veins] (3): Deliver Receipt to Masha; Hiring a Street Stall Staffer
+- 8401 [?] (1): Into the King's Heel
+- 8501 [Prontera] (1): Delivery of lost copies of the signature (1)
+- 8502-8505 [Juno] (4): Book Owner: Elris; Book Owner: Strawberry Lord; Book Owner: Unnatural Nature; Book Owner: Guardian Angel
+- 8506 [Prontera] (1): Delivery of lost copies of the signature (2)
+- 8507-8510 [Juno] (4): Book Owner: Littlevils; Book Owner: Devil's Kiss; Book Owner: Lucifel; Book Owner: Marien
+- 8511 [Prontera] (1): Delivery of lost copies of the signature (3)
+- 8512-8515 [Juno] (4): Book Owner: Heaven's Door; Book Owner: ¡«Charlotte¡«; Book Owner: Wingless Angel; Book Owner: Great Witch Luciana
+- 8516 [Prontera] (1): Delivery of lost copies of the signature (4)
+- 8517-8519 [Juno] (3): Book Owner: Randi; Book Owner: Healing Angel; Book Owner: ORION
+- 8521 [Prontera] (1): Delivery of lost copies of the signature (4)
+- 8522-8529 [Juno] (6): Book Owner: Kelly von Ernne; Book Owner: Misamon; Book Owner: Invincible Swordsman; Book Owner: Lonely Novice …
+- 8531 [Al De Baran] (1): Go to Aldebaran to find Flour
+- 8532 [Geffen] (1): Deliver Flour to Lavender
+- 8543 [Juno] (1): Perhaps, An Empty Thing
+- 8546-8549 [Brasilis] (2): A Thing with Pretty High Freezing Point; A Thing Like A Mysterious Mirror
+- 8578 [Hugel/Thanatos/Odin] (1): Present for parents
+- 8579-8583 [Geffen] (3): Present to a daughter; Analysis on Saecom; Analysis on Saecom - Hold
+- 8604-8609 [Verus/Phantasmagorika] (6): Verus Landscaping Department's Request; Source of Stench; Search the Dump Site; Report to Aldina …
+- 8610 [Lighthalzen] (1): Illegal Dumping Suspect
+- 8612 [Juno] (1): Mandragora Incubator (1)
+- 8623-8625 [Verus/Phantasmagorika] (3): Reunion with Aldina; Path to Becoming a Meister (1); What Can a Meister Do?
+- 8626-8628 [Juno] (3): Path to Becoming a Meister (2); Back to Juperos; Path to Becoming a Meister (3)
+- 8629 [Verus/Phantasmagorika] (1): Path to Becoming a Meister (4)
+- 8643-8646 [Niflheim] (2): Not Really Cute; I Said, Not a Musical Instrument!
+- 8660-8669 [Rachel] (4): Hunting - Audhumbla Grassland-3; Hunting - Plain of Ida-3; Hunting - Audhumbla Grassland-1; Hunting - Audhumbla Grassland-2
+- 8678 [Veins] (1): Hunting - Veins Field-4
+- 8704-8717 [Rachel] (14): Temple Closure (1); Temple Closure (2); Temple Closure (3); Temple Closure (4) …
+- 8773 [Eclage] (1): Professor Worm's Dilemma
+- 8806-8815 [Prontera] (9): I grew a plant; How to make Fertilizer; Let's make a Fertilizer (1); Let's make a Fertilizer (2) …
+- 8816-8817 [Fields/Misc] (2): The easiest alchemy in the world; Pick Grass
+- 8818 [Prontera] (1): Nilem's Poring Study
+- 8820-8836 [Brasilis] (17): Adventurer's Legend; Clarification's Request; Say hello to Gullaring (1); Say hello to Gullaring (2) …
+- 8837-8838 [Prontera] (2): Gift of Ink; Return
+- 8871 [Prontera] (1): New Book
+- 8876 [Prontera] (1): Unexpected Encounter
+- 8938 [Prontera] (1): Disciple of the Great Kung Fu Master
+- 8940 [Louyang] (1): [Daily] Po's Louyang Training
+- 8942 [Hugel/Thanatos/Odin] (1): [Daily] Po's Hugel Training
+- 8944-8945 [Rachel] (2): [Daily] Po's Portus Luna Training (1); [Daily] Po's Portus Luna Training (2)
+- 8947 [Glast Heim] (1): [Daily] Po's Glast Heim Training
+- 8995-8999 [Comodo/Umbala] (5): Let's find the Seashells!; I Found All the Seashells!; Find Mommy Shark!; Find Daddy Shark! …
+- 9024 [Einbroch] (1): An errand boy from Einbroch
+- 9058 [?] (1): O'Riley's Request
+- 9142 [?] (1): Achievement
+- 9267-9268 [Geffen] (2): The way to be a strong Mage - 1; The way to be a strong Mage - 2
+- 9269-9270 [Prontera] (2): The way to be a strong Mage - 3; The way to be a strong Mage - 4
+- 9285-9289 [Geffen] (5): Beating Geffen Gangsters; Stop Geffen Gangsters; defeating Geffen Gangsters; Catch a Geffen thief …
+- 9290-9291 [Eclage] (2): Participate in Magic competitions; participate in Magic competitions
+- 9296-9306 [Eclage] (11): 2nd match of the Competition has started; 3rd match of the Competition has started; 4th match of the Competition has started; 5th match of the Competition has started …
+- 9438 [Alberta/Turtle Is.] (1): To the New Land!
+- 9439 [Other:harboro1] (1): Serious Problem
+- 9440 [Rock Ridge] (1): To Address the Problem
+- 9441 [Other:harboro1] (1): The Quickest Solution
+- 9442 [Fields/Misc] (1): Playing Enemies
+- 9443 [Rock Ridge] (1): Taking Our Time
+- 9444-9445 [Other:harboro1] (2): Making My Decision; How Much?
+- 9446-9449 [Fields/Misc] (4): Playing Enemies
+- 9450-9453 [Rock Ridge] (4): Playing Enemies; Sweat for Blood
+- 9454 [Other:harboro1] (1): Sweat for Blood
+- 9455 [Fields/Misc] (1): Sweat for Blood
+- 9456 [Other:harboro1] (1): Sweat for Blood
+- 10026-10033 [?] (5): Reforming Meto
+- 10042-10056 [?] (15): Find the Piano Keys-5 remained; Find the Piano Keys-4 remained; Find the Piano Keyboard-4 remained; Find the Piano Keyboard-3 remained …
+- 10093 [?] (1): Job Change to Mechanic
+- 11023-11028 [?] (5): Help Mr. Zabaroo - 1; Help Mr. Zabaroo - 2; Help Mr. Zabaroo - 4; Help Mr. Zabaroo - 5 …
+- 11103 [?] (1): Secret note of Bazett
+- 11113 [?] (1): Until radering is functioning
+- 11125-11133 [Lighthalzen] (9): Condor Hunting; Grasshopper Legs; Worm Tail Hunting; Spore Hunting …
+- 11255 [?] (1): Otter Ssamsun
+- 11345-11348 [Prontera] (4): Conversation with Alice; Acolyte_damped creatures(LV.13); Acolyte_soft bone(LV.18); Acolyte_Solid bone(LV.23)
+- 11432 [Izlude/Byalan] (1): Suspicious Task
+- 11433 [Lasagna] (1): Suspicious Task
+- 11434 [Prontera] (1): Suspicious Task
+- 11446-11451 [Niflheim] (6): Jakk and Jakk's Jakky days
+- 11471-11473 [Izlude/Byalan] (3): The Fast & The Old man
+- 11474 [Payon] (1): The Fast & The Old man
+- 11475-11478 [Izlude/Byalan] (4): The Fast & The Old man
+- 11479 [Payon] (1): The Fast & The Old man
+- 11480 [Izlude/Byalan] (1): The Fast & The Old man
+- 11481 [Payon] (1): The Fast & The Old man
+- 11482-11483 [Izlude/Byalan] (2): The Fast & The Old man
+- 11484-11488 [Niflheim] (5): Jakk and Jakk's cat
+- 11489 [Comodo/Umbala] (1): Jakk and Jakk's cat
+- 11490 [Niflheim] (1): Jakk and Jakk's cat
+- 11491-11492 [Alberta/Turtle Is.] (2): Jakk and Jakk's cat
+- 11493-11498 [Niflheim] (4): Jakk and Jakk's cat; Hi! I'm Premi!; Jakk and Jakk Jakk's Story
+- 11499-11503 [Lighthalzen] (4): Jakk and Jakk Jakk's Story
+- 11504-11508 [Niflheim] (5): Jakk and Jakk's Cat
+- 11509 [Comodo/Umbala] (1): Jakk and Jakk's Cat
+- 11510 [Morroc] (1): Jakk and Jakk's Cat
+- 11511-11512 [Alberta/Turtle Is.] (2): Jakk and Jakk's Cat
+- 11513-11528 [Niflheim] (16): Jakk and Jakk's Cat; The Wind From the Black Hills
+- 11539-11540 [Payon] (2): Try to find the taste of hometown
+- 11541 [Alberta/Turtle Is.] (1): Try to find the taste of hometown
+- 11542-11543 [Payon] (2): Try to find the taste of hometown
+- 11544 [Prontera] (1): Try to find the taste of hometown
+- 11545-11546 [Payon] (2): Try to find the taste of hometown
+- 11550 [Al De Baran] (1): Try to find the taste of hometown
+- 11551-11554 [Payon] (4): Try to find the taste of hometown
+- 11572 [Einbroch] (1): Illusion Survivor's Staff
+- 11579 [Einbroch] (1): Star Emperor Job Change Quest
+- 11581 [Payon] (1): Star Emperor Job Change Quest
+- 11650-11659 [Niflheim] (10): Jakk and Weird Jakk's Little Weird Story
+- 11671 [Prontera] (1): Arch Mage Job Change
+- 11674-11675 [Geffen] (2): Elemental Master Job Change
+- 11676 [Veins] (1): Elemental Master Job Change
+- 11677 [Geffen] (1): Elemental Master Job Change
+- 11678 [Veins] (1): Elemental Master Job Change
+- 11679-11683 [Geffen] (5): Elemental Master Job Change
+- 11684-11695 [Niflheim] (11): Jakk's strange eyes
+- 11718 [Rachel] (1): Gray Children (15)
+- 11760-11762 [Malangdo] (3): It's unfair, moo!
+- 11763 [Prontera] (1): It's unfair, moo!
+- 11764 [Payon] (1): It's unfair, moo!
+- 11765-11766 [Malangdo] (2): It's unfair, moo!
+- 11783-11787 [Niflheim] (5): The warm story of Jakk and Strange Jakk
+- 11788 [Comodo/Umbala] (1): The warm story of Jakk and Strange Jakk
+- 11789-11793 [Niflheim] (4): The warm story of Jakk and Strange Jakk
+- 11860 [Malangdo] (1): Portrait that repels a bad luck
+- 11861-11862 [Alberta/Turtle Is.] (2): Portrait that repels a bad luck
+- 11863-11868 [El Dicastes] (6): Portrait that repels a bad luck
+- 11869-11871 [Malangdo] (3): Portrait that repels a bad luck-Hold; Tiger's Energy!!
+- 11872-11875 [Payon] (4): Try to find the taste of hometown; Try to find the taste of hometown-Hold
+- 12049-12058 [Morroc] (8): Job Quest 1 - Rogue; Job Quest 2 - Rogue; Job Quest 4 - Rogue; Job Quest 5 - Rogue …
+- 12070 [?] (1): Limited time for enter
+- 12167 [?] (1): Reptile Tongue Doc.
+- 12186 [?] (1): Orc's Fang Doc.
+- 12217 [?] (1): Request - Traces of wild boar hunt
+- 12308-12309 [Prontera] (2): Removal of Worm Tails; Removal of Boa
+- 12310-12314 [Izlude/Byalan] (4): Removal of Spore; Removal of Pirate Skeletons; About stats; About skills
+- 12334-12339 [Glast Heim] (6): Traces of time shifting; Space distortion; Defeating corrupted root; Defeating Amdarais …
+- 12366-12370 [Comodo/Umbala] (3): Defeat 10th Floor Boss; Defeat 30th Floor Boss; Member of Union
+- 12442-12453 [Payon] (11): Path of the Soul Reaper 1; Path of the Soul Reaper 2; Path of the Soul Reaper 3; Path of the Soul Reaper 4 …
+- 12456-12461 [Glast Heim] (5): Aftermath of Removing the Aftereffect of Saving the World; Moment of downfall; Orb's backstory; Aftermath of downfall …
+- 12493-12494 [Glast Heim] (2): Aftermath of the challenge; Explanation complete
+- 12501-12502 [Glast Heim] (2): Eliminate Phantom in Glast Heim
+- 12510 [Izlude/Byalan] (1): About the hidden arena
+- 12512 [Lighthalzen] (1): Evidence of Survival
+- 12513-12515 [Juno] (3): Why The Tower Was Destroyed; Aftereffects of Entering The Tower; Face to Face with The New Tower Owner
+- 12540-12542 [?] (3): Sunken Tower; High tide time; Goddess' protection
+- 12582-12587 [Prontera] (5): I'm the only pure-blooded in the Academy; I'm the only pure-blooded in the Academy (Forbidden Book)
+- 12613-12617 [?] (3): Divine Beast of Spring; Divine Beast of Winter; Dimensional Criminal Reformation
+- 13103-13105 [?] (3): Breaking Willows; Breaking Spores; Breaking Zombies
+- 13190 [?] (1): Found the treasure
+- 14143-14153 [?] (11): Application for the Archer's job change; Retest - Stats; Archer Skills; Hunting training …
+- 14159-14165 [?] (6): Met with the PR staff; Test of stats; Test of skills; Caught Spores …
+- 14190-14191 [Niflheim] (2): Talk to him again; 1st Item
+- 14235 [Prontera] (1): Invaded Prontera
+- 14236 [Moscovia] (1): Fruit Gardener
+- 14239 [Lasagna] (1): Father Thyme
+- 14240 [Prontera] (1): Get the Supplies
+- 14241-14242 [Lasagna] (2): Back to the castle; Kill the Gatekeeper!
+- 14243-14244 [Alberta/Turtle Is.] (2): Enter the castle!; Beyond the Portal
+- 14245-14246 [Payon] (2): To Payon Cave; Find a clue 1
+- 14247-14248 [Glast Heim] (2): Find a clue 2; To Glast Heim
+- 14249 [Lighthalzen] (1): To Lighthalzen
+- 14250-14253 [Prontera] (4): Report to Annie; Final match with Orc leader; Repeat time; Boss Hat
+- 14373-14376 [Prontera] (4): Finding sculptor; Return to the sculptor; Find the Alchemist; Find the monk
+- 14377-14379 [Glast Heim] (3): Find the Dark Priest; Return to Mario; I'm ready
+- 14381 [Morroc] (1): Back to the sculptor
+- 14386 [Geffen] (1): 24 hours
+- 14388 [Lasagna] (1): Legendary Florist
+- 14389-14390 [Morroc] (2): No water?!; Unknown issue
+- 14391 [Payon] (1): Need fertilizer
+- 14392-14393 [Morroc] (2): To the florist; matchmaking - Morroc
+- 14394-14398 [Geffen] (5): matchmaking - Geffen; To the florist; Got a seed; To Al de baran …
+- 14399 [Lutie] (1): Strange Fertilizer
+- 14400 [New World/Bifrost] (1): Strange Fertilizer
+- 14401-14402 [Einbroch] (2): 24 hours; Gathering Chocoins
+- 14517-14519 [Other:harboro2] (3): Midnight Snack Delivery; Bubble gum reuse time; JOB Manual reuse time
+- 14593 [?] (1): Sending mail
+- 14651 [Prontera] (1): Decision on divorce should be made cautiously
+- 14690 [Izlude/Byalan] (1): To the Kritura Academy
+- 14691 [Prontera] (1): Prontera Cathedral
+- 14692 [Izlude/Byalan] (1): To Kritura Academy
+- 14854-14855 [Al De Baran] (2): Chilly feeling is remained; Getting through winter
+- 14861 [Al De Baran] (1): Card exchange is once a day
+- 14958-14963 [Malangdo] (3): The Gatekeeper of Nyail Cave; Sea Worm Hunt; Cool Ice Cream
+- 14968-14975 [Malangdo] (4): Sea Worm Hunt; Cool, Sweet Ice Cream; Coupon: Complete Sea Worms; Coupon: Complete Ice Cream
+- 15018-15022 [Hugel/Thanatos/Odin] (5): The Great Tim's inheritance; Clue about the stranger; Thief Aladdin; Trace the stranger …
+- 15071-15072 [Comodo/Umbala] (2): Don't Trash Comodo
+- 15102-15107 [?] (6): ÀüÁ÷¸ÞÀÏ¾Ë¸²¿ë
+- 15114 [Other:ice_d03_i] (1): Catch a Strange Lizard
+- 16002-16008 [?] (5): Fetching Items for Arian -1; Fetching Items for Arian -2; Fetching Items for Arian -5; Fetching Items for Arian -6 …
+- 16062-16067 [Niflheim] (4): Gen of Niflheim; Misfortunate of Niflheim; Knowledge of the Symbol; Knowledge of Asgard
+- 16068-16073 [Glast Heim] (6): Finding the Soul Pieces; Agrboda's Soul
+- 16074-16075 [Other:job_prist] (2): Symbol of the Nine Realms; Serin's Ambitions
+- 16076 [Niflheim] (1): Witch's Tonic
+- 16077-16081 [Other:job_prist] (2): Serin's Release; Serin's Ambitions
+- 16086 [Rock Ridge] (1): The Sign
+- 16118-16119 [?] (2): Hidden poem; Snake swords
+- 16120-16124 [Prontera] (5): A dream?; Secret Code?; Old Copper Key; Green Keycard …
+- 16125-16128 [Juno] (4): Kiel Hyre Academy
+- 16129-16130 [Morroc] (2): 2nd Advancement; Transmission and Third Transition
+- 16131-16132 [Payon] (2): To Payon; Listen to the legend of Payon
+- 16133-16135 [Morroc] (3): In Search of Rumin; A friend you don't know; A good guy anyway
+- 16136-16137 [Glast Heim] (2): Toward Glast Heim; Ears... I hate them!
+- 16138 [Juno] (1): To the Kiel Hyre Academy
+- 16139-16140 [Einbroch] (2): Einbehro; Einbroch
+- 16141 [Lighthalzen] (1): To Lichtharsen
+- 16142-16147 [Rachel] (6): Rachello; Information Gathering 1; Information Gathering 2; Information Gathering 3 …
+- 16148 [Izlude/Byalan] (1): Great Growth
+- 16149 [Morroc] (1): Toward the Otherworld
+- 16150-16151 [Other:bat_room] (2): Royally; Pantas Magorica
+- 16152 [Hugel/Thanatos/Odin] (1): To Thanatos Tower
+- 16153 [Juno] (1): Euphorus
+- 16154 [Lighthalzen] (1): Inside the Biome
+- 16155 [Lasagna] (1): To the Dragon's Nest
+- 16156 [Glast Heim] (1): HELP!
+- 16157 [Al De Baran] (1): To Aldebaran
+- 16158 [Lighthalzen] (1): An invisible helping hand
+- 16159 [Rachel] (1): The ingredients are all gathered
+- 16164-16174 [Comodo/Umbala] (7): About a trip to Corodo; Corodo the Volcanic Island!; Corodo the Volcanic Island! - Repeat; Soda In Mouth Costume gift …
+- 16201 [Juno] (1): TPS Report
+- 16202-16203 [Fields/Misc] (2): TPS Report
+- 16204 [Malangdo] (1): Crack in the Wall
+- 16205 [Juno] (1): The Empty Lava Tube
+- 16215-16219 [Dimensional Gap/Instances] (4): The Shadowed Dream; The Bubbly Illusion; Modification and Calculation; Kindness and Gratitude
+- 16267-16271 [Comodo/Umbala] (5): Looking for Happy Hint; Jump into the Enemy camp; Invest the Enemy camp; Report Happy Result
+- 16272-16276 [Izlude/Byalan] (4): Track the truth; Sweet Cookie Egg Ingredients; Sweet Ingredients
+- 16282 [Brasilis] (1): Happy Survey
+- 16336-16351 [Comodo/Umbala] (15): Golden Corn in June; Corrodo, a volcanic island; Corrodo, a volcanic island- Hold; Healthy Herbs in June …
+- 16388 [?] (1): First Path
+- 16389-16400 [Airship] (11): First Path - Expedition Declined; ?; Expedition Path - Reward; Expedition Path - Swordsman Lab …
+- 16454-16460 [Prontera] (7): Path of the Inquisitor; Test of Desperation; Test of Execution; Change to Inquisitor
+- 16461-16482 [Dimensional Gap/Instances] (17): Tomb of Remorse; The Thread of a Broken Relationship; Lament of the Princess; Fragmented Memories …
+- 16541-16544 [Cat Hand] (4): Werner's Traces
+- 16601-16604 [Einbroch] (4): Path of the Night Watch
+- 16664-16667 [Prontera] (3): Elena Volkova, the Great Flame - First Reading; Elena Volkova, the Great Flame; Dungeon Food - First Reading
+- 17028-17031 [?] (4): Searching for Kaufman
+- 17139 [Al De Baran] (1): To get through hot winter
+- 17144 [Al De Baran] (1): Getting through winter
+- 17151 [Al De Baran] (1): Not everyone likes it
+- 17152 [Geffen] (1): Not everyone likes it
+- 17153-17154 [Lutie] (2): Not everyone likes it
+- 17155-17156 [Al De Baran] (2): Not everyone likes it
+- 17307 [Malangdo] (1): Gatekeeper of Nyail Cave
+- 17332 [Malangdo] (1): Coupon: Hat Exchange
+- 17339 [?] (1): Securing Spare Parts
+- 17354-17357 [?] (3): Head, Body, Arms, and Legs
+- 17384-17390 [Al De Baran] (5): Heartwarming Winter Days; Mingle with participants; Stand by: The chill remains; Stand by: Packing cotton
+- 17395-17402 [Al De Baran] (8): Stand by: Card exchange once a day; O time, halt your hasty feet.; Need attention
+- 17408-17421 [Hugel/Thanatos/Odin] (14): Thanatos Tower Contract; Sign of Red Key; Sign of Yellow Key; Sign of Blue Key …
+- 17450 [Hugel/Thanatos/Odin] (1): 4th Job Change: A New Stage
+- 17451-17452 [Rachel] (2): 4th Job Change: Inspiration Piece 1
+- 17453-17454 [Lasagna] (2): 4th Job Change: Inspiration Piece 2
+- 17455-17456 [Hugel/Thanatos/Odin] (2): 4th Job Change: Inspiration Piece 3
+- 17457 [Lutie] (1): 4th Job Change: Piece Collection
+- 17458 [Morroc] (1): 4th Job Change: Piece Collection
+- 17459 [Einbroch] (1): 4th Job Change: Piece Collection
+- 17460-17461 [Hugel/Thanatos/Odin] (2): 4th Job Change: Piece Collection Completed; 4th Job Change: A New Stage
+- 17462-17463 [Niflheim] (2): 4th Job Change: Piece Collection
+- 17464-17465 [Rachel] (2): 4th Job Change: Piece Collection
+- 17466-17467 [Hugel/Thanatos/Odin] (2): 4th Job Change: Piece Collection
+- 17468 [Prontera] (1): 4th Job Change: Piece Collection
+- 17469 [Comodo/Umbala] (1): 4th Job Change: Piece Collection
+- 17470 [Payon] (1): 4th Job Change: Piece Collection
+- 17471 [Hugel/Thanatos/Odin] (1): 4th Job Change: Piece Collection Completed
+- 17499 [?] (1): 4th job change notification email sent
+- 17538 [Fields/Misc] (1): Path of Sky: Are you calling me?
+- 17539-17540 [Veins] (2): Path of Sky: 1st Good Karma
+- 17541-17542 [Einbroch] (2): Path of Sky: 2nd Good Karma
+- 17543-17545 [Morroc] (3): Path of Sky: 3rd Good Karma
+- 17546 [Payon] (1): Path of Sky: 4th Good Karma
+- 17547-17548 [Fields/Misc] (2): Path of Sky: 4th Good Karma; Path of Sky: Returning Karma
+- 17549-17552 [Payon] (4): Path of Ascetic: An Unexpected Meeting; Path of Ascetic: A Weird Favor; Path of Ascetic: Take the Lead; Path of Ascetic: Harsh Training
+- 17568-17572 [Prontera] (5): Path of Sky: Marked Spot; You Were Looking for Me?
+- 17573 [Juno] (1): I Recommended You
+- 17574 [Airship] (1): Rare Monsters of the Sky
+- 17575 [Lighthalzen] (1): The Ghost's True Identity
+- 17576-17577 [Hugel/Thanatos/Odin] (2): Hugel, the Pastoral Village; Send My Regards
+- 17578 [Eclage] (1): Analysis Time
+- 17617-17618 [Juno] (2): Guide to Victory; Job Change Info Mail
+- 17663-17667 [Prontera] (4): The Lady of Gold Spoon wants to live quietly; Me and Me
+- 17734-17737 [Prontera] (4): Safety Rating SSS
+- 17800-17808 [Rachel] (9): [Daily] Trainer's Ambition
+- 17817 [Rachel] (1): [Daily] Secret Herb
+- 17822-17824 [Rachel] (2): [Daily] Behind the Water Park
+- 18004-18012 [?] (9): Broken Core 02; Broken Core 03; Broken Core 04; Broken Core 05 …
+- 18026-18027 [Hugel/Thanatos/Odin] (2): Memory of Thanatos
+- 18059 [Veins] (1): Shadow's Call
+- 18145-18157 [Hugel/Thanatos/Odin] (12): A Scientist's Escape Record - First Experience; A Scientist's Escape Record - 1; A Scientist's Escape Record - 2; A Scientist's Escape Record - 3 …
+- 18158-18159 [Juno] (2): A Scientist's Escape Record - 13; A Scientist's Escape Record - 14
+- 18160 [Prontera] (1): A Scientist's Escape Record - end
+- 18162-18166 [Hugel/Thanatos/Odin] (5): Read A Scientist's Escape Record; A Scientist's Escape Record - 2-1; A Scientist's Escape Record - 9-1; A Scientist's Escape Record - 9-2 …
+- 18167-18169 [Juno] (3): A Scientist's Escape Record - 13-1; A Scientist's Escape Record - 13-2; A Scientist's Escape Record - 13-3
+- 18206-18210 [Rachel] (4): [Dungeon] Twisted Magic Plains; [Daily] Light Support Purification; [Daily] Heavy Support Purification; [Weekly] Focus! Weekly Cleanse
+- 18212-18216 [Einbroch] (4): [Dungeon] Mjolnir Underground Cave; [Daily] 100 Monster Slaying Operation; [Daily] 500 Monster Slaying Operation; [Weekly] Large Scale Slaying Operation
+- 18218 [Other:que_swat] (1): It's Tess
+- 18219 [Prontera] (1): Checking In
+- 19116 [Al De Baran] (1): The Eye of Hellion
+- 19117-19118 [Geffen] (2): The Eye of Hellion
+- 19119 [Payon] (1): The Eye of Hellion
+- 19120 [Morroc] (1): The Eye of Hellion
+- 19121-19129 [Geffen] (9): The Eye of Hellion
+- 19200 [?] (1): RPS with Troy
+- 23307 [Hugel/Thanatos/Odin] (1): Strange Things Happened at Abyss Lake
+- 23313-23314 [Prontera] (2): Strange Things Happened at Abyss Lake
+- 23321 [Prontera] (1): Strange Things Happened at Abyss Lake
+- 23323 [Geffen] (1): Strange Things Happened at Abyss Lake
+- 23326 [Hugel/Thanatos/Odin] (1): Strange Things Happened at Abyss Lake
+- 23328 [Prontera] (1): Strange Things Happened at Abyss Lake
+
