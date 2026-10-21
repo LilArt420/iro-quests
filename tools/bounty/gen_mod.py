@@ -106,8 +106,14 @@ function	script	F_IQ_Bounty	{
 		for (.@i = 0; .@i < .@n; .@i++)
 			if (checkquest(.@q[.@i], HUNTING) == 2)
 				.@done++;
+		clear;
+		mes "[Bounty Board]";
+		mes "What will you do?";
 		switch (select("Read the bounties", (.@done ? "^0000CCTurn in finished bounties (" + .@done + ")^000000" : ""), "Tear up a bounty I took", "How do bounties work?", "Walk away")) {
 		case 1:
+			clear;
+			mes "[Bounty Board]";
+			mes "Which notice will you read?";
 			.@menu$ = "";
 			for (.@i = 0; .@i < .@n; .@i++) {
 				.@s = checkquest(.@q[.@i], HUNTING);
@@ -118,6 +124,7 @@ function	script	F_IQ_Bounty	{
 				continue;
 			.@qid = .@q[.@c];
 			.@mob = .@m[.@c];
+			clear;
 			mes "[Bounty Board]";
 			mes "^0000CCWANTED: " + .@name$[.@c] + "^000000";
 			mes "Hunt ^FF0000150^000000 of them and return";
@@ -155,6 +162,7 @@ function	script	F_IQ_Bounty	{
 			mes "Hunt 150 " + .@name$[.@c] + " and come back.";
 			break;
 		case 2:
+			clear;
 			mes "[Bounty Board]";
 			for (.@i = 0; .@i < .@n; .@i++) {
 				if (checkquest(.@q[.@i], HUNTING) != 2)
@@ -173,6 +181,7 @@ function	script	F_IQ_Bounty	{
 			}
 			break;
 		case 3:
+			clear;
 			.@menu$ = "";
 			.@k = 0;
 			for (.@i = 0; .@i < .@n; .@i++) {
@@ -198,6 +207,7 @@ function	script	F_IQ_Bounty	{
 			mes "You tear up the " + .@name$[.@pick[.@c]] + " bounty.";
 			break;
 		case 4:
+			clear;
 			mes "[Bounty Board]";
 			mes "Each bounty asks for ^FF0000150^000000 of one";
 			mes "monster. Take as many as you like:";
