@@ -167,7 +167,7 @@ function	script	F_IQ_Bounty	{
 				iq_bounty_count++;
 				if (iq_bounty_count % 4 == 0) {
 					getitem "Eden_Merit_Badge", 1;
-					mes "Your fourth bounty in a row:";
+					mes "That makes four more bounties:";
 					mes "an ^0000CCEden Merit Badge^000000 as well.";
 				}
 			}
