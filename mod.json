@@ -1,6 +1,6 @@
 {
   "name": "iro-quests",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Lil Art",
   "description": "iRO's permanent quests the server has no script for: the Bounty Boards (314 hunts on 65 boards), Criminal Activities, Eye of the Beholder and the Overlook Water Dungeon.",
   "requires": {
@@ -35,6 +35,13 @@
       "default": true,
       "label": "Overlook Water Dungeon",
       "description": "iRO's Overlook Water Dungeon (Base Level 30-85): the Byalan copy under The Sign west of Geffen, with its 15 Aged monsters and 5 floor hunts. Turning it off removes the monsters and the hunts."
+    },
+    {
+      "key": "gramps_turn_ins",
+      "type": "boolean",
+      "default": true,
+      "label": "Gramps' weekly turn-ins",
+      "description": "iRO's Gramps at the Eden Group (Base Level 70-150): 400-kill hunts, two monsters a week per tier, for 400x the monster's EXP, 65,000 zeny and an Eden Merit Badge. Replaces rAthena's talk-only Gramps."
     }
   ]
 }
