@@ -1,0 +1,335 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Izlude town quests (kRO's 2021 town quest revamp, on iRO)
+//===== Description: =========================================
+//= Instructor Pontes trains new adventurers on the locals'
+//= complaints (Peco Pecos and Mukas, Magnolias and Metallers),
+//= then sends them to Byalan Island: Student Helden needs
+//= specimens and the Wandering Store Owner wants claws. In the
+//= undersea tunnel, the injured Ernest worries about Leader
+//= Maxim's team, who are cooking, drinking and chasing "Poseidon"
+//= on the floor below. Every hunt becomes a daily, shared with the
+//= Eden Group's mission boards (mod eden-rework-2021 uses the same
+//= quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21221-21244, navigation table); kill counts and daily rewards
+//= are the Eden board's figures. Not in any source, chosen here:
+//= story-step rewards (each pays like its daily, or the nearest
+//= one) and the Store Owner's first-claw reward.
+//=
+//= Character variable: iq_izl21 (bits: 1 Pontes 1, 2 Pontes 2,
+//= 4 met Helden, 8 Store Owner, 16 met Maxim, 32 Kusekili,
+//= 64 Ankana, 128 soup delivered, 256 Maxim's proof).
+//============================================================
+
+izlude,132,207,4	script	Instructor Pontes#iqizl	745,{
+	mes "[Instructor Pontes]";
+	if (!(iq_izl21 & 1)) {
+		if (checkquest(21221) < 0) {
+			mes "A true adventurer helps people.";
+			mes "Let's get you used to requests.";
+			mes "The Sograt Desert folk complain";
+			mes "about ^0000FFPeco Pecos and Mukas^000000. Beat";
+			mes "^0000FF10 of each^000000 for practice.";
+			if (BaseLevel < 20) {
+				mes "^777777(Base Level 20)^000000";
+				close;
+			}
+			next;
+			if (select("I'll do it:Not now") == 2)
+				close;
+			setquest 21221;
+			close;
+		}
+		if (checkquest(21221, HUNTING) != 2) {
+			mes "10 Peco Pecos and 10 Mukas, in";
+			mes "the Sograt Desert.";
+			close;
+		}
+		erasequest 21221;
+		getexp 4800, 4200;
+		iq_izl21 = iq_izl21 | 1;
+		mes "Well done! Helping each other,";
+		mes "that's what makes an adventurer.";
+		mes "Come to me for more requests.";
+		close;
+	}
+	if (!(iq_izl21 & 2) && BaseLevel >= 40) {
+		if (checkquest(21224) < 0) {
+			mes "Ready for a harder one? South of";
+			mes "Izlude, ^0000FFMagnolias and Metallers^000000";
+			mes "bother the travelers. Eggs and";
+			mes "grasshoppers! ^0000FF10 of each^000000.";
+			setquest 21224;
+			close;
+		}
+		if (checkquest(21224, HUNTING) != 2) {
+			mes "10 Magnolias and 10 Metallers,";
+			mes "in the field south of Izlude.";
+			close;
+		}
+		erasequest 21224;
+		getexp 8400, 8380;
+		iq_izl21 = iq_izl21 | 2;
+		mes "Excellent. You're ready for real";
+		mes "work. A university student on";
+		mes "^0000FFByalan Island^000000 asked for help.";
+		mes "Take the boat from the harbor.";
+		setquest 21227;
+		close;
+	}
+	mes "Which request will you take today?";
+	next;
+	switch (select("The Noisy Ones (daily):" + ((iq_izl21 & 2) ? "Eggs and Grasshoppers (daily)" : "") + ":Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21222, 21223, 4800, 4200, 0, 0, "Instructor Pontes", 20; end;
+	case 2: callfunc "F_IQ_TownDaily", 21225, 21226, 8400, 8380, 0, 0, "Instructor Pontes", 40; end;
+	case 3: close;
+	}
+}
+
+izlu2dun,105,68,4	script	Student Helden#iqizl	798,{
+	mes "[Student Helden]";
+	if (checkquest(21227) >= 0 && checkquest(21227) < 2) {
+		mes "You came! I'm studying the life";
+		mes "of the island, but... the dungeon";
+		mes "is scary. Could you get me";
+		mes "specimens? ^0000FFSingle Cells^000000, from the";
+		mes "Marinas and Plankton inside.";
+		erasequest 21227;
+		iq_izl21 = iq_izl21 | 4;
+		next;
+		callfunc "F_IQ_TownDaily", 21228, 21229, 9600, 8380, Single_Cell, 10, "Student Helden", 40;
+		end;
+	}
+	if (!(iq_izl21 & 4)) {
+		mes "So many specimens, so little";
+		mes "courage...";
+		close;
+	}
+	callfunc "F_IQ_TownDaily", 21228, 21229, 9600, 8380, Single_Cell, 10, "Student Helden", 40;
+	end;
+}
+
+izlu2dun,108,68,4	script	Wandering Store Owner#iqizl	496,{
+	mes "[Wandering Store Owner]";
+	if (!(iq_izl21 & 4)) {
+		mes "Buying, selling, whatever you";
+		mes "need. Mostly selling.";
+		close;
+	}
+	if (!(iq_izl21 & 8)) {
+		if (checkquest(21230) < 0) {
+			mes "Going into the dungeon for the";
+			mes "student? Then bring me ^0000FF5 Claws^000000";
+			mes "from the Vadons, would you? I've";
+			mes "got an idea. I'll pay.";
+			setquest 21230;
+			close;
+		}
+		if (countitem(Nipper) < 5) {
+			mes "5 Claws, from the Vadons.";
+			close;
+		}
+		delitem Nipper, 5;
+		erasequest 21230;
+		getexp 7800, 8380;
+		iq_izl21 = iq_izl21 | 8;
+		mes "Lovely. Tweezers! Claw tweezers!";
+		mes "They'll sell like hot cakes.";
+		close;
+	}
+	mes "The tweezers sell! Strike while";
+	mes "the iron is hot. More claws?";
+	next;
+	callfunc "F_IQ_TownDaily", 21231, 21232, 7800, 8380, Nipper, 5, "Wandering Store Owner", 40;
+	end;
+}
+
+iz_dun01,121,158,4	script	Jowon Ernest#iqizl	881,{
+	mes "[Ernest]";
+	if (iq_izl21 & 128) {
+		mes "Ink soup. They sent me ink soup.";
+		mes "...It's actually good. Don't tell";
+		mes "them. Will you help them work in";
+		mes "peace?";
+		next;
+		callfunc "F_IQ_TownDaily", 21237, 21238, 12400, 14380, 0, 0, "Ernest", 50;
+		end;
+	}
+	if (checkquest(21236) >= 0 && checkquest(21236) < 2) {
+		mes "News from the team? \"We're fine!\"";
+		mes "And... soup? Frog egg ink soup.";
+		mes "While I lie here hurt, they cook.";
+		erasequest 21236;
+		getexp 12400, 14380;
+		iq_izl21 = iq_izl21 | 128;
+		next;
+		mes "[Ernest]";
+		mes "...Fine. If they're going to work";
+		mes "down there, someone has to keep";
+		mes "the Swordfish and Marcs off them.";
+		mes "Come back if you'll help.";
+		close;
+	}
+	if (checkquest(21233) >= 0) {
+		mes "Leader Maxim and the team went";
+		mes "down to the 3rd floor. Please,";
+		mes "find out if they're all right.";
+		close;
+	}
+	mes "Our research team from Juno came";
+	mes "to study this tunnel. I got hurt,";
+	mes "and I haven't heard from the others";
+	mes "since. Could you check on them?";
+	if (BaseLevel < 50) {
+		mes "^777777(Base Level 50)^000000";
+		close;
+	}
+	next;
+	if (select("I'll find them:Not now") == 2)
+		close;
+	setquest 21233;
+	mes "[Ernest]";
+	mes "3rd floor. Leader Maxim. Thank you.";
+	close;
+}
+
+iz_dun02,229,231,4	script	Leader Maxim#iqizl	964,{
+	mes "[Leader Maxim]";
+	if (checkquest(21233) >= 0 && checkquest(21233) < 2) {
+		mes "Ernest sent you? Ha! Tell him";
+		mes "we're fine. Better than fine!";
+		mes "Kusekili is cooking and Ankana";
+		mes "is... resting. Say hello to them.";
+		erasequest 21233;
+		iq_izl21 = iq_izl21 | 16;
+		close;
+	}
+	if (!(iq_izl21 & 16)) {
+		mes "Research team, Leader Maxim. Busy!";
+		close;
+	}
+	if (!(iq_izl21 & 128)) {
+		mes "Help Kusekili and Ankana, then";
+		mes "take something to Ernest. He";
+		mes "worries too much.";
+		close;
+	}
+	if (!(iq_izl21 & 256)) {
+		if (checkquest(21241) < 0) {
+			mes "I saw him! ^0000FFPoseidon^000000, the god of";
+			mes "the sea, on the deepest floor!";
+			mes "...They say it was a Strouf and a";
+			mes "Merman. Prove it! Bring me a";
+			mes "^0000FFFin^000000 and ^0000FFAncient Lips^000000.";
+			setquest 21241;
+			close;
+		}
+		if (!countitem(Fin) || !countitem(Lip_Of_Ancient_Fish)) {
+			mes "A Fin and Ancient Lips! Proof!";
+			close;
+		}
+		delitem Fin, 1;
+		delitem Lip_Of_Ancient_Fish, 1;
+		erasequest 21241;
+		getexp 17200, 15600;
+		iq_izl21 = iq_izl21 | 256;
+		mes "...Fish. Just fish. Well! Then";
+		mes "there's an underground shrine down";
+		mes "there, and I mean to see it.";
+		close;
+	}
+	mes "Those Strouf and Mermen guard the";
+	mes "shrine. Clear them out for me?";
+	next;
+	callfunc "F_IQ_TownDaily", 21242, 21243, 17200, 15600, 0, 0, "Leader Maxim", 50;
+	end;
+}
+
+iz_dun02,228,229,4	script	Jowon Kusekili#iqizl	582,{
+	mes "[Kusekili]";
+	if (!(iq_izl21 & 16)) {
+		mes "Research? I'm cooking.";
+		close;
+	}
+	if (!(iq_izl21 & 32)) {
+		if (checkquest(21234) < 0) {
+			mes "One ingredient, and I make the";
+			mes "dish of the century. ^0000FFSquid Ink^000000!";
+			mes "The Marse down here have it. Bring";
+			mes "me ^0000FF10^000000?";
+			setquest 21234;
+			close;
+		}
+		if (countitem(Chinese_Ink) < 10) {
+			mes "10 Squid Ink, from the Marse.";
+			close;
+		}
+		delitem Chinese_Ink, 10;
+		erasequest 21234;
+		getexp 10640, 10240;
+		iq_izl21 = iq_izl21 | 32;
+		mes "Perfect! Frog egg ink soup,";
+		mes "coming up.";
+		callsub S_Soup;
+		close;
+	}
+	mes "Want to bring me ink again?";
+	next;
+	callfunc "F_IQ_TownDaily", 21239, 21240, 10640, 10240, Chinese_Ink, 10, "Kusekili", 50;
+	end;
+
+S_Soup:
+	if ((iq_izl21 & 96) == 96 && checkquest(21236) < 0 && !(iq_izl21 & 128)) {
+		next;
+		mes "[Leader Maxim]";
+		mes "Take a bowl of soup to Ernest, on";
+		mes "the floor above. Tell him \"We're";
+		mes "fine!\". That's all he needs.";
+		setquest 21236;
+	}
+	return;
+}
+
+iz_dun02,231,230,4	script	Jowon Ankana#iqizl	763,{
+	mes "[Nonda Ancana]";
+	if (!(iq_izl21 & 16)) {
+		mes "*hic*";
+		close;
+	}
+	if (!(iq_izl21 & 64)) {
+		if (checkquest(21235) < 0) {
+			mes "*hic* I met a woman... beautiful,";
+			mes "in the water... *hic* Was she";
+			mes "real? Bring me proof. A ^0000FFMermaid's";
+			mes "Heart^000000. And... *hic* the others like";
+			mes "her. Ten.";
+			setquest 21235;
+			close;
+		}
+		if (checkquest(21235, HUNTING) != 2 || !countitem(Heart_Of_Mermaid)) {
+			mes "10 of them... and a Heart. *hic*";
+			close;
+		}
+		delitem Heart_Of_Mermaid, 1;
+		erasequest 21235;
+		setquest 21244;
+		getexp 9600, 9600;
+		iq_izl21 = iq_izl21 | 64;
+		mes "An Obeaune. She was an Obeaune.";
+		mes "*hic* I need another drink.";
+		if ((iq_izl21 & 96) == 96 && checkquest(21236) < 0 && !(iq_izl21 & 128)) {
+			next;
+			mes "[Leader Maxim]";
+			mes "Kusekili made soup. Take a bowl";
+			mes "to Ernest, on the floor above.";
+			mes "Tell him \"We're fine!\"";
+			setquest 21236;
+		}
+		close;
+	}
+	mes "*hic* Did I really see her?";
+	next;
+	callfunc "F_IQ_TownDaily", 21235, 21244, 9600, 9600, Heart_Of_Mermaid, 1, "Nonda Ancana", 50;
+	end;
+}

@@ -1,0 +1,198 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Gramps' weekly turn-ins (iRO)
+//===== Description: =========================================
+//= Gramps at the Eden Group HQ posts monster hunts of 400 kills,
+//= two monsters a week in each of three tiers:
+//=   Low  (Base Level 70-100), Mid (101-125), High (126-150).
+//= Turning in pays 400 x the monster's Base and Job EXP, 65,000
+//= zeny and 1 Eden Merit Badge (iRO's non-VIP reward). Taking a
+//= hunt starts a 16-hour Hunting Timer for that slot. Hunts can
+//= be turned in at any level, even after the week changes.
+//=
+//= Rules and rewards follow iROWiki's "Gramps Turn-In Monsters";
+//= the monster pool and quest-log ids are the iRO client's own
+//= Gramps hunts (gramps_pool.txt). The week turns on Tuesday
+//= (iRO's maintenance day). iRO's VIP extras (Magical Stone timer
+//= resets, bullions) are left out: this server has no VIP.
+//= Replaces rAthena's talk-only Gramps#huntquests (eden_iro.txt),
+//= which stands on the same spot and is hidden while this loads.
+//============================================================
+
+moc_para01,29,35,4	script	Gramps#iqgramps	866,{
+	setarray .@lo[1], 70, 101, 126;
+	setarray .@hi[1], 100, 125, 150;
+	setarray .@tname$[1], "Low", "Mid", "High";
+	// iRO's "Hunting Timer" entries, one per tier and slot.
+	setarray .@timer[1], 60444, 60448, 60449, 60450, 60486, 60487;
+	.@week = (gettimetick(2) - 1767067200) / 604800;	// Tuesday 2025-12-30 04:00 UTC
+
+	// Drop timers that have run out.
+	for (.@i = 1; .@i <= 6; .@i++)
+		if (checkquest(.@timer[.@i], PLAYTIME) == 2)
+			erasequest .@timer[.@i];
+
+	mes "[Gramps]";
+	mes "When you get to be my age, you";
+	mes "get bitter. Bitter about all the";
+	mes "monsters roaming Midgard while";
+	mes "I sit here with my bad back.";
+	next;
+	mes "[Gramps]";
+	mes "So I pay young whippersnappers";
+	mes "like you to thin them out. Will";
+	mes "you help an old man?";
+	next;
+	switch (select("Yes, I'll help.:Reward me!:^FF0000I want to quit hunting.^000000:^0000FFCan you warp me?^000000:What missions are you giving?:No thanks, pops.")) {
+	case 1:
+		.@t = (BaseLevel < 70 ? 0 : BaseLevel <= 100 ? 1 : BaseLevel <= 125 ? 2 : BaseLevel <= 150 ? 3 : 0);
+		if (!.@t) {
+			mes "[Gramps]";
+			mes "Hmm. My hunts are for adventurers";
+			mes "of Base Level 70 to 150. You";
+			mes (BaseLevel < 70 ? "need a little more seasoning." : "are past what I can pay for.");
+			close;
+		}
+		.@n = getarraysize(getd("$@iqg" + .@t + "_q"));
+		.@menu$ = "";
+		for (.@s = 0; .@s < 2; .@s++) {
+			.@pick[.@s] = (.@week * 2 + .@s) % .@n;
+			.@menu$ += getd("$@iqg" + .@t + "_name$[" + .@pick[.@s] + "]") + " Hunting:";
+		}
+		mes "[Gramps]";
+		mes "This week, for the " + .@tname$[.@t] + " tier";
+		mes "(Base Level " + .@lo[.@t] + " ~ " + .@hi[.@t] + "), I want";
+		mes "^0000FF400^000000 of one of these. Which?";
+		next;
+		.@s = select(.@menu$ + "Never mind") - 1;
+		if (.@s == 2)
+			close;
+		.@k = .@pick[.@s];
+		.@qid = getd("$@iqg" + .@t + "_q[" + .@k + "]");
+		.@tm = .@timer[(.@t - 1) * 2 + .@s + 1];
+		mes "[Gramps]";
+		if (checkquest(.@qid) >= 0 && checkquest(.@qid) < 2) {
+			mes "You're already on that one!";
+			mes "Check your quest log.";
+			close;
+		}
+		if (checkquest(.@tm) >= 0) {
+			mes "Easy there. You've done a hunt";
+			mes "of mine in the last 16 hours.";
+			mes "Rest those arms, come back when";
+			mes "your ^0000FFHunting Timer^000000 runs out.";
+			close;
+		}
+		if (checkquest(.@qid) == 2)
+			erasequest .@qid;
+		setquest .@qid;
+		setquest .@tm;
+		.@m1 = getd("$@iqg" + .@t + "_m1[" + .@k + "]");
+		.@m2 = getd("$@iqg" + .@t + "_m2[" + .@k + "]");
+		mes "Good. Bring me the scalps of";
+		mes "^0000FF400 " + getmonsterinfo(.@m1, MOB_NAME) + "^000000" + (.@m2 ? " and ^0000FF400 " + getmonsterinfo(.@m2, MOB_NAME) + "^000000" : "") + ".";
+		mes "Well, not the scalps. Just kill";
+		mes "them. Your quest log keeps count.";
+		close;
+
+	case 2:
+		.@paid = 0;
+		for (.@t = 1; .@t <= 3; .@t++) {
+			.@n = getarraysize(getd("$@iqg" + .@t + "_q"));
+			for (.@k = 0; .@k < .@n; .@k++) {
+				.@qid = getd("$@iqg" + .@t + "_q[" + .@k + "]");
+				if (checkquest(.@qid, HUNTING) != 2)
+					continue;
+				.@m1 = getd("$@iqg" + .@t + "_m1[" + .@k + "]");
+				.@m2 = getd("$@iqg" + .@t + "_m2[" + .@k + "]");
+				.@be = 400 * getmonsterinfo(.@m1, MOB_BASEEXP);
+				.@je = 400 * getmonsterinfo(.@m1, MOB_JOBEXP);
+				if (.@m2) {
+					.@be += 400 * getmonsterinfo(.@m2, MOB_BASEEXP);
+					.@je += 400 * getmonsterinfo(.@m2, MOB_JOBEXP);
+				}
+				erasequest .@qid;
+				getexp .@be, .@je;
+				Zeny += 65000;
+				getitem Eden_Merit_Badge, 1;
+				.@paid++;
+				if (.@paid == 1)
+					mes "[Gramps]";
+				mes "^0000FF" + getd("$@iqg" + .@t + "_name$[" + .@k + "]") + "^000000: well done!";
+			}
+		}
+		if (!.@paid) {
+			mes "[Gramps]";
+			mes "Reward? For what? You haven't";
+			mes "finished any of my hunts, sonny.";
+			close;
+		}
+		mes "Here's your pay, and a badge";
+		mes "for each. Now off with you.";
+		close;
+
+	case 3:
+	case 4:
+		.@mode = @menu;
+		.@c = 0;
+		.@menu$ = "";
+		for (.@t = 1; .@t <= 3; .@t++) {
+			.@n = getarraysize(getd("$@iqg" + .@t + "_q"));
+			for (.@k = 0; .@k < .@n; .@k++) {
+				.@qid = getd("$@iqg" + .@t + "_q[" + .@k + "]");
+				if (checkquest(.@qid) < 0 || checkquest(.@qid) == 2)
+					continue;
+				.@pt[.@c] = .@t;
+				.@pk[.@c] = .@k;
+				.@c++;
+				.@menu$ += getd("$@iqg" + .@t + "_name$[" + .@k + "]") + " Hunting:";
+			}
+		}
+		mes "[Gramps]";
+		if (!.@c) {
+			mes "You aren't on any of my hunts.";
+			close;
+		}
+		mes (.@mode == 3 ? "Giving up? Which one?" : "Where do you want to go?");
+		next;
+		.@s = select(.@menu$ + "Never mind") - 1;
+		if (.@s == .@c)
+			close;
+		.@t = .@pt[.@s];
+		.@k = .@pk[.@s];
+		if (.@mode == 3) {
+			erasequest getd("$@iqg" + .@t + "_q[" + .@k + "]");
+			mes "[Gramps]";
+			mes "Hmph. Kids these days.";
+			mes "The kills you had are gone.";
+			close;
+		}
+		.@map$ = getd("$@iqg" + .@t + "_map$[" + .@k + "]");
+		mes "[Gramps]";
+		mes "Hold onto your hat!";
+		close2;
+		warp .@map$, 0, 0;
+		end;
+
+	case 5:
+		mes "[Gramps]";
+		for (.@t = 1; .@t <= 3; .@t++) {
+			.@n = getarraysize(getd("$@iqg" + .@t + "_q"));
+			.@a = (.@week * 2) % .@n;
+			.@b = (.@week * 2 + 1) % .@n;
+			mes "^0000FF" + .@tname$[.@t] + " (" + .@lo[.@t] + "~" + .@hi[.@t] + ")^000000: " + getd("$@iqg" + .@t + "_name$[" + .@a + "]") + ", " + getd("$@iqg" + .@t + "_name$[" + .@b + "]");
+		}
+		mes "New hunts every Tuesday.";
+		close;
+
+	case 6:
+		mes "[Gramps]";
+		mes "Bah! Young folks.";
+		close;
+	}
+	end;
+
+OnInit:
+	if (getnpcid(0, "Gramps#huntquests"))
+		disablenpc "Gramps#huntquests";
+	end;
+}

@@ -251,9 +251,27 @@ iRO's copy of the Byalan dungeon for **Base Level 30-85**, entered through **The
 
 On iRO it is a VIP dungeon; this server has no VIP, so it is open to everyone in the level range.
 
+## 👴 Gramps' weekly turn-ins
+iRO's Gramps at the Eden Group HQ (moc_para01 29, 35) pays you to thin out Midgard's monsters, for **Base Level 70-150**.
+- 🎯 Each week (from Tuesday) he posts two hunts per tier: Low 70-100, Mid 101-125, High 126-150. Each asks for **400** kills.
+- 🎁 Turning in pays 400 × the monster's Base and Job EXP, 65,000 zeny and an Eden Merit Badge. Hunts can be turned in at any level, even after the week changes.
+- ⏳ Taking a hunt starts a 16-hour Hunting Timer for that slot. Gramps can also warp you to the monster or let you quit a hunt.
+- iRO's VIP extras (timer resets with Magical Stones, bullions) are left out: this server has no VIP.
+
+## 🏙️ City Investment (City Merchant Union)
+kRO's 2015 "City Contribution" system, which iRO runs as the Merchant Union.
+- 🤝 **Join** with the City Merchant Union Manager at the Eden Group HQ (moc_para01 53, 34). While you're a member, monsters outside instances drop **Union Insignias** about 1 time in 5.
+- 📋 The **Bulletin Board** next to him (53, 36) posts requests: one delivery a day of each class to an adventurer in a dungeon (C 20, B 30, A 50 Insignias; B opens after 10 finished requests, A after 30), and a weekly **Wanted** boss (100-300 Insignias, new every Wednesday). Report to the **Secretary Governor** (53, 32).
+- 💰 **Invest** up to 250 Insignias a day, in one city, with its Investment Manager (Prontera, Geffen, Payon, Morroc, Juno, Einbroch, Lighthalzen, Rachel, Veins). 250 Insignias = 1,375 points.
+- 🛡️ The city's **Merchant Union** sells its account-bound Union gear as your standing grows: weapons and shield at 3,000 points, shoes at 9,000, armor at 21,000, garment at 41,000.
+- Not in the sources, chosen here: when B and A deliveries open (10 and 30 finished requests) and the gear prices (100,000-250,000 zeny).
+
+## 🏜️ Town quests (2021 revamp)
+kRO rewrote its town quests in 2021, and iRO runs them. So far: **Morroc** (Base Level 40+). An Elderly Scholar (morocc 151, 86) sends you after his apprentice in the desert; the trail runs through the Thieves' Guild ruins, Ernest's research and Leader Maxim's team in the pyramid, to the Sphinx. **Payon** (Base Level 1+, cave steps 15-60): a Village Grandfather (payon 192, 109) wants his liquor from the well, then his grandson back from Payon Cave; the Archer Village guard, Reno, the elder and the fox spirit of the abandoned village follow, and the neighbours (Dong Dong's father, the worried lady, grandma and grandpa) have small hunts. **Prontera** (Base Level 10-90): Paul and Ann outside the west gate (prt_fild05 353, 221), the Knights' notice by their office (prontera 59, 339) for the Orc and Goblin subjugation, and Priest Leader Lars (prontera 235, 311) for the Glast Heim monastery; Charon and Nadir hold the castle gate. **Izlude** (Base Level 20-50): Instructor Pontes (izlude 132, 207), Byalan Island's Student Helden and Wandering Store Owner, and Ernest in the undersea tunnel (iz_dun01 121, 158). **Aldebaran and Juno** (Base Level 70-80): a Middle-Aged Woman (aldebaran 114, 180), the border checkpoint (yuno_fild01 193, 158), the Kiel Hyre Academy grounds (yuno_fild08) and the Clock Tower Manager (aldebaran 143, 132). **Hugel** (Base Level 40-80): Fisherman Ein and Blacksmith Dry. **Einbroch, Einbech and Lighthalzen** (Base Level 80-85): Ernst Schumacher at the academy, his brother in the factory district, Guard Artin, Guard Eisen (einbroch 220, 254), Theodore and Reno (lighthalzen 200, 314). **Geffen** (Base Level 55-80): the Apprentice Mage (geffen 126, 113), the Tired Man in the tower and the Petit Boy (geffen 40, 113). **Rachel and Veins** (Base Level 90): the airport guard, Leonard (rachel 192, 138) and Craven (veins 182, 130). **Comodo** (Base Level 30-60): Chef Bobby Q (comodo 206, 304), Serabi, Bunny Q, two Vigilantes and an Explorer. **Alberta** (Base Level 40-90): Timothy at the docks (alberta 154, 224) for the shipwreck, Knight Tybalt (alberta 210, 120) for Turtle Island. **Dungeon missions** (Base Level 100-140): the NPCs iRO puts in the field for the Eden Group's dungeon missions, from Morvand in Hugel and the Bio Lab campfire to Darkess in Glast Heim and the expedition camp in the other world. Each hunt becomes a daily once done, shared with the Eden Group's mission boards (same quest ids and 4 AM resets).
+
 ## ⚙️ Settings
 In **Settings → Mods → iro-quests**:
-- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
+- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**, **Gramps' weekly turn-ins**, **City Investment**, **Town quests (2021)**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
 
 ## 💾 Installing
 Renewal servers, Ragnarok Offline 1.6.7 or newer. Download `iro-quests-v<version>.zip` from the [Releases](../../releases) page and install it with **Settings → Mods → Install from a folder…**, then restart the server.

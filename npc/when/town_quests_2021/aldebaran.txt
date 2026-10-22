@@ -1,0 +1,216 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Aldebaran and Juno-field town quests (kRO's 2021 revamp, on iRO)
+//===== Description: =========================================
+//= A mother in Aldebaran sends her son's lunch up to the border
+//= checkpoint, where Commander Cesare is short of hands and a Kiel
+//= Hyre Academy student wants blanket materials. At the academy,
+//= the guard, the Cat Paw Merchant and the student post their own
+//= requests, and Ernst has a letter for his brother in Einbroch.
+//= In Aldebaran, the Clock Tower Manager wants his tower cleaned,
+//= from the books on 1F down to the witch underground. Every hunt
+//= becomes a daily, shared with the Eden Group's mission boards
+//= (mod eden-rework-2021 uses the same quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21276-21293, 21300, navigation table); kill counts and daily
+//= rewards are the Eden board's figures. Not in any source, chosen
+//= here: the lunch run's and the blanket materials' rewards.
+//=
+//= Character variable: iq_ald21 (bits: 1 lunch delivered once,
+//= 2 blanket materials delivered).
+//============================================================
+
+aldebaran,114,180,4	script	Middle-Aged Woman#iqald	74,{
+	if (checkquest(21300, PLAYTIME) == 2)
+		erasequest 21300;
+	mes "[Middle-Aged Woman]";
+	if (checkquest(21276) >= 0 && checkquest(21276) < 2) {
+		mes "The checkpoint is north of town.";
+		mes "My boy is the guard at the gate.";
+		close;
+	}
+	if (checkquest(21300) >= 0) {
+		mes "He ate it all? Good boy. I'll";
+		mes "make another one tomorrow.";
+		close;
+	}
+	mes "My son works at the ^0000FFborder";
+	mes "checkpoint^000000 north of Aldebaran, and";
+	mes "he never eats properly. Would you";
+	mes "take him this lunch?";
+	if (BaseLevel < 70) {
+		mes "^777777(Base Level 70)^000000";
+		close;
+	}
+	next;
+	if (select("I'll take it:Not now") == 2)
+		close;
+	if (checkquest(21276) == 2)
+		erasequest 21276;
+	setquest 21276;
+	mes "[Middle-Aged Woman]";
+	mes "Thank you, dear. Careful, it's";
+	mes "still warm.";
+	close;
+}
+
+yuno_fild01,196,154,4	script	Checkpoint Guard#iqald	105,{
+	mes "[Checkpoint Guard]";
+	if (checkquest(21276) >= 0 && checkquest(21276) < 2) {
+		mes "Lunch? From... Mom. Of course.";
+		mes "...It's still warm. Thanks.";
+		erasequest 21276;
+		setquest 21300;
+		getexp 5000, 5000;
+		if (!(iq_ald21 & 1)) {
+			iq_ald21 = iq_ald21 | 1;
+			next;
+			mes "[Checkpoint Guard]";
+			mes "If you've got time, our commander,";
+			mes "^0000FFCesare^000000, needs help. We're too few";
+			mes "to deal with the travelers'";
+			mes "complaints.";
+		}
+		close;
+	}
+	mes "Border checkpoint. Schwartzvald is";
+	mes "to the north. Papers in order?";
+	close;
+}
+
+yuno_fild01,193,158,4	script	Checkpoint Manager Cesare#iqald	983,{
+	mes "[Cesare]";
+	mes "Travelers complain about the";
+	mes "monsters in the fields, and I've";
+	mes "got no one to spare. Geographers,";
+	mes "Mantises... would you handle it?";
+	next;
+	callfunc "F_IQ_TownDaily", 21277, 21278, 19760, 15150, 0, 0, "Cesare", 70;
+	end;
+}
+
+yuno_fild01,189,154,4	script	Kiel Hyre Academy Student#iqald1	906,{
+	mes "[Kiel Hyre Academy Student]";
+	if (iq_ald21 & 2) {
+		mes "The blankets came out so soft!";
+		mes "Thank you!";
+		close;
+	}
+	if (checkquest(21279) >= 0) {
+		mes "5 Antelope Skins and 5 Peco Peco";
+		mes "Feathers, to the Kiel Hyre Academy.";
+		mes "I'll meet you there!";
+		close;
+	}
+	mes "I'm a student at the Kiel Hyre";
+	mes "Academy. The dorm blankets are so";
+	mes "thin... Could you gather ^0000FF5 Antelope";
+	mes "Skins and 5 Peco Peco Feathers^000000 and";
+	mes "bring them to the academy?";
+	next;
+	if (select("Sure:Not now") == 2)
+		close;
+	setquest 21279;
+	mes "[Kiel Hyre Academy Student]";
+	mes "Yay! I'll wait at the academy.";
+	close;
+}
+
+yuno_fild08,179,200,4	script	Kiel Hyre Academy Student#iqald2	906,{
+	mes "[Kiel Hyre Academy Student]";
+	if (checkquest(21279) >= 0 && checkquest(21279) < 2) {
+		if (countitem(7107) < 5 || countitem(Peco_Wing_Feather) < 5) {
+			mes "5 Antelope Skins and 5 Peco Peco";
+			mes "Feathers, please!";
+			close;
+		}
+		delitem 7107, 5;	// Antelope Skin
+		delitem Peco_Wing_Feather, 5;
+		erasequest 21279;
+		getexp 14200, 14200;
+		iq_ald21 = iq_ald21 | 2;
+		mes "Soft and fluffy! Thank you!";
+		mes "Oh, that cat merchant over there";
+		mes "is eyeing my blankets...";
+		close;
+	}
+	mes "Goats and Grand Pecos keep";
+	mes "wandering onto the academy grounds!";
+	mes "Could you get rid of them for good?";
+	next;
+	callfunc "F_IQ_TownDaily", 21284, 21285, 42960, 43880, 0, 0, "Kiel Hyre Academy Student", 70;
+	end;
+}
+
+yuno_fild08,172,198,4	script	Cat Paw Merchant#iqald	495,{
+	mes "[Cat Paw Merchant]";
+	if (!(iq_ald21 & 2)) {
+		mes "Meow. Students, students, all with";
+		mes "money and nothing to buy. Meow.";
+		close;
+	}
+	mes "Blankets and pillows! The students";
+	mes "will pay anything. Bring me ^0000FF10";
+	mes "Antelope Skins and 10 Peco Peco";
+	mes "Feathers^000000, meow?";
+	next;
+	if (checkquest(21282) == 1 && countitem(7107) >= 10) {
+		// F_IQ_TownDaily takes one item; the skins are taken here.
+		if (countitem(Peco_Wing_Feather) < 10) {
+			mes "[Cat Paw Merchant]";
+			mes "10 Peco Peco Feathers too, meow.";
+			close;
+		}
+		delitem 7107, 10;	// Antelope Skin
+	} else if (checkquest(21282) == 1) {
+		mes "[Cat Paw Merchant]";
+		mes "10 Antelope Skins and 10 Peco Peco";
+		mes "Feathers, meow.";
+		close;
+	}
+	callfunc "F_IQ_TownDaily", 21282, 21283, 14200, 14200, Peco_Wing_Feather, 10, "Cat Paw Merchant", 70;
+	end;
+}
+
+yuno_fild08,198,200,4	script	Academy Guard#iqald	852,{
+	mes "[Academy Guard]";
+	mes "Harpies and Sleepers attack people";
+	mes "between the academy and the villa.";
+	mes "I can't leave my post. Help me?";
+	next;
+	callfunc "F_IQ_TownDaily", 21280, 21281, 36840, 40200, 0, 0, "Academy Guard", 70;
+	end;
+}
+
+yuno_fild01,184,308,4	script	Schwartzvald Guard#iqald	852,{
+	mes "[Schwartzvald Guard]";
+	mes "Beyond here is the Republic of";
+	mes "Schwartzvald. The checkpoint's";
+	mes "commander, Cesare, is down the";
+	mes "road if you need anything.";
+	close;
+}
+
+aldebaran,143,132,4	script	Clock Tower Manager#iqald	712,{
+	mes "[Cerdin]";
+	mes "My clock tower! Books turned into";
+	mes "monsters on the first floor, clocks";
+	mes "that forget what clocks are for,";
+	mes "and a witch laughing underground.";
+	next;
+	switch (select("Cleaning the Clock Tower's First Floor (daily):The Living, Moving Clock 1 (daily):The Living, Moving Clock 2 (daily):Laughter Echoing from Underground (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21286, 21287, 33820, 40650, 0, 0, "Cerdin", 70; end;
+	case 2: callfunc "F_IQ_ClockDaily", 21288, 21289, 20310, 17370; end;
+	case 3: callfunc "F_IQ_ClockDaily", 21290, 21291, 28320, 27960; end;
+	case 4: callfunc "F_IQ_ClockDaily", 21292, 21293, 25720, 27280; end;
+	case 5: close;
+	}
+}
+
+// The clock dailies also pay a Key of Clock Tower and a Key of Underground (Eden board).
+function	script	F_IQ_ClockDaily	{
+	if (checkquest(getarg(0)) == 1 && checkquest(getarg(0), HUNTING) == 2)
+		getitem Key_Of_Clock_Tower, 1;
+	callfunc "F_IQ_TownDaily", getarg(0), getarg(1), getarg(2), getarg(3), 0, 0, "Cerdin", 80, Underground_Key, 1;
+	end;
+}

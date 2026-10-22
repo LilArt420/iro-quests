@@ -1,0 +1,60 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Juperos town quests (kRO's 2021 revamp, on iRO)
+//===== Description: =========================================
+//= Leader Maxim's research team camps by the Juperos ruins:
+//= Ernest wants the Venatus thinned, Maxim the Dimiks.
+//= Dailies shared with the Eden Group's mission boards (mod
+//= eden-rework-2021 uses the same quest ids and cooldowns).
+//= NPCs, positions and steps are the iRO client's (quest text
+//= 21350-21358, navigation table); kill counts and rewards
+//= (EXP and Eden Coins) are the Eden board's.
+//============================================================
+
+yuno_fild07,228,172,4	script	Leader Maxim#iqjup	964,{
+	mes "[Leader Maxim]";
+	if (checkquest(21350) < 0) {
+		mes "Warn us? About Juperos? Ha! We're";
+		mes "researchers, we know the dangers.";
+		mes "...Mostly. Well, since you're here,";
+		mes "you could help.";
+		setquest 21350;
+		completequest 21350;
+		next;
+		mes "[Leader Maxim]";
+	}
+	mes "The Dimiks come in every color. For";
+	mes "my research, I need them... fewer.";
+	next;
+	switch (select("Colorful Dimiks - 1 (daily):Colorful Dimiks - 2 (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21355, 21356, 300000, 250000, 0, 0, "Leader Maxim", 110, 25223, 1; end;
+	case 2: callfunc "F_IQ_TownDaily", 21357, 21358, 300000, 250000, 0, 0, "Leader Maxim", 110, 25223, 1; end;
+	case 3: close;
+	}
+}
+
+yuno_fild07,232,176,4	script	Student Ernest#iqjup	881,{
+	mes "[Ernest]";
+	mes "The Venatus swarm like iron ants.";
+	mes "We can't explore with them around.";
+	next;
+	switch (select("Hordes of Iron Ants - 1 (daily):Hordes of Iron Ants - 2 (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21351, 21352, 300000, 250000, 0, 0, "Ernest", 110, 25223, 1; end;
+	case 2: callfunc "F_IQ_TownDaily", 21353, 21354, 300000, 250000, 0, 0, "Ernest", 110, 25223, 1; end;
+	case 3: close;
+	}
+}
+
+yuno_fild07,230,176,4	script	Team Member Nonda#iqjup	763,{
+	mes "[Nonda Ancana]";
+	mes "Ancient ruins, robots, no bar for";
+	mes "miles. Worst field trip ever.";
+	close;
+}
+
+yuno_fild07,231,171,4	script	Team Member Kusekili#iqjup	582,{
+	mes "[Kusekili]";
+	mes "Do you think Venatu oil is edible?";
+	mes "For cooking, I mean. Asking for";
+	mes "a recipe.";
+	close;
+}

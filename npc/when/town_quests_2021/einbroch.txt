@@ -1,0 +1,216 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Einbroch, Einbech and Lighthalzen town quests (kRO's 2021
+//= town quest revamp, on iRO)
+//===== Description: =========================================
+//= Ernst at the Kiel Hyre Academy has a letter for his brother
+//= Friedrich in the factory district; Friedrich's commuter pass
+//= takes you to Einbech, where Guard Artin needs help in the
+//= mine. In Einbroch, Guard Eisen fights the toxic gas and the
+//= Teddy Bears and keeps forgetting to remind Karl of his shift;
+//= in Lighthalzen, Theodore takes everyone's complaints and Reno
+//= is afraid of ghosts. Every hunt becomes a daily, shared with
+//= the Eden Group's mission boards (mod eden-rework-2021 uses the
+//= same quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21301-21324, navigation table); kill counts and daily rewards
+//= are the Eden board's figures. Not in any source, chosen here:
+//= the letter's and the shift notice's rewards.
+//=
+//= Character variable: iq_ein21 (bits: 1 letter delivered,
+//= 2 commuter pass used, 4 heard about Einbech, 8 Karl told).
+//============================================================
+
+yuno_fild08,172,194,4	script	Ernst Schumacher#iqein	904,{
+	mes "[Ernst Schumacher]";
+	if (iq_ein21 & 1) {
+		mes "My brother wrote back! Thank you.";
+		close;
+	}
+	if (checkquest(21301) >= 0) {
+		mes "My brother Friedrich works in the";
+		mes "factory district west of the Abyss";
+		mes "Valley, near Einbroch.";
+		close;
+	}
+	mes "I'm a student here. Would you take";
+	mes "a letter to my older brother,";
+	mes "^0000FFFriedrich^000000? He works in the factory";
+	mes "district outside Einbroch.";
+	if (BaseLevel < 80) {
+		mes "^777777(Base Level 80)^000000";
+		close;
+	}
+	next;
+	if (select("I'll take it:Not now") == 2)
+		close;
+	setquest 21301;
+	mes "[Ernst Schumacher]";
+	mes "Tell him I'm eating well. Even if";
+	mes "I'm not.";
+	close;
+}
+
+ein_fild06,163,173,4	script	Friedrich Schumacher#iqein	851,{
+	mes "[Friedrich Schumacher]";
+	if (checkquest(21301) >= 0 && checkquest(21301) < 2) {
+		mes "A letter from Ernst? \"Eating";
+		mes "well.\" Liar. ...Thank you.";
+		erasequest 21301;
+		getexp 10000, 10000;
+		iq_ein21 = iq_ein21 | 1;
+		next;
+		mes "[Friedrich Schumacher]";
+		mes "Say, Metalings and Holden dig";
+		mes "around the factory and chew our";
+		mes "equipment. If you clean them up,";
+		mes "I'll lend you my ^0000FFcommuter pass^000000.";
+		mes "It goes straight to Einbech.";
+		close;
+	}
+	if (!(iq_ein21 & 1)) {
+		mes "Factory work. Dust, noise, and";
+		mes "Metalings.";
+		close;
+	}
+	switch (select("Please Help Clean Up the Area (daily):Use the commuter pass to Einbech:Never mind")) {
+	case 1:
+		callfunc "F_IQ_TownDaily", 21302, 21303, 40920, 38220, 0, 0, "Friedrich Schumacher", 80;
+		end;
+	case 2:
+		mes "[Friedrich Schumacher]";
+		mes "Here. Show it to Guard Artin when";
+		mes "you get off.";
+		close2;
+		if (!(iq_ein21 & 2) && checkquest(21304) < 0)
+			setquest 21304;
+		warp "einbech", 154, 196;
+		end;
+	case 3:
+		close;
+	}
+}
+
+einbech,156,200,4	script	Guard Artin#iqein	852,{
+	mes "[Guard Artin]";
+	if (checkquest(21304) >= 0 && checkquest(21304) < 2) {
+		mes "Friedrich's pass? Fine, welcome to";
+		mes "Einbech. Since you're here, the";
+		mes "mine could use someone like you.";
+		erasequest 21304;
+		iq_ein21 = iq_ein21 | 2;
+		close;
+	}
+	mes "Pitmen in the shadows of the mine,";
+	mes "a scrap furnace that attacks";
+	mes "miners, minerals that jump. Help?";
+	next;
+	switch (select("The Shadow Miner (daily):Why Is Something Like That Moving?! (daily):Jumping Minerals (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21305, 21306, 77500, 69780, 0, 0, "Guard Artin", 85; end;
+	case 2: callfunc "F_IQ_TownDaily", 21307, 21308, 72040, 71084, 0, 0, "Guard Artin", 85; end;
+	case 3: callfunc "F_IQ_TownDaily", 21309, 21310, 72530, 89290, 0, 0, "Guard Artin", 85; end;
+	case 4: close;
+	}
+}
+
+einbech,154,199,4	script	Einbech Resident#iqein	847,{
+	mes "[Einbech Resident]";
+	mes "Einbroch takes our ore and sends";
+	mes "back smog. Einbech digs, Einbroch";
+	mes "builds, and nobody thanks the";
+	mes "miners. That's how it's always been.";
+	if (!(iq_ein21 & 4)) {
+		iq_ein21 = iq_ein21 | 4;
+		setquest 21311;
+		completequest 21311;
+	}
+	close;
+}
+
+einbroch,220,254,4	script	Guard Eisen#iqein	852,{
+	mes "[Guard Eisen]";
+	if (checkquest(21318) >= 0 && checkquest(21318) < 2) {
+		mes "Did you tell Karl? At the airport.";
+		mes "He always forgets his shift.";
+		close;
+	}
+	switch (select("Floating Toxic Gas 1 (daily):Floating Toxic Gas 2 (daily):Cute and Terrifying... (daily):" + ((iq_ein21 & 8) ? "" : "Anything else?") + ":Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21312, 21313, 38200, 33440, 0, 0, "Guard Eisen", 80; end;
+	case 2: callfunc "F_IQ_TownDaily", 21314, 21315, 39200, 35680, 0, 0, "Guard Eisen", 80; end;
+	case 3: callfunc "F_IQ_TownDaily", 21316, 21317, 48600, 51420, 0, 0, "Guard Eisen", 80; end;
+	case 4:
+		mes "[Guard Eisen]";
+		mes "Ah, yes! Tell ^0000FFKarl^000000 at the airship";
+		mes "airport his shift changes today.";
+		mes "He forgets. Every. Single. Time.";
+		setquest 21318;
+		close;
+	case 5:
+		close;
+	}
+}
+
+airport,133,42,4	script	Guard Karl#iqein	852,{
+	mes "[Guard Karl]";
+	if (checkquest(21318) >= 0 && checkquest(21318) < 2) {
+		mes "My shift? Today?! Oh no. Thanks";
+		mes "for telling me. Don't tell Eisen";
+		mes "I forgot. Again.";
+		erasequest 21318;
+		getexp 10000, 10000;
+		iq_ein21 = iq_ein21 | 8;
+		close;
+	}
+	mes "Airship to Lighthalzen and Juno,";
+	mes "boarding inside.";
+	close;
+}
+
+lighthalzen,200,314,4	script	Theodore#iqein	868,{
+	mes "[Theodore]";
+	if (checkquest(21325) < 0) {
+		setquest 21325;
+		completequest 21325;
+		mes "I'm on vacation. ^0000FFVacation^000000. And";
+		mes "still the children come with their";
+		mes "demands...";
+		next;
+		mes "[Theodore]";
+	}
+	mes "Amy wants the big pool outside";
+	mes "town, but Rafflesias took it. Miya";
+	mes "says Stem Worms slap her ankles.";
+	mes "And they all come to ^0000FFme^000000.";
+	next;
+	switch (select("Why Can't We Use Such a Large Swimming Pool?! (daily):A Slap on the Ankle! (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21319, 21320, 51440, 52640, 0, 0, "Theodore", 80; end;
+	case 2: callfunc "F_IQ_TownDaily", 21321, 21322, 49890, 53416, 0, 0, "Theodore", 80; end;
+	case 3: close;
+	}
+}
+
+lighthalzen,198,313,4	script	Amy#iqein	862,{
+	mes "[Amy]";
+	mes "A pool THAT big, right outside";
+	mes "town, and we can't use it?! Theodore";
+	mes "has to do something!";
+	close;
+}
+
+lighthalzen,202,313,4	script	Miya#iqein	877,{
+	mes "[Miya]";
+	mes "Those Stem Worms whip your ankles";
+	mes "with their stalks! It hurts!";
+	close;
+}
+
+lighthalzen,208,314,4	script	Reno#iqein	875,{
+	mes "[Reno]";
+	mes "The Valley of Death. They call it";
+	mes "that for a reason! Ghosts! Breezes";
+	mes "that... moan. I'm a knight, but...";
+	mes "could you go instead?";
+	next;
+	callfunc "F_IQ_TownDaily", 21323, 21324, 84392, 79024, 0, 0, "Reno", 80;
+	end;
+}

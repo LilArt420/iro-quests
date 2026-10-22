@@ -1,0 +1,401 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Prontera town quests (kRO's 2021 town quest revamp, on iRO)
+//===== Description: =========================================
+//= Outside the west gate, Paul and Ann want the playground made
+//= safe (Hornets, Rockers, Ambernite). In town, the Knights post a
+//= notice for their regular Orc and Goblin subjugation: carry the
+//= Knights' supplies to the Subjugation Leader in Orc Village and
+//= his deputy at the Goblin settlement, and help with their hunts.
+//= Priest Leader Lars has lost touch with Claude, sent to cleanse
+//= the Glast Heim monastery, where Tatiana and Marylin help those
+//= who fight; at the castle gate, Charon and Nadir hold back the
+//= prisoners and demons. Every hunt becomes a daily, shared with
+//= the Eden Group's mission boards (mod eden-rework-2021 uses the
+//= same quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21040-21045, 21246-21275, navigation table); kill counts and
+//= daily rewards are the Eden board's figures. Not in any source,
+//= chosen here: story-step rewards (each pays like its daily), the
+//= supply run's reward, and what Tatiana's and Marylin's help is
+//= (a heal, Blessing and Increase AGI, once every 5 minutes).
+//=
+//= Character variable: iq_prt21 (bits: 1 Hornets, 2 Rockers,
+//= 4 Ambernite, 8 met the Leader, 16 met the Deputy, 32 found Claude).
+//============================================================
+
+// ---------------------------------------------------- Prontera west gate
+prt_fild05,353,221,4	script	Paul#iqprt	706,{
+	if (iq_prt21 & 1) {
+		if (!(iq_prt21 & 2) && checkquest(21247) < 0) {
+			mes "[Paul]";
+			mes "You beat the bees! Then you're";
+			mes "really strong. There's a grasshopper";
+			mes "colony south of here, the ^0000FFRockers^000000.";
+			mes "If they come, the playground's gone!";
+			mes "Beat ^0000FF10 Rockers^000000, please?";
+			setquest 21247;
+			close;
+		}
+		if (checkquest(21247) >= 0 && checkquest(21247) < 2) {
+			mes "[Paul]";
+			if (checkquest(21247, HUNTING) != 2) {
+				mes "10 Rockers, in the field south";
+				mes "of here.";
+				close;
+			}
+			erasequest 21247;
+			getexp 1600, 1400;
+			iq_prt21 = iq_prt21 | 2;
+			mes "No more grasshoppers! You're the";
+			mes "best. Ann's been scared of";
+			mes "something too, go ask her.";
+			close;
+		}
+		mes "[Paul]";
+		mes "Want to keep the playground safe";
+		mes "today too?";
+		next;
+		switch (select("Hornets (daily):" + ((iq_prt21 & 2) ? "Rockers (daily)" : "") + ":Never mind")) {
+		case 1: callfunc "F_IQ_TownDaily", 21249, 21252, 1200, 1000, 0, 0, "Paul", 10; end;
+		case 2: callfunc "F_IQ_TownDaily", 21250, 21253, 1600, 1400, 0, 0, "Paul", 10; end;
+		case 3: close;
+		}
+	}
+	mes "[Paul]";
+	if (checkquest(21246) < 0) {
+		mes "Hey! Are you strong? Mom says I";
+		mes "can't play outside because a hive";
+		mes "got knocked over and the bees went";
+		mes "wild. Could you beat ^0000FF10 Hornets^000000?";
+		next;
+		if (select("Sure:Not now") == 2)
+			close;
+		setquest 21246;
+		mes "[Paul]";
+		mes "Yes! They're all over the field.";
+		close;
+	}
+	if (checkquest(21246, HUNTING) != 2) {
+		mes "10 Hornets! Are you strong or not?";
+		close;
+	}
+	erasequest 21246;
+	getexp 1200, 1000;
+	iq_prt21 = iq_prt21 | 1;
+	mes "Wow, you really are strong!";
+	close;
+}
+
+prt_fild05,351,220,4	script	Ann#iqprt	703,{
+	mes "[Ann]";
+	if (!(iq_prt21 & 2)) {
+		mes "Paul says he knows someone strong.";
+		mes "Is that you?";
+		close;
+	}
+	if (!(iq_prt21 & 4)) {
+		if (checkquest(21248) < 0) {
+			mes "Hohenschwangau told me a terrible";
+			mes "knight, ^0000FFAmbernite^000000, is coming to";
+			mes "Prontera from the western field!";
+			mes "Please stop him. ^0000FF10 of them^000000!";
+			setquest 21248;
+			close;
+		}
+		if (checkquest(21248, HUNTING) != 2) {
+			mes "Ambernite, in the western field.";
+			mes "10 of them, please!";
+			close;
+		}
+		erasequest 21248;
+		getexp 2000, 2000;
+		iq_prt21 = iq_prt21 | 4;
+		mes "You stopped them? Then Prontera's";
+		mes "safe! Thank you!";
+		close;
+	}
+	mes "Will you watch the western field";
+	mes "today too?";
+	next;
+	callfunc "F_IQ_TownDaily", 21251, 21254, 2000, 2000, 0, 0, "Ann", 10;
+	end;
+}
+
+// ---------------------------------------------------- The Knights' subjugation
+prontera,59,339,4	script	Mon. Hunt Corp Notice#iqprt	857,{
+	mes "[Monster Subjugation Notice]";
+	mes "The Prontera Knights conduct";
+	mes "regular subjugation operations to";
+	mes "keep Orcs and Goblins from";
+	mes "expanding into the lands around";
+	mes "Prontera. Volunteers, apply to the";
+	mes "^0000FFKnights' Office Staff^000000 next to this";
+	mes "notice. ^777777(Base Level 40)^000000";
+	if (checkquest(21255) < 0 && !(iq_prt21 & 8) && BaseLevel >= 40)
+		setquest 21255;
+	close;
+}
+
+prontera,62,339,4	script	Knight's Office Staff#iqprt	893,{
+	if (checkquest(21268, PLAYTIME) == 2)
+		erasequest 21268;
+	mes "[Knight's Office Staff]";
+	if (checkquest(21266) >= 0 && checkquest(21266) < 2 || checkquest(21267) >= 0 && checkquest(21267) < 2) {
+		mes "The supplies go to the Subjugation";
+		mes "Leader in Orc Village, then his";
+		mes "deputy at the Goblin settlement.";
+		.@need = (checkquest(21267) >= 0 && checkquest(21267) < 2) ? 1 : 2;
+		if (countitem(KnightsSupply) < .@need) {
+			next;
+			mes "[Knight's Office Staff]";
+			mes "Lost them? Here, more crates.";
+			mes "Try not to drop these.";
+			getitem KnightsSupply, .@need - countitem(KnightsSupply);
+		}
+		close;
+	}
+	if (BaseLevel < 40) {
+		mes "Subjugation volunteers must be";
+		mes "seasoned. ^777777(Base Level 40)^000000";
+		close;
+	}
+	if (checkquest(21268) >= 0) {
+		mes "Today's supplies have gone out.";
+		mes "Come back tomorrow, after 4 AM.";
+		close;
+	}
+	if (checkquest(21255) >= 0)
+		mes "You read the notice? Good.";
+	mes "Our troops in Orc Village need";
+	mes "supplies. Carry these to the";
+	mes "^0000FFSubjugation Leader^000000 (gef_fild10)?";
+	next;
+	if (select("I'll carry them:Not now") == 2)
+		close;
+	if (checkquest(21255) >= 0)
+		erasequest 21255;
+	if (checkquest(21266) == 2)
+		erasequest 21266;
+	setquest 21266;
+	getitem KnightsSupply, 2;
+	mes "[Knight's Office Staff]";
+	mes "Two crates. One for the Leader,";
+	mes "one for his deputy. Off you go.";
+	close;
+}
+
+gef_fild10,78,340,4	script	Extermination Commander#iqprt	468,{
+	mes "[Subjugation Leader]";
+	if (checkquest(21266) >= 0 && checkquest(21266) < 2) {
+		if (countitem(KnightsSupply) < 2) {
+			mes "Supplies? Where? The office should";
+			mes "have given you two crates.";
+			close;
+		}
+		delitem KnightsSupply, 1;
+		erasequest 21266;
+		setquest 21267;
+		iq_prt21 = iq_prt21 | 8;
+		mes "Supplies! Good, good. I'll keep";
+		mes "this crate. Take the other to my";
+		mes "^0000FFdeputy^000000 at the Goblin settlement,";
+		mes "just south of here.";
+		close;
+	}
+	if (!(iq_prt21 & 8)) {
+		mes "Volunteers sign up at the Knights'";
+		mes "office in Prontera. Off you go!";
+		close;
+	}
+	mes "Let's wipe out every last one of";
+	mes "them! Which job will you take?";
+	next;
+	switch (select("Orcs, Wipe Them All Out! (daily):Those Tiresome Orcs (daily):The Greedy One (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21256, 21257, 23520, 24300, 0, 0, "Subjugation Leader", 40; end;
+	case 2: callfunc "F_IQ_TownDaily", 21258, 21259, 28700, 27400, 0, 0, "Subjugation Leader", 40; end;
+	case 3: callfunc "F_IQ_TownDaily", 21260, 21261, 16000, 12000, 0, 0, "Subjugation Leader", 40; end;
+	case 4: close;
+	}
+}
+
+gef_fild11,128,351,4	script	Deputy Leader#iqprt	733,{
+	mes "[Subjugation Deputy Leader]";
+	if (checkquest(21267) >= 0 && checkquest(21267) < 2) {
+		if (!countitem(KnightsSupply)) {
+			mes "The Leader sent you? Then where";
+			mes "are the supplies?";
+			close;
+		}
+		delitem KnightsSupply, 1;
+		erasequest 21267;
+		if (checkquest(21268) >= 0)
+			erasequest 21268;
+		setquest 21268;
+		getexp 8000, 8000;
+		iq_prt21 = iq_prt21 | 16;
+		mes "Supplies at last! The Goblins";
+		mes "won't know what hit them.";
+		close;
+	}
+	if (!(iq_prt21 & 16)) {
+		mes "Goblins! A whole settlement of";
+		mes "them. We're holding the line.";
+		close;
+	}
+	mes "Like the Orcs, these Goblins must";
+	mes "not spread. Help us out?";
+	next;
+	switch (select("Clearing Out the Fierce Goblins (daily):Clearing Out the Swift Goblins (daily):Troublesome Creatures (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21262, 21263, 13000, 8200, 0, 0, "Subjugation Deputy Leader", 40; end;
+	case 2: callfunc "F_IQ_TownDaily", 21264, 21265, 13000, 8600, 0, 0, "Subjugation Deputy Leader", 40; end;
+	case 3: callfunc "F_IQ_TownDaily", 21269, 21270, 11800, 11900, 0, 0, "Subjugation Deputy Leader", 50; end;
+	case 4: close;
+	}
+}
+
+gef_fild10,215,194,4	script	Extermination Squad Knight#iqprt1	751,{
+	mes "[Extermination Squad Knight]";
+	mes "Orc Warriors, Orc Ladies, even the";
+	mes "babies. The Leader wants them all";
+	mes "gone. All of them!";
+	close;
+}
+
+gef_fild11,177,227,4	script	Extermination Squad Knight#iqprt2	676,{
+	mes "[Extermination Squad Knight]";
+	mes "The Goblins carry axes, flails,";
+	mes "hammers, daggers... They're better";
+	mes "armed than we are!";
+	close;
+}
+
+orcsdun01,161,135,4	script	Extermination Squad Knight#iqprt3	674,{
+	mes "[Extermination Squad Knight]";
+	mes "Orc Zombies, Orc Skeletons... the";
+	mes "dead Orcs don't stay dead down";
+	mes "here. And below us lives Zenorc.";
+	close;
+}
+
+// ---------------------------------------------------- Glast Heim monastery
+prontera,235,311,4	script	Priest Leader Lars#iqprt	630,{
+	mes "[Priest Leader Lars]";
+	if (iq_prt21 & 32) {
+		mes "Claude is safe, thanks to you. May";
+		mes "God watch over the both of you.";
+		close;
+	}
+	if (checkquest(21271) >= 0) {
+		mes "Claude went to the monastery of";
+		mes "Glast Heim castle. Please find him.";
+		close;
+	}
+	mes "I sent Claude, one of our priests,";
+	mes "to cleanse the monastery in Glast";
+	mes "Heim castle. I haven't heard from";
+	mes "him since. Could you look for him?";
+	if (BaseLevel < 70) {
+		mes "^777777(Base Level 70)^000000";
+		close;
+	}
+	next;
+	if (select("I'll find him:Not now") == 2)
+		close;
+	setquest 21271;
+	mes "[Priest Leader Lars]";
+	mes "Thank you. He was headed for the";
+	mes "monastery, in front of the castle.";
+	close;
+}
+
+glast_01,205,131,4	script	Claude#iqprt	690,{
+	mes "[Claude]";
+	if (checkquest(21271) >= 0 && checkquest(21271) < 2) {
+		mes "Lars sent you? I'm fine, just...";
+		mes "overwhelmed. The monastery is full";
+		mes "of Wraiths and Evil Druids.";
+		next;
+		mes "[Claude]";
+		mes "If you can help, Tatiana is";
+		mes "purifying inside the monastery, and";
+		mes "Marylin is in the cemetery below.";
+		mes "They'll lend you their strength.";
+		erasequest 21271;
+		getexp 37640, 37050;
+		iq_prt21 = iq_prt21 | 32;
+		close;
+	}
+	if (!(iq_prt21 & 32)) {
+		mes "This monastery must be cleansed,";
+		mes "no matter how long it takes.";
+		close;
+	}
+	mes "Will you help cleanse the";
+	mes "monastery today?";
+	next;
+	switch (select("Cleansing the Monastery (daily):Stabilizing the Underground Cemetery (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21272, 21273, 37640, 37050, 0, 0, "Claude", 70; end;
+	case 2: callfunc "F_IQ_TownDaily", 21274, 21275, 96220, 91630, 0, 0, "Claude", 90; end;
+	case 3: close;
+	}
+}
+
+// Tatiana and Marylin help those on Claude's hunts.
+function	script	F_IQ_GHPriest	{
+	mes "[" + getarg(0) + "]";
+	if (!(checkquest(21272) == 1 || checkquest(21274) == 1)) {
+		mes "Lord, grant rest to the souls of";
+		mes "this place...";
+		close;
+	}
+	if (@iq_ghhelp > gettimetick(2)) {
+		mes "Go, and God be with you. I'll pray";
+		mes "for you again in a little while.";
+		close;
+	}
+	mes "Claude sent you? Let me pray for";
+	mes "you before you go on.";
+	close2;
+	@iq_ghhelp = gettimetick(2) + 300;
+	percentheal 100, 100;
+	specialeffect2 EF_HEAL2;
+	sc_start SC_BLESSING, 240000, 10;
+	specialeffect2 EF_BLESSING;
+	sc_start SC_INCREASEAGI, 240000, 10;
+	specialeffect2 EF_INCAGILITY;
+	end;
+}
+
+gl_church,175,72,4	script	Tatiana#iqprt	696,{
+	callfunc "F_IQ_GHPriest", "Tatiana";
+	end;
+}
+
+gl_chyard,144,119,4	script	Marylin#iqprt	677,{
+	callfunc "F_IQ_GHPriest", "Marylin";
+	end;
+}
+
+glast_01,206,291,4	script	Exhausted Priest Charon#iqprt	630,{
+	mes "[Exhausted Priest Charon]";
+	mes "A dark force has raised the dead";
+	mes "in the castle's prisons. The";
+	mes "prisoners keep coming...";
+	next;
+	callfunc "F_IQ_TownDaily", 21040, 21041, 72000, 72000, 0, 0, "Exhausted Priest Charon", 85;
+	end;
+}
+
+glast_01,204,291,4	script	Sprawling Mage Nadir#iqprt	679,{
+	mes "[Sprawling Mage Nadir]";
+	mes "Demons are slipping out of the";
+	mes "dungeons in all this chaos. I help";
+	mes "Charon, but it's not enough.";
+	next;
+	switch (select("Vicious Torturer (daily):Fine Taste (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21042, 21043, 72000, 72000, 0, 0, "Sprawling Mage Nadir", 90; end;
+	case 2: callfunc "F_IQ_TownDaily", 21044, 21045, 72000, 72000, 0, 0, "Sprawling Mage Nadir", 85; end;
+	case 3: close;
+	}
+}

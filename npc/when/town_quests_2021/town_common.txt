@@ -1,0 +1,92 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Town quests (2021 revamp): shared helper for the dailies.
+//============================================================
+
+// getarg: 0 quest, 1 cooldown quest, 2 Base EXP, 3 Job EXP, 4 item to bring, 5 count, 6 NPC name,
+// 7 min level, 8 reward item (optional), 9 reward count (optional)
+function	script	F_IQ_TownDaily	{
+	.@q = getarg(0); .@cd = getarg(1);
+	if (checkquest(.@cd, PLAYTIME) == 2)
+		erasequest .@cd;
+	mes "[" + getarg(6) + "]";
+	if (checkquest(.@q) >= 0 && checkquest(.@q) < 2) {
+		if (checkquest(.@q, HUNTING) != 2 || (getarg(4) && countitem(getarg(4)) < getarg(5))) {
+			mes "Not done yet? Your quest log";
+			mes "says what's left.";
+			if (getarg(4))
+				mes "^777777(Bring " + getarg(5) + " " + getitemname(getarg(4)) + ".)^000000";
+			close;
+		}
+		if (getarg(4))
+			delitem getarg(4), getarg(5);
+		erasequest .@q;
+		if (checkquest(.@cd) >= 0)
+			erasequest .@cd;
+		setquest .@cd;
+		getexp getarg(2), getarg(3);
+		if (getarg(8, 0))
+			getitem getarg(8), getarg(9, 1);
+		mes "That's the job done. Thank you!";
+		mes "Come back tomorrow, if you like.";
+		close;
+	}
+	if (checkquest(.@cd) >= 0) {
+		mes "That's enough for today. Come";
+		mes "back tomorrow, after 4 AM.";
+		close;
+	}
+	if (BaseLevel < getarg(7)) {
+		mes "It's dangerous work. Come back";
+		mes "when you're stronger. ^777777(Base Level " + getarg(7) + ")^000000";
+		close;
+	}
+	mes "Could you help me again today?";
+	next;
+	if (select("Sure:Not today") == 2)
+		close;
+	if (checkquest(.@q) == 2)
+		erasequest .@q;
+	setquest .@q;
+	mes "[" + getarg(6) + "]";
+	mes "Thank you! Your quest log has";
+	mes "the details.";
+	close;
+}
+
+
+// A hunt that is a story step the first time, then a daily.
+// getarg: 0 story quest, 1 daily, 2 cooldown, 3 character variable (bits), 4 bit,
+// 5 Base EXP, 6 Job EXP, 7 NPC name, 8 min level
+function	script	F_IQ_FirstHunt	{
+	.@q = getarg(0); .@var$ = getarg(3); .@bit = getarg(4);
+	if (getd(.@var$) & .@bit) {
+		callfunc "F_IQ_TownDaily", getarg(1), getarg(2), getarg(5), getarg(6), 0, 0, getarg(7), getarg(8);
+		end;
+	}
+	mes "[" + getarg(7) + "]";
+	if (checkquest(.@q) < 0) {
+		if (BaseLevel < getarg(8)) {
+			mes "Come back when you're stronger.";
+			mes "^777777(Base Level " + getarg(8) + ")^000000";
+			close;
+		}
+		setquest .@q;
+		mes "Your quest log has the details.";
+		mes "Show me what you can do!";
+		close;
+	}
+	if (checkquest(.@q, HUNTING) != 2) {
+		mes "Not done yet? Your quest log says";
+		mes "what's left.";
+		close;
+	}
+	erasequest .@q;
+	if (checkquest(getarg(2)) >= 0)
+		erasequest getarg(2);
+	setquest getarg(2);
+	getexp getarg(5), getarg(6);
+	setd .@var$, getd(.@var$) | .@bit;
+	mes "Well done! Come back tomorrow and";
+	mes "do it again, if you like.";
+	close;
+}

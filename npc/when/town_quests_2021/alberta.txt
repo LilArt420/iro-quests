@@ -1,0 +1,530 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Alberta town quests (kRO's 2021 town quest revamp, on iRO)
+//===== Description: =========================================
+//= Kale was talked into exploring the shipwreck by a Zonda
+//= promoter; his friend Timothy sends you after him. Mulberry,
+//= the promoter, then wants the wreck to look like it holds
+//= treasure, and the shipwreck researcher Aspar works out whose
+//= ship it was: Drake's. His ghost asks for the wreck to be kept
+//= clean. Knight Tybalt, meanwhile, sends you to Turtle Island
+//= after the missing Templars. Every hunt becomes a daily, shared
+//= with the Eden Group's mission boards (mod eden-rework-2021 uses
+//= the same quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21120-21161, navigation table); kill counts and daily rewards
+//= are the Eden board's figures. Not in any source, chosen here:
+//= story-step rewards (each pays like its daily), the suspicious
+//= chest in the wreck, and the Knight Commander stands at the spot
+//= the quest text gives (tur_dun03 108,74): rAthena's Knight
+//= Leader of the older Turtle Island quest stands on iRO's navi
+//= spot. Coins are hidden in the wreck's crates with mod
+//= eden-rework-2021's character variables (eden_mb_coins,
+//= eden_mb_crates) and its crates; this mod places the same five
+//= crates only while that mod is off.
+//=
+//= Character variables: iq_alb21 (shipwreck step, 0-12),
+//= iq_alb21t (Turtle Island step, 0-6).
+//============================================================
+
+// ---------------------------------------------------- The shipwreck
+alberta,154,224,4	script	Timothy#iqalb	50,{
+	mes "[Timothy]";
+	switch (iq_alb21) {
+	case 0:
+		mes "My friend Kale went into the";
+		mes "shipwreck! Some promoter told him";
+		mes "there was treasure. He'll get";
+		mes "himself killed. Please, bring him";
+		mes "back. The skeleton pirates...";
+		if (BaseLevel < 40) {
+			mes "^777777(Base Level 40)^000000";
+			close;
+		}
+		next;
+		if (select("I'll find him:Not now") == 2)
+			close;
+		setquest 21120;
+		iq_alb21 = 1;
+		close;
+	case 1:
+	case 2:
+		mes "Kale's in the shipwreck. Please!";
+		close;
+	case 3:
+		mes "He's safe?! That idiot. Thank you.";
+		mes "That promoter, though... if Kale";
+		mes "and I go see him, there'll be a";
+		mes "fistfight. Would you go instead?";
+		mes "He's in a building in Alberta.";
+		erasequest 21123;
+		setquest 21124;
+		iq_alb21 = 4;
+		close;
+	}
+	mes "Kale wants to go back to the wreck.";
+	mes "Will you keep an eye on him?";
+	next;
+	callfunc "F_IQ_TownDaily", 21122, 21121, 8600, 9600, 0, 0, "Timothy", 40;
+	end;
+}
+
+alberta,157,222,4	script	Kale#iqalb1	86,{
+	mes "[Kale]";
+	if (iq_alb21 >= 3) {
+		mes "Treasure! There has to be treasure.";
+		mes "...Timothy says I can't go back";
+		mes "alone.";
+		close;
+	}
+	mes "Treasure in the shipwreck, they";
+	mes "say! Just waiting for someone!";
+	close;
+}
+
+treasure01,162,143,4	script	Kale#iqalb2	86,{
+	mes "[Kale]";
+	if (iq_alb21 == 1) {
+		if (checkquest(21120, HUNTING) != 2) {
+			mes "Help! The skeletons won't let me";
+			mes "out! There's too many of them!";
+			mes "^777777(Defeat 10 Pirate Skeletons.)^000000";
+			close;
+		}
+		erasequest 21120;
+		setquest 21123;
+		getexp 8600, 9600;
+		iq_alb21 = 3;
+		mes "Phew! Thank you. Timothy sent you?";
+		mes "He worries too much. Go tell him";
+		mes "I'm fine, at the docks.";
+		close;
+	}
+	mes "I'll find that treasure someday.";
+	close;
+}
+
+treasure01,160,144,4	script	Reno#iqalb1	687,{
+	mes "[Reno]";
+	mes "Shipwrecks. Seasick AND scared.";
+	mes "Two for one.";
+	close;
+}
+
+alberta,152,45,4	script	Reno#iqalb2	688,{
+	mes "[Reno]";
+	mes "I'm not getting on another ship.";
+	mes "Not for all the treasure in the";
+	mes "world. ...How much treasure?";
+	close;
+}
+
+alberta_in,71,182,4	script	Zonda Promoter#iqalb	803,{
+	if (checkquest(21134, PLAYTIME) == 2)
+		erasequest 21134;
+	mes "[Mulberry]";
+	switch (iq_alb21) {
+	case 4:
+		mes "Tricked? Who says tricked? Treasure";
+		mes "hunting is an adventure! ...Fine.";
+		mes "Maybe the treasure's gone because";
+		mes "the Kukre ate it. Go and see.";
+		mes "Beat ^0000FF10 Kukre^000000.";
+		erasequest 21124;
+		setquest 21125;
+		iq_alb21 = 5;
+		close;
+	case 5:
+		if (checkquest(21125, HUNTING) != 2) {
+			mes "10 Kukre, in the shipwreck.";
+			close;
+		}
+		erasequest 21125;
+		getexp 6500, 6500;
+		iq_alb21 = 6;
+		mes "Nothing? Then we'll make some";
+		mes "treasure. Hide these ^0000FF10 Old Coins^000000";
+		mes "in the crates on the wreck's first";
+		mes "floor, 2 in each. Adventurers need";
+		mes "motivation!";
+		callsub S_Coins, 21128;
+		// 21130 too, so mod eden-rework-2021's crates (which check it) take the coins.
+		if (checkquest(21130) == 2)
+			erasequest 21130;
+		if (checkquest(21130) < 0)
+			setquest 21130;
+		close;
+	case 6:
+		if (eden_mb_coins < 10) {
+			mes "All 10 coins in the crates, 2 per";
+			mes "crate, on the first floor.";
+			callsub S_Refill;
+			close;
+		}
+		eden_mb_coins = 0;
+		erasequest 21128;
+		if (checkquest(21130) >= 0)
+			erasequest 21130;
+		getexp 7000, 7000;
+		setquest 21131;
+		iq_alb21 = 7;
+		mes "You heard something in there?";
+		mes "Writing on the hull? Ask the";
+		mes "^0000FFshipwreck researcher^000000 near the docks.";
+		mes "He's a bit odd, but he knows ships.";
+		close;
+	case 7:
+	case 8:
+	case 9:
+		mes "Talk to the shipwreck researcher.";
+		close;
+	case 10:
+		mes "Drake's ship?! The pirate? Then";
+		mes "his ghost... You promised him";
+		mes "WHAT? Not today, I'm busy. Come";
+		mes "back tomorrow and we'll see.";
+		erasequest 21133;
+		setquest 21134;
+		iq_alb21 = 11;
+		close;
+	case 11:
+		if (checkquest(21134) >= 0) {
+			mes "Tomorrow! After 4 AM!";
+			close;
+		}
+		mes "All right, all right. Drake's";
+		mes "ghost is here. In my office. I";
+		mes "don't like it. Talk to him.";
+		close;
+	}
+	if (iq_alb21 < 4) {
+		mes "Treasure hunting! The adventure of";
+		mes "a lifetime! Zonda tours, best price!";
+		close;
+	}
+	mes "Business is business. What'll it";
+	mes "be today?";
+	next;
+	switch (select("Eating a Kukre liver (daily):Hiding old coins (daily):" + (iq_alb21 >= 12 ? "Cleaning the shipwreck 1F (daily):Cleaning the shipwreck 2F (daily)" : "") + ":Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21127, 21126, 6500, 6500, 0, 0, "Mulberry", 40; end;
+	case 2:
+		if (checkquest(21129, PLAYTIME) == 2)
+			erasequest 21129;
+		mes "[Mulberry]";
+		if (checkquest(21130) == 1) {
+			if (eden_mb_coins < 10) {
+				mes "10 coins, 2 per crate, first";
+				mes "floor of the wreck.";
+				callsub S_Refill;
+				close;
+			}
+			eden_mb_coins = 0;
+			erasequest 21130;
+			setquest 21129;
+			getexp 7000, 7000;
+			mes "Good. The treasure hunters will";
+			mes "be thrilled. Come back tomorrow.";
+			close;
+		}
+		if (checkquest(21129) >= 0) {
+			mes "Enough treasure for today.";
+			close;
+		}
+		mes "Hide 10 more coins for me?";
+		next;
+		if (select("Sure:Not today") == 2)
+			close;
+		if (checkquest(21130) == 2)
+			erasequest 21130;
+		mes "[Mulberry]";
+		mes "2 per crate, first floor.";
+		callsub S_Coins, 21130;
+		close;
+	case 3: callfunc "F_IQ_TownDaily", 21136, 21135, 9600, 8280, 0, 0, "Mulberry", 40; end;
+	case 4: callfunc "F_IQ_TownDaily", 21138, 21137, 11800, 9600, 0, 0, "Mulberry", 40; end;
+	case 5: close;
+	}
+	end;
+
+S_Coins:
+	setquest getarg(0);
+	eden_mb_coins = 0;
+	eden_mb_crates = 0;
+	if (countitem(Antique_Coin) < 10)
+		getitem Antique_Coin, 10 - countitem(Antique_Coin);
+	return;
+
+S_Refill:
+	if (countitem(Antique_Coin) < 10 - eden_mb_coins) {
+		next;
+		mes "[Mulberry]";
+		mes "Lost some? Here. Don't tell anyone.";
+		getitem Antique_Coin, 10 - eden_mb_coins - countitem(Antique_Coin);
+	}
+	return;
+}
+
+// The wreck's crates, as in mod eden-rework-2021 (hidden while that mod is loaded).
+-	script	Old Crate#iqalb	-1,{
+	.@bit = 1 << atoi(charat(strnpcinfo(2), 5));
+	if (checkquest(21128) != 1 && checkquest(21130) != 1) {
+		mes "A battered old crate, half full of seawater.";
+		close;
+	}
+	if (!eden_mb_coins)
+		eden_mb_crates = 0;
+	if (eden_mb_crates & .@bit) {
+		mes "You've already hidden coins in this crate.";
+		close;
+	}
+	if (eden_mb_coins >= 10) {
+		mes "All 10 coins are hidden. Report to Mulberry.";
+		close;
+	}
+	if (countitem(Antique_Coin) < 2) {
+		mes "You need 2 Old Coins to hide here.";
+		mes "Mulberry has more.";
+		close;
+	}
+	mes "A battered old crate. Hide 2 Old Coins in it for treasure hunters to find?";
+	next;
+	if (select("Hide the coins:Leave it") == 2)
+		close;
+	progressbar "ffff00", 2;
+	delitem Antique_Coin, 2;
+	eden_mb_crates |= .@bit;
+	eden_mb_coins += 2;
+	if (eden_mb_coins >= 10)
+		mes "That's the last of them. Report to Mulberry.";
+	else
+		mes "You tuck the coins under the rotting planks. " + (10 - eden_mb_coins) + " to go.";
+	close;
+
+OnInit:
+	if (strnpcinfo(2) != "iqalb" && getnpcid(0, "Old Crate#edmb1"))
+		disablenpc strnpcinfo(0);
+	end;
+}
+treasure01,21,163,0	duplicate(Old Crate#iqalb)	Old Crate#iqalb1	4_WOODBOX
+treasure01,69,110,0	duplicate(Old Crate#iqalb)	Old Crate#iqalb2	4_WOODBOX
+treasure01,71,30,0	duplicate(Old Crate#iqalb)	Old Crate#iqalb3	4_WOODBOX
+treasure01,94,164,0	duplicate(Old Crate#iqalb)	Old Crate#iqalb4	4_WOODBOX
+treasure01,173,50,0	duplicate(Old Crate#iqalb)	Old Crate#iqalb5	4_WOODBOX
+
+alb2trea,94,77,4	script	Shipwreck Researcher#iqalb	883,{
+	mes "[Aspar]";
+	switch (iq_alb21) {
+	case 7:
+		mes "Writing on the hull? Tell me";
+		mes "everything! I love that wreck. I";
+		mes "just... can't go in. Too scary.";
+		mes "Search it for me? Anything";
+		mes "suspicious, anything at all.";
+		erasequest 21131;
+		setquest 21132;
+		iq_alb21 = 8;
+		close;
+	case 8:
+		mes "Anything suspicious in the wreck!";
+		mes "I'm counting on you!";
+		close;
+	case 9:
+		mes "A captain's log, signed... ^0000FFDrake^000000!";
+		mes "This is Drake's ship! And the";
+		mes "voice you heard... his ghost. Tell";
+		mes "the promoter. This changes";
+		mes "everything!";
+		erasequest 21132;
+		setquest 21133;
+		getexp 7000, 7000;
+		iq_alb21 = 10;
+		close;
+	}
+	mes "Ships! Wrecks! History under the";
+	mes "waves!";
+	close;
+}
+
+treasure01,165,140,0	script	Rotten Chest#iqalb	4_TREASURE_BOX,{
+	if (iq_alb21 != 8) {
+		mes "A rotten chest. Empty.";
+		close;
+	}
+	mes "Under a pile of rotting rope lies";
+	mes "a soaked logbook. On the last page,";
+	mes "a name: ^0000FFDrake^000000. A cold voice";
+	mes "whispers behind you...";
+	mes "\"...keep... my ship...\"";
+	iq_alb21 = 9;
+	close;
+}
+
+alberta_in,70,185,4	script	Drake's Ghost#iqalb	969,{
+	mes "[Drake's Ghost]";
+	if (iq_alb21 == 11 && checkquest(21134) < 0) {
+		mes "You came, as you promised. My";
+		mes "ship lies broken, crawling with";
+		mes "filth. Keep her clean, and you";
+		mes "will have my thanks.";
+		iq_alb21 = 12;
+		getexp 9600, 8280;
+		next;
+		mes "[Mulberry]";
+		mes "...Fine! I'll pay you to clean the";
+		mes "wreck. A ghost in my office. My";
+		mes "office!";
+		close;
+	}
+	if (iq_alb21 >= 12) {
+		mes "My ship... keep her clean.";
+		close;
+	}
+	mes ". . .";
+	close;
+}
+
+// ---------------------------------------------------- Turtle Island
+alberta,210,120,4	script	Knight Tybalt#iqalb	752,{
+	mes "[Knight Tybalt]";
+	switch (iq_alb21t) {
+	case 0:
+		mes "Our second knight order went to";
+		mes "Turtle Island and never came back.";
+		mes "They're probably beyond saving,";
+		mes "but... go and see. Beat ^0000FF10 Dragon";
+		mes "Tails and 10 Spring Rabbits^000000 and";
+		mes "report what you find.";
+		if (BaseLevel < 90) {
+			mes "^777777(Base Level 90)^000000";
+			close;
+		}
+		next;
+		if (select("I'll go:Not now") == 2)
+			close;
+		setquest 21149;
+		iq_alb21t = 1;
+		close;
+	case 1:
+		if (checkquest(21149, HUNTING) != 2) {
+			mes "10 Dragon Tails and 10 Spring";
+			mes "Rabbits, on Turtle Island.";
+			close;
+		}
+		erasequest 21149;
+		getexp 76000, 72000;
+		setquest 21152;
+		setquest 21154;
+		iq_alb21t = 2;
+		mes "Someone was seen deeper inside the";
+		mes "dungeon? Then clear the way: ^0000FF10";
+		mes "Soliders and Permeters^000000, and ^0000FF10";
+		mes "Freezers and Heaters^000000.";
+		close;
+	case 2:
+		if (checkquest(21152, HUNTING) != 2 || checkquest(21154, HUNTING) != 2) {
+			mes "Soliders, Permeters, Freezers and";
+			mes "Heaters, 10 of each.";
+			close;
+		}
+		erasequest 21152;
+		erasequest 21154;
+		getexp 102000, 104000;
+		setquest 21157;
+		iq_alb21t = 3;
+		mes "The way is clear. Find whoever is";
+		mes "in there, the highest ranking";
+		mes "knight if you can.";
+		close;
+	case 3:
+	case 4:
+		mes "Find the knights in the Turtle";
+		mes "Island dungeon.";
+		close;
+	case 5:
+		mes "They're alive... and they won't";
+		mes "come back until the job is done.";
+		mes "That's our order. Thank you.";
+		erasequest 21161;
+		getexp 52000, 67000;
+		iq_alb21t = 6;
+		close;
+	}
+	mes "Help the knights on Turtle Island";
+	mes "again today?";
+	next;
+	switch (select("Exploring Turtle Island (daily):Eliminate the Turtle Horde (daily):Never mind")) {
+	case 1:
+		callfunc "F_IQ_TownDaily", 21151, 21150, 76000, 72000, 0, 0, "Knight Tybalt", 90;
+		end;
+	case 2:
+		// The horde daily is two quests (21153, 21155) with one cooldown (21156).
+		if (checkquest(21156, PLAYTIME) == 2)
+			erasequest 21156;
+		mes "[Knight Tybalt]";
+		if (checkquest(21153) == 1 || checkquest(21155) == 1) {
+			if (checkquest(21153, HUNTING) != 2 || checkquest(21155, HUNTING) != 2) {
+				mes "Not done yet? Your quest log says";
+				mes "what's left.";
+				close;
+			}
+			erasequest 21153;
+			erasequest 21155;
+			setquest 21156;
+			getexp 102000, 104000;
+			mes "That's the job done. Come back";
+			mes "tomorrow, if you like.";
+			close;
+		}
+		if (checkquest(21156) >= 0) {
+			mes "That's enough for today. Come";
+			mes "back tomorrow, after 4 AM.";
+			close;
+		}
+		if (checkquest(21153) == 2)
+			erasequest 21153;
+		if (checkquest(21155) == 2)
+			erasequest 21155;
+		setquest 21153;
+		setquest 21155;
+		mes "Your quest log has the details.";
+		close;
+	case 3:
+		close;
+	}
+}
+
+tur_dun03,108,74,4	script	Knight Commander#iqalb	110,{
+	mes "[Knight Commander]";
+	switch (iq_alb21t) {
+	case 3:
+		mes "Tybalt sent you? We're alive, as";
+		mes "you see. But our search isn't";
+		mes "done. The Assaulters hound us.";
+		mes "Beat ^0000FF10 Assaulters^000000 for us?";
+		erasequest 21157;
+		setquest 21158;
+		iq_alb21t = 4;
+		close;
+	case 4:
+		if (checkquest(21158, HUNTING) != 2) {
+			mes "10 Assaulters, in this dungeon.";
+			close;
+		}
+		erasequest 21158;
+		getexp 52000, 67000;
+		setquest 21161;
+		iq_alb21t = 5;
+		mes "Thank you. Tell Tybalt we won't";
+		mes "return until our mission is done.";
+		close;
+	}
+	if (iq_alb21t >= 5) {
+		mes "The Assaulters keep coming. Help";
+		mes "us again?";
+		next;
+		callfunc "F_IQ_TownDaily", 21160, 21159, 52000, 67000, 0, 0, "Knight Commander", 90;
+		end;
+	}
+	mes "Who goes there?";
+	close;
+}

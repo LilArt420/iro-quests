@@ -1,0 +1,352 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Morroc town quests (kRO's 2021 town quest revamp, on iRO)
+//===== Description: =========================================
+//= An old scholar studying the pyramid sends you after his lost
+//= apprentice; the trail leads through the Thieves' Guild ruins,
+//= Ernest's research team in the pyramid and the Sphinx. Each
+//= step that is a hunt becomes a daily once done, shared with the
+//= Eden Group's mission boards (mod eden-rework-2021 uses the same
+//= quest ids and 04:00 cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21201-21220, navigation table); kill counts and daily rewards
+//= are rAthena's quest_db and the Eden board's figures. Story-step
+//= rewards are not in any source: each pays like its daily.
+//=
+//= Character variable: iq_moc21 (story step, 0-13).
+//============================================================
+
+morocc,151,86,4	script	Elderly Scholar#iqmoc1	897,{
+	mes "[Elderly Scholar]";
+	if (iq_moc21 == 0) {
+		mes "Ah, a young adventurer. You look";
+		mes "like you can walk a desert. I am";
+		mes "studying the pyramid, and my";
+		mes "apprentice... ran off.";
+		next;
+		mes "[Elderly Scholar]";
+		mes "He went looking for the Assassins'";
+		mes "Guild, in the desert southeast of";
+		mes "Morroc. The fool! Would you find";
+		mes "him and make sure he's alive?";
+		next;
+		if (BaseLevel < 40) {
+			mes "[Elderly Scholar]";
+			mes "...No, the desert would eat you.";
+			mes "Come back when you're stronger.";
+			mes "^777777(Base Level 40)^000000";
+			close;
+		}
+		if (select("I'll find him.:Not now.") == 2)
+			close;
+		iq_moc21 = 1;
+		setquest 21201;
+		mes "[Elderly Scholar]";
+		mes "Bless you. Southeast, in the";
+		mes "Sograt Desert. Thin boy, too";
+		mes "much courage.";
+		close;
+	}
+	mes "My apprentice and I have moved";
+	mes "our work to the oasis by the";
+	mes "pyramid. Come find us there.";
+	close;
+}
+
+moc_fild17,358,277,4	script	Wandering Boy#iqmoc	896,{
+	if (iq_moc21 == 1) {
+		mes "[Wandering Boy]";
+		mes "The scholar sent you? I'm fine,";
+		mes "I'm fine! I'm just... stuck.";
+		mes "Sandmen everywhere, and they";
+		mes "won't let me through.";
+		next;
+		mes "[Wandering Boy]";
+		mes "Could you beat ^0000FF10 Sandmen^000000 and";
+		mes "bring me ^0000FF5 Grit^000000 from them?";
+		mes "I want to show the scholar what";
+		mes "the desert's made of out here.";
+		erasequest 21201;
+		if (checkquest(21202) == 2)
+			erasequest 21202;
+		if (checkquest(21202) < 0)
+			setquest 21202;
+		iq_moc21 = 2;
+		close;
+	}
+	if (iq_moc21 == 2) {
+		mes "[Wandering Boy]";
+		if (checkquest(21202, HUNTING) != 2 || countitem(Grit) < 5) {
+			mes "10 Sandmen and 5 Grit, please!";
+			close;
+		}
+		delitem Grit, 5;
+		erasequest 21202;
+		setquest 21203;
+		getexp 10800, 9600;
+		iq_moc21 = 3;
+		mes "You did it! The path's clear.";
+		mes "I'll go back to the scholar. He";
+		mes "moved to the oasis in front of";
+		mes "the pyramid. See you there!";
+		close;
+	}
+	if (iq_moc21 >= 3) {
+		callfunc "F_IQ_TownDaily", 21202, 21203, 10800, 9600, Grit, 5, "Wandering Boy", 50;
+		end;
+	}
+	mes "[Wandering Boy]";
+	mes "The Assassins' Guild is out here";
+	mes "somewhere. I'm sure of it.";
+	close;
+}
+
+moc_ruins,104,122,4	script	Elderly Scholar#iqmoc2	897,{
+	mes "[Elderly Scholar]";
+	if (iq_moc21 == 3) {
+		mes "You brought him back! Thank you.";
+		mes "Now, while you're here... my back";
+		mes "is killing me, and my ^0000FFField";
+		mes "Shovel^000000 is down in the pyramid's";
+		mes "basement.";
+		next;
+		mes "[Elderly Scholar]";
+		mes "A Verit or a Minorous must have";
+		mes "it by now. Get it back for me?";
+		setquest 21204;
+		iq_moc21 = 4;
+		close;
+	}
+	if (iq_moc21 == 4) {
+		if (!countitem(Field_Shovel)) {
+			mes "My Field Shovel! Verits and";
+			mes "Minorous in the pyramid's basement";
+			mes "have it, I'm sure.";
+			close;
+		}
+		delitem Field_Shovel, 1;
+		erasequest 21204;
+		getexp 12000, 12800;
+		iq_moc21 = 5;
+		mes "My shovel! Ah, my old friend.";
+		next;
+		mes "[Elderly Scholar]";
+		mes "The Thieves' Guild here in the";
+		mes "ruins helped me before. ^0000FFLumin^000000";
+		mes "said they had a pest problem.";
+		mes "Lend them a hand, will you?";
+		close;
+	}
+	mes "The pyramid holds so many secrets.";
+	mes "Ernest and I will find them all.";
+	close;
+}
+
+moc_ruins,105,124,4	script	Lumin#iqmoc	638,{
+	if (iq_moc21 == 5) {
+		mes "[Lumin]";
+		mes "The scholar's helper, eh? Then";
+		mes "help us. Verits and Minorous have";
+		mes "moved into the guild's basement.";
+		mes "Nobody can sleep! Get rid of";
+		mes "^0000FF10 of each^000000.";
+		if (checkquest(21205) == 2)
+			erasequest 21205;
+		if (checkquest(21205) < 0)
+			setquest 21205;
+		iq_moc21 = 6;
+		close;
+	}
+	if (iq_moc21 == 6) {
+		mes "[Lumin]";
+		if (checkquest(21205, HUNTING) != 2) {
+			mes "Still hear them snoring down";
+			mes "there. 10 Verits, 10 Minorous.";
+			close;
+		}
+		erasequest 21205;
+		setquest 21206;
+		getexp 12000, 12800;
+		iq_moc21 = 7;
+		mes "Quiet at last. Thanks.";
+		mes "Ernest over there has been";
+		mes "pacing all day. Talk to him.";
+		close;
+	}
+	if (iq_moc21 >= 7) {
+		callfunc "F_IQ_TownDaily", 21205, 21206, 12000, 12800, 0, 0, "Lumin", 50;
+		end;
+	}
+	mes "[Lumin]";
+	mes "Thieves' Guild. Members only.";
+	close;
+}
+
+moc_ruins,101,124,4	script	Ernest#iqmoc	881,{
+	mes "[Ernest]";
+	switch (iq_moc21) {
+	case 7:
+		mes "I lost my team in the pyramid!";
+		mes "Leader Maxim and the others went";
+		mes "up without me. Could you find";
+		mes "them and tell them I'm here?";
+		setquest 21207;
+		iq_moc21 = 8;
+		close;
+	case 8:
+	case 9:
+		mes "Leader Maxim's team is on the";
+		mes "pyramid's first floor, in a corner";
+		mes "to the northwest.";
+		close;
+	case 10:
+		mes "They're all right? And they found";
+		mes "an old blue box? Ha! Maxim and";
+		mes "his treasure dreams.";
+		next;
+		mes "[Ernest]";
+		mes "I need to process something to";
+		mes "unlock the pyramid's secret. Isis";
+		mes "carry strange bandages. Bring me";
+		mes "^0000FF1 Rotten Bandage^000000.";
+		erasequest 21209;
+		setquest 21210;
+		iq_moc21 = 11;
+		close;
+	case 11:
+		if (!countitem(Rotten_Bandage)) {
+			mes "One Rotten Bandage, from an Isis.";
+			close;
+		}
+		delitem Rotten_Bandage, 1;
+		erasequest 21210;
+		getexp 16740, 17880;
+		mes "Perfect. Look at the weave...";
+		mes "The pyramid and the Sphinx are";
+		mes "connected, I know it.";
+		next;
+		mes "[Ernest]";
+		mes "Zerom and Requiem in the Sphinx";
+		mes "keep chasing us off. Clear";
+		mes "^0000FF15 of each^000000 for me?";
+		setquest 21211;
+		iq_moc21 = 12;
+		close;
+	case 12:
+		if (checkquest(21211, HUNTING) != 2) {
+			mes "15 Zerom and 15 Requiem, in the";
+			mes "Sphinx.";
+			close;
+		}
+		erasequest 21211;
+		getexp 19450, 20090;
+		mes "Now we can work! One last thing:";
+		mes "Marduk on the Sphinx's upper";
+		mes "floors carry old papyrus. Bring me";
+		mes "^0000FF1 Worn-out Papyrus^000000, and deal with";
+		mes "the Pasana while you're there.";
+		setquest 21212;
+		iq_moc21 = 13;
+		close;
+	case 13:
+		if (!countitem(Worn_Out_Papyrus)) {
+			mes "One Worn-out Papyrus, from a";
+			mes "Marduk in the Sphinx.";
+			close;
+		}
+		delitem Worn_Out_Papyrus, 1;
+		erasequest 21212;
+		getexp 25640, 24210;
+		iq_moc21 = 14;
+		mes "The script on this... it matches";
+		mes "the pyramid's! You've done more";
+		mes "for our research than anyone.";
+		next;
+		mes "[Ernest]";
+		mes "There's always more to do around";
+		mes "here. Come by any day: Isis, the";
+		mes "Sphinx's workers, more papyrus.";
+		close;
+	}
+	if (iq_moc21 >= 14) {
+		next;
+		switch (select("Defeat Isis (daily):The Sphinx's workers (daily):Secrets of the Sphinx (daily):Never mind")) {
+		case 1: callfunc "F_IQ_TownDaily", 21213, 21214, 16740, 17880, 0, 0, "Ernest", 60; end;
+		case 2: callfunc "F_IQ_TownDaily", 21215, 21216, 19450, 20090, 0, 0, "Ernest", 60; end;
+		case 3: callfunc "F_IQ_TownDaily", 21217, 21218, 25640, 24210, Worn_Out_Papyrus, 10, "Ernest", 60; end;
+		case 4: close;
+		}
+	}
+	mes "The pyramid and the Sphinx... they";
+	mes "must be connected.";
+	close;
+}
+
+moc_pryd01,20,192,4	script	Leader Maxim#iqmoc	964,{
+	mes "[Leader Maxim]";
+	if (iq_moc21 == 8) {
+		mes "Ernest is safe? Ha! Good. We got";
+		mes "a bit... distracted. Look! An old";
+		mes "blue box. Treasure, I'm sure.";
+		next;
+		mes "[Leader Maxim]";
+		mes "The mummies here guard the dead";
+		mes "men's things. Get me ^0000FF1 Memento^000000";
+		mes "from a Mummy, so we can check it";
+		mes "against the box?";
+		erasequest 21207;
+		setquest 21208;
+		iq_moc21 = 9;
+		close;
+	}
+	if (iq_moc21 == 9) {
+		if (!countitem(Mementos)) {
+			mes "1 Memento, from a Mummy.";
+			close;
+		}
+		delitem Mementos, 1;
+		erasequest 21208;
+		getexp 7200, 7800;
+		setquest 21209;
+		iq_moc21 = 10;
+		mes "...Nothing. Not a match. Well!";
+		mes "Tell Ernest we'll wait for him at";
+		mes "the oasis. We're not giving up on";
+		mes "that box.";
+		close;
+	}
+	if (iq_moc21 >= 10) {
+		mes "Still can't open the blue box.";
+		mes "Help us out again today?";
+		next;
+		callfunc "F_IQ_TownDaily", 21219, 21220, 7200, 7800, Mementos, 1, "Leader Maxim", 40;
+		end;
+	}
+	mes "Pyramid research team, Leader";
+	mes "Maxim. Mind the mummies.";
+	close;
+}
+
+moc_pryd01,22,189,4	script	Jowon Ankana#iqmoc	763,{
+	mes "[Jowon Ankana]";
+	mes "The leader says there's treasure";
+	mes "in that box. He says that about";
+	mes "every box.";
+	close;
+}
+
+moc_pryd01,17,190,4	script	Jowon Kusekili#iqmoc	582,{
+	mes "[Jowon Kusekili]";
+	mes "We were supposed to map the first";
+	mes "floor. We've mapped this corner.";
+	mes "Thoroughly.";
+	close;
+}
+
+moc_pryd01,176,23,4	script	Old Signpost#iqmoc	835,{
+	mes "[Old Signpost]";
+	mes "^777777The letters are worn by sand.^000000";
+	mes "\"...the pharaoh's servants keep";
+	mes "watch... below... do not wake...\"";
+	close;
+}
