@@ -1,0 +1,468 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= City Investment: the City Merchant Union (kRO "City
+//= Contribution", 2015; iRO's Merchant Union)
+//===== Description: =========================================
+//= Join the City Merchant Union at the Eden Group HQ: while a
+//= member, monsters outside instances drop Union Insignias
+//= (Union Tokens, about 1 in 5). Invest up to 250 a day in one
+//= of 9 cities; each city's Merchant Union then sells its Union
+//= gear (account bound) as your standing grows:
+//=   3,000 points  Town Newbie  weapons and shield
+//=   9,000         Neighbor     shoes
+//=  21,000         Notable      armor
+//=  41,000         City Power   garment
+//=  42,000         Ruler        (everything)
+//= 250 tokens = 1,375 points. The Union's bulletin board also
+//= posts requests that pay tokens: one delivery a day of each
+//= class (C 20, B 30, A 50 tokens) and a weekly Wanted boss
+//= (100-300 tokens, new every Wednesday 04:00).
+//=
+//= Sources: kRO's update notice (ro.gnjoy.com, 2015-10-14), the
+//= Inven guide "대도시공헌도, 결속 세트아이템 두번째 이야기"
+//= (2017, Internet Archive) and Hazy Forest's City Investment page;
+//= requests, recipients and quest ids are the iRO client's own.
+//= Not in the sources, chosen here: B deliveries open after 10
+//= finished requests and A after 30 (kRO uses an achievement
+//= tier); gear prices 100,000 (weapons, shields), 150,000
+//= (shoes), 200,000 (armor) and 250,000 zeny (garments).
+//=
+//= Character variables: iq_ci_city[1..9] (points per city),
+//= iq_ci_jobs (finished requests).
+//============================================================
+
+// ---------------------------------------------------------------- Eden HQ booth
+moc_para01,53,34,4	script	City Merchant Union Manager#iqci	4_M_HUMERCHANT,{
+	mes "[City Merchant Union Manager]";
+	if (checkquest(12370) >= 0) {
+		mes "Welcome back, member! Hunting";
+		mes "well? Every Union Insignia you";
+		mes "bring to a city's Investment";
+		mes "Manager builds your standing there.";
+		next;
+		if (select("Keep hunting:Leave the Union") == 1)
+			close;
+		mes "[City Merchant Union Manager]";
+		mes "Leaving us? Your standing in the";
+		mes "cities stays where it is. You just";
+		mes "won't find Insignias any more.";
+		next;
+		if (select("Leave:Stay") == 2)
+			close;
+		erasequest 12370;
+		mes "[City Merchant Union Manager]";
+		mes "Done. The door is always open.";
+		close;
+	}
+	mes "The nine great cities of Midgard";
+	mes "want new adventurers on their";
+	mes "streets, and their merchants have";
+	mes "gear made just for them.";
+	next;
+	mes "[City Merchant Union Manager]";
+	mes "Join the City Merchant Union and";
+	mes "the monsters you hunt will turn up";
+	mes "^0000FFUnion Insignias^000000 now and then.";
+	mes "Invest them in a city, and its";
+	mes "merchants will treat you as one";
+	mes "of their own.";
+	next;
+	if (select("Join the Union:Not now") == 2)
+		close;
+	setquest 12370;
+	mes "[City Merchant Union Manager]";
+	mes "Welcome to the Union! Happy";
+	mes "hunting. And if you want more";
+	mes "work, check our bulletin board.";
+	close;
+}
+
+// Union Insignias from monsters, for members, outside instances.
+-	script	IQ_UnionTokens	-1,{
+	end;
+OnNPCKillEvent:
+	if (checkquest(12370) < 0)
+		end;
+	getmapxy(.@map$, .@x, .@y);
+	if (charat(.@map$, 1) == "@" || charat(.@map$, 2) == "@")
+		end;
+	if (rand(100) < 20)
+		getitem Union_Token, 1;
+	end;
+}
+
+// The bulletin board: one delivery at a time, and one Wanted a week.
+moc_para01,53,36,4	script	City Merchant Union Bulletin Board#iqci	857,{
+	.@day = (gettimetick(2) - 14400) / 86400;
+	.@week = (gettimetick(2) - 532800) / 604800;	// weeks turn on Wednesday 04:00 (UTC)
+	mes "[City Merchant Union Bulletin Board]";
+	if (checkquest(12370) < 0) {
+		mes "^777777Requests for members of the City";
+		mes "Merchant Union only. Talk to the";
+		mes "Union Manager nearby to join.^000000";
+		close;
+	}
+	mes "Requests of the City Merchant";
+	mes "Union. Report finished work to";
+	mes "the ^0000FFSecretary Governor^000000.";
+	next;
+	switch (select("(S) Wanted:(A~C) Deliveries:Leave")) {
+	case 1:
+		if (checkquest(5470) >= 0 && checkquest(5470, PLAYTIME) != 2) {
+			mes "[City Merchant Union Bulletin Board]";
+			mes "No new bounties. The board is";
+			mes "updated every Wednesday at 4 AM.";
+			close;
+		}
+		if (checkquest(5470, PLAYTIME) == 2)
+			erasequest 5470;
+		.@n = getarraysize($@iquW_q);
+		for (.@i = 0; .@i < .@n; .@i++) {
+			if (checkquest($@iquW_q[.@i]) >= 0 && checkquest($@iquW_q[.@i]) < 2) {
+				mes "[City Merchant Union Bulletin Board]";
+				mes "You already hold a bounty:";
+				mes "^FF0000" + getmonsterinfo($@iquW_mob[.@i], MOB_NAME) + "^000000.";
+				close;
+			}
+		}
+		.@k = .@week % .@n;
+		mes "[City Merchant Union Bulletin Board]";
+		mes "^FF0000WANTED^000000: " + getmonsterinfo($@iquW_mob[.@k], MOB_NAME);
+		mes "Reward: ^0000FF" + $@iquW_tok[.@k] + " Union Insignias^000000.";
+		next;
+		if (select("Take the bounty:Leave it") == 2)
+			close;
+		if (checkquest($@iquW_q[.@k]) == 2)
+			erasequest $@iquW_q[.@k];
+		setquest $@iquW_q[.@k];
+		mes "[City Merchant Union Bulletin Board]";
+		mes "You take the bounty notice.";
+		close;
+	case 2:
+		// a delivery in hand, or its receipt
+		for (.@c = 0; .@c < 3; .@c++) {
+			.@cls$ = charat("ABC", .@c);
+			.@n = getarraysize(getd("$@iqu" + .@cls$ + "_q"));
+			for (.@i = 0; .@i < .@n; .@i++) {
+				.@q = getd("$@iqu" + .@cls$ + "_q[" + .@i + "]");
+				if (checkquest(.@q) >= 0 || checkquest(.@q + 1) >= 0) {
+					mes "[City Merchant Union Bulletin Board]";
+					mes "You already have a delivery:";
+					mes "^0000FF" + getd("$@iqu" + .@cls$ + "_who$[" + .@i + "]") + "^000000, " + getd("$@iqu" + .@cls$ + "_where$[" + .@i + "]") + ".";
+					close;
+				}
+			}
+		}
+		setarray .@cd[0], 5496, 5577, 5676;
+		setarray .@need[0], 30, 10, 0;
+		.@menu$ = "";
+		for (.@c = 0; .@c < 3; .@c++) {
+			.@cls$ = charat("ABC", .@c);
+			if (checkquest(.@cd[.@c], PLAYTIME) == 2)
+				erasequest .@cd[.@c];
+			.@pick[.@c] = (.@day + .@c * 7) % getarraysize(getd("$@iqu" + .@cls$ + "_q"));
+			if (iq_ci_jobs < .@need[.@c])
+				.@menu$ += "^777777(" + .@cls$ + ") locked: " + .@need[.@c] + " requests done^000000:";
+			else if (checkquest(.@cd[.@c]) >= 0)
+				.@menu$ += "^777777(" + .@cls$ + ") done for today^000000:";
+			else
+				.@menu$ += "(" + .@cls$ + ") Deliver to " + getd("$@iqu" + .@cls$ + "_who$[" + .@pick[.@c] + "]") + ":";
+		}
+		.@c = select(.@menu$ + "Leave") - 1;
+		if (.@c == 3)
+			close;
+		.@cls$ = charat("ABC", .@c);
+		if (iq_ci_jobs < .@need[.@c] || checkquest(.@cd[.@c]) >= 0) {
+			mes "[City Merchant Union Bulletin Board]";
+			mes "That request isn't open to you.";
+			close;
+		}
+		.@q = getd("$@iqu" + .@cls$ + "_q[" + .@pick[.@c] + "]");
+		if (checkquest(.@q) == 2)
+			erasequest .@q;
+		setquest .@q;
+		mes "[City Merchant Union Bulletin Board]";
+		mes "You take the delivery order. Your";
+		mes "quest log says what to bring and";
+		mes "where: ^0000FF" + getd("$@iqu" + .@cls$ + "_where$[" + .@pick[.@c] + "]") + "^000000.";
+		close;
+	case 3:
+		close;
+	}
+}
+
+moc_para01,53,32,4	script	Secretary Governor#iqci	893,{
+	mes "[Secretary Governor]";
+	mes "City Merchant Union, requests";
+	mes "desk. Finished something?";
+	next;
+	switch (select("Report a finished request:Give up a request:How does this work?:Leave")) {
+	case 1:
+		.@paid = 0;
+		setarray .@cd[0], 5496, 5577, 5676;
+		setarray .@tok[0], 50, 30, 20;
+		for (.@c = 0; .@c < 3; .@c++) {
+			.@cls$ = charat("ABC", .@c);
+			.@n = getarraysize(getd("$@iqu" + .@cls$ + "_q"));
+			for (.@i = 0; .@i < .@n; .@i++) {
+				.@q = getd("$@iqu" + .@cls$ + "_q[" + .@i + "]");
+				if (checkquest(.@q + 1) < 0 || checkquest(.@q + 1) == 2)
+					continue;
+				erasequest .@q + 1;
+				if (checkquest(.@cd[.@c]) >= 0)
+					erasequest .@cd[.@c];
+				setquest .@cd[.@c];
+				getitem Union_Token, .@tok[.@c];
+				iq_ci_jobs++;
+				.@paid += .@tok[.@c];
+			}
+		}
+		.@n = getarraysize($@iquW_q);
+		for (.@i = 0; .@i < .@n; .@i++) {
+			if (checkquest($@iquW_q[.@i], HUNTING) != 2)
+				continue;
+			erasequest $@iquW_q[.@i];
+			if (checkquest(5470) >= 0)
+				erasequest 5470;
+			setquest 5470;
+			getitem Union_Token, $@iquW_tok[.@i];
+			iq_ci_jobs++;
+			.@paid += $@iquW_tok[.@i];
+		}
+		mes "[Secretary Governor]";
+		if (!.@paid) {
+			mes "Nothing here is finished. A";
+			mes "delivery needs the recipient's";
+			mes "receipt; a bounty, the boss down.";
+			close;
+		}
+		mes "All in order. Your pay: ^0000FF" + .@paid;
+		mes "Union Insignias^000000. Take them to";
+		mes "any city's Investment Manager.";
+		close;
+	case 2:
+		.@dropped = 0;
+		for (.@c = 0; .@c < 3; .@c++) {
+			.@cls$ = charat("ABC", .@c);
+			.@n = getarraysize(getd("$@iqu" + .@cls$ + "_q"));
+			for (.@i = 0; .@i < .@n; .@i++) {
+				.@q = getd("$@iqu" + .@cls$ + "_q[" + .@i + "]");
+				if (checkquest(.@q) >= 0 && checkquest(.@q) < 2) {
+					erasequest .@q;
+					.@dropped++;
+				}
+			}
+		}
+		.@n = getarraysize($@iquW_q);
+		for (.@i = 0; .@i < .@n; .@i++) {
+			if (checkquest($@iquW_q[.@i]) >= 0 && checkquest($@iquW_q[.@i]) < 2) {
+				erasequest $@iquW_q[.@i];
+				.@dropped++;
+			}
+		}
+		mes "[Secretary Governor]";
+		mes (.@dropped ? "Fine, I've struck it off. You can take another from the board." : "You have no open request.");
+		close;
+	case 3:
+		mes "[Secretary Governor]";
+		mes "Take a request from the board";
+		mes "behind me. Deliveries: bring the";
+		mes "goods to the person named, get";
+		mes "their receipt, bring it here.";
+		mes "Bounties: defeat the boss.";
+		next;
+		mes "[Secretary Governor]";
+		mes "C deliveries pay 20 Insignias,";
+		mes "B pay 30, A pay 50, one of each";
+		mes "class a day. B opens after 10";
+		mes "requests, A after 30. Bounties";
+		mes "pay 100 to 300 and change on";
+		mes "Wednesdays.";
+		close;
+	case 4:
+		close;
+	}
+}
+
+// Shown by the recipients (union_recipients.txt).
+// getarg: 0 delivery quest, 1 item, 2 count, 3 recipient's name
+function	script	F_IQ_UnionDeliver	{
+	.@q = getarg(0);
+	mes "[" + getarg(3) + "]";
+	if (checkquest(.@q) >= 0 && checkquest(.@q) < 2) {
+		if (countitem(getarg(1)) < getarg(2)) {
+			mes "The Merchant Union is sending me";
+			mes "^0000FF" + getarg(2) + " " + getitemname(getarg(1)) + "^000000? Wonderful!";
+			mes "...But you don't have them all.";
+			close;
+		}
+		mes "My supplies from the Merchant";
+		mes "Union! " + getarg(2) + " " + getitemname(getarg(1)) + ", just";
+		mes "what I needed down here.";
+		delitem getarg(1), getarg(2);
+		changequest .@q, .@q + 1;
+		next;
+		mes "[" + getarg(3) + "]";
+		mes "Here's my receipt. Show it to the";
+		mes "Secretary Governor at the Eden";
+		mes "Group for your pay. Thank you!";
+		close;
+	}
+	if (checkquest(.@q + 1) >= 0 && checkquest(.@q + 1) < 2) {
+		mes "Thanks again! Take that receipt";
+		mes "to the Merchant Union's officer.";
+		close;
+	}
+	mes "Supplies are hard to come by in a";
+	mes "place like this. The City Merchant";
+	mes "Union sends adventurers with";
+	mes "deliveries from time to time.";
+	close;
+}
+
+// ---------------------------------------------------------------- the nine cities
+// City n (1-9): Prontera, Geffen, Payon, Morroc, Juno, Einbroch, Lighthalzen, Rachel, Veins.
+function	script	F_IQ_UnionCity	{
+	setarray .@city$[1], "Prontera", "Geffen", "Payon", "Morroc", "Juno", "Einbroch", "Lighthalzen", "Rachel", "Veins";
+	setarray .@stage$[0], "Stranger", "Town Newbie", "Neighbor", "Notable", "City Power", "Ruler of the City";
+	setarray .@need[1], 3000, 9000, 21000, 41000, 42000;
+	.@n = getarg(0);
+	.@p = iq_ci_city[.@n];
+	.@s = 0;
+	for (.@i = 1; .@i <= 5; .@i++)
+		if (.@p >= .@need[.@i])
+			.@s = .@i;
+	if (getarg(1) == 0)
+		return .@s;
+	// getarg(1) == 1: the Investment Manager
+	mes "[" + .@city$[.@n] + " Investment Manager]";
+	mes "Your standing in " + .@city$[.@n] + ":";
+	mes "^0000FF" + .@stage$[.@s] + "^000000 (" + callfunc("F_InsertComma", .@p) + " points)";
+	if (.@s < 5)
+		mes "Next standing at " + callfunc("F_InsertComma", .@need[.@s + 1]) + " points.";
+	next;
+	if (select("Invest Union Insignias:Leave") == 2)
+		close;
+	mes "[" + .@city$[.@n] + " Investment Manager]";
+	if (checkquest(12371, PLAYTIME) == 2)
+		erasequest 12371;
+	if (checkquest(12371) >= 0) {
+		mes "You've already invested in a city";
+		mes "today. Come back after 4 AM.";
+		close;
+	}
+	if (.@s >= 5) {
+		mes "You already rule this city's";
+		mes "market. There's nothing left to";
+		mes "invest in. My deepest respects.";
+		close;
+	}
+	.@have = countitem(Union_Token);
+	if (!.@have) {
+		mes "You have no Union Insignias.";
+		mes "Members of the City Merchant Union";
+		mes "find them while hunting.";
+		close;
+	}
+	mes "How many Insignias? Up to ^0000FF250^000000";
+	mes "a day. You have " + .@have + ".";
+	next;
+	input .@amt, 0, 250;
+	if (.@amt > .@have)
+		.@amt = .@have;
+	if (.@amt <= 0)
+		close;
+	delitem Union_Token, .@amt;
+	iq_ci_city[.@n] = .@p + .@amt * 11 / 2;
+	setquest 12371;
+	mes "[" + .@city$[.@n] + " Investment Manager]";
+	mes "Thank you! " + .@city$[.@n] + " won't forget it.";
+	mes "Your standing: ^0000FF" + callfunc("F_InsertComma", iq_ci_city[.@n]) + " points^000000.";
+	if (callfunc("F_IQ_UnionCity", .@n, 0) > .@s)
+		mes "The city's merchants will have new gear for you!";
+	close;
+}
+
+prontera,142,67,4	script	Prontera Investment Manager#iqci1	109,{
+	callfunc "F_IQ_UnionCity", atoi(charat(strnpcinfo(2), 4)), 1;
+	end;
+}
+geffen,103,70,4	duplicate(Prontera Investment Manager#iqci1)	Geffen Investment Manager#iqci2	109
+payon,156,61,4	duplicate(Prontera Investment Manager#iqci1)	Payon Investment Manager#iqci3	109
+morocc,184,94,4	duplicate(Prontera Investment Manager#iqci1)	Morroc Investment Manager#iqci4	109
+yuno,151,127,4	duplicate(Prontera Investment Manager#iqci1)	Yuno Investment Manager#iqci5	109
+einbroch,84,257,4	duplicate(Prontera Investment Manager#iqci1)	Einbroch Investment Manager#iqci6	109
+lighthalzen,263,79,4	duplicate(Prontera Investment Manager#iqci1)	Lighthalzen Investment Manager#iqci7	109
+rachel,267,131,4	duplicate(Prontera Investment Manager#iqci1)	Rachel Investment Manager#iqci8	109
+veins,194,116,4	duplicate(Prontera Investment Manager#iqci1)	Veins Investment Manager#iqci9	109
+
+// The Merchant Union of each city sells its Union gear (account bound) by standing.
+prontera,146,67,4	script	Prontera Merchant Union#iqcs1	726,{
+	.@n = atoi(charat(strnpcinfo(2), 4));
+	.@s = callfunc("F_IQ_UnionCity", .@n, 0);
+	// weapons (1-2), shield, stat type (1 STR, 2 AGI, 3 DEX, 4 INT)
+	switch (.@n) {
+	case 1: setarray .@w[0], Union_Sword; .@sh = 0; .@t = 1; break;
+	case 2: setarray .@w[0], Union_Twohand_Staff; .@sh = 0; .@t = 4; break;
+	case 3: setarray .@w[0], Union_Bow; .@sh = 0; .@t = 3; break;
+	case 4: setarray .@w[0], Union_Katar; .@sh = 0; .@t = 2; break;
+	case 5: setarray .@w[0], Union_Wire, Union_Viollin; .@sh = 0; .@t = 3; break;
+	case 6: setarray .@w[0], Union_Revolver, Union_Huuma; .@sh = 0; .@t = 2; break;
+	case 7: setarray .@w[0], Union_Twohand_Axe, Union_Dagger; .@sh = 0; .@t = 1; break;
+	case 8: setarray .@w[0], Union_Bible; .@sh = Union_Buckler; .@t = 4; break;
+	case 9: setarray .@w[0], Union_Mace; .@sh = Union_Guard; .@t = 3; break;
+	}
+	setarray .@shoes[1], Union_STR_Boots, Union_AGI_Boots, Union_DEX_Shoes, Union_INT_Shoes;
+	setarray .@armor[1], Union_Mail, Union_Mattle, Union_Suit, Union_Robe;
+	setarray .@garm[1], Union_MHP_Manteau, Union_FLEE_Manteau, Union_CRI_Muffler, Union_SP_Muffler;
+	// what this standing unlocks, and the price
+	.@k = 0;
+	if (.@s >= 1) {
+		for (.@i = 0; .@i < getarraysize(.@w); .@i++) {
+			.@it[.@k] = .@w[.@i]; .@pr[.@k] = 100000; .@k++;
+		}
+		if (.@sh) { .@it[.@k] = .@sh; .@pr[.@k] = 100000; .@k++; }
+	}
+	if (.@s >= 2) { .@it[.@k] = .@shoes[.@t]; .@pr[.@k] = 150000; .@k++; }
+	if (.@s >= 3) { .@it[.@k] = .@armor[.@t]; .@pr[.@k] = 200000; .@k++; }
+	if (.@s >= 4) { .@it[.@k] = .@garm[.@t]; .@pr[.@k] = 250000; .@k++; }
+	mes "[" + strnpcinfo(1) + "]";
+	if (!.@k) {
+		mes "We sell to the city's friends.";
+		mes "You're a stranger here. Invest";
+		mes "with our Investment Manager, and";
+		mes "we'll talk.";
+		close;
+	}
+	mes (.@s >= 4 ? "An honor to serve you! Anything" : "Welcome, friend of the city!");
+	mes "in our Union line is yours.";
+	mes "^777777(Account bound; no discounts.)^000000";
+	next;
+	.@menu$ = "";
+	for (.@i = 0; .@i < .@k; .@i++)
+		.@menu$ += getitemname(.@it[.@i]) + " - " + callfunc("F_InsertComma", .@pr[.@i]) + "z:";
+	.@c = select(.@menu$ + "Leave") - 1;
+	if (.@c == .@k)
+		close;
+	mes "[" + strnpcinfo(1) + "]";
+	if (Zeny < .@pr[.@c]) {
+		mes "That's " + callfunc("F_InsertComma", .@pr[.@c]) + " zeny, friend.";
+		close;
+	}
+	if (!checkweight(.@it[.@c], 1)) {
+		mes "You can't carry any more.";
+		close;
+	}
+	Zeny -= .@pr[.@c];
+	getitembound .@it[.@c], 1, Bound_Account;
+	mes "Here you are: " + getitemname(.@it[.@c]) + ".";
+	mes "Wear it with pride!";
+	close;
+}
+geffen,99,70,4	duplicate(Prontera Merchant Union#iqcs1)	Geffen Merchant Union#iqcs2	726
+payon,152,61,4	duplicate(Prontera Merchant Union#iqcs1)	Payon Merchant Union#iqcs3	726
+morocc,181,97,4	duplicate(Prontera Merchant Union#iqcs1)	Morroc Merchant Union#iqcs4	726
+yuno,153,130,4	duplicate(Prontera Merchant Union#iqcs1)	Yuno Merchant Union#iqcs5	726
+einbroch,78,257,4	duplicate(Prontera Merchant Union#iqcs1)	Einbroch Merchant Union#iqcs6	726
+lighthalzen,260,79,4	duplicate(Prontera Merchant Union#iqcs1)	Lighthalzen Merchant Union#iqcs7	726
+rachel,263,131,4	duplicate(Prontera Merchant Union#iqcs1)	Rachel Merchant Union#iqcs8	726
+veins,190,120,4	duplicate(Prontera Merchant Union#iqcs1)	Veins Merchant Union#iqcs9	726

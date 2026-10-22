@@ -2,7 +2,7 @@
   "name": "iro-quests",
   "version": "0.3.0",
   "author": "Lil Art",
-  "description": "iRO's permanent quests the server has no script for: the Bounty Boards (314 hunts on 65 boards), Criminal Activities, Eye of the Beholder and the Overlook Water Dungeon.",
+  "description": "iRO's permanent quests the server has no script for: Bounty Boards, Criminal Activities, Eye of the Beholder, Overlook Water Dungeon, Gramps' weekly turn-ins and City Investment.",
   "requires": {
     "app": ">=1.6.7",
     "era": "renewal"
@@ -42,6 +42,13 @@
       "default": true,
       "label": "Gramps' weekly turn-ins",
       "description": "iRO's Gramps at the Eden Group (Base Level 70-150): 400-kill hunts, two monsters a week per tier, for 400x the monster's EXP, 65,000 zeny and an Eden Merit Badge. Replaces rAthena's talk-only Gramps."
+    },
+    {
+      "key": "city_investment",
+      "type": "boolean",
+      "default": true,
+      "label": "City Investment (Merchant Union)",
+      "description": "Join the City Merchant Union at the Eden Group, earn Union Insignias from monsters and Union requests (111 deliveries, weekly Wanted bosses), invest them in 9 cities and buy their account-bound Union gear."
     }
   ]
 }

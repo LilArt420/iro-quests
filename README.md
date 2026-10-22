@@ -258,9 +258,17 @@ iRO's Gramps at the Eden Group HQ (moc_para01 29, 35) pays you to thin out Midga
 - ⏳ Taking a hunt starts a 16-hour Hunting Timer for that slot. Gramps can also warp you to the monster or let you quit a hunt.
 - iRO's VIP extras (timer resets with Magical Stones, bullions) are left out: this server has no VIP.
 
+## 🏙️ City Investment (City Merchant Union)
+kRO's 2015 "City Contribution" system, which iRO runs as the Merchant Union.
+- 🤝 **Join** with the City Merchant Union Manager at the Eden Group HQ (moc_para01 53, 34). While you're a member, monsters outside instances drop **Union Insignias** about 1 time in 5.
+- 📋 The **Bulletin Board** next to him (53, 36) posts requests: one delivery a day of each class to an adventurer in a dungeon (C 20, B 30, A 50 Insignias; B opens after 10 finished requests, A after 30), and a weekly **Wanted** boss (100-300 Insignias, new every Wednesday). Report to the **Secretary Governor** (53, 32).
+- 💰 **Invest** up to 250 Insignias a day, in one city, with its Investment Manager (Prontera, Geffen, Payon, Morroc, Juno, Einbroch, Lighthalzen, Rachel, Veins). 250 Insignias = 1,375 points.
+- 🛡️ The city's **Merchant Union** sells its account-bound Union gear as your standing grows: weapons and shield at 3,000 points, shoes at 9,000, armor at 21,000, garment at 41,000.
+- Not in the sources, chosen here: when B and A deliveries open (10 and 30 finished requests) and the gear prices (100,000-250,000 zeny).
+
 ## ⚙️ Settings
 In **Settings → Mods → iro-quests**:
-- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**, **Gramps' weekly turn-ins**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
+- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**, **Gramps' weekly turn-ins**, **City Investment**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
 
 ## 💾 Installing
 Renewal servers, Ragnarok Offline 1.6.7 or newer. Download `iro-quests-v<version>.zip` from the [Releases](../../releases) page and install it with **Settings → Mods → Install from a folder…**, then restart the server.
