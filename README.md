@@ -1,3 +1,5 @@
+> 📦 **Archived.** iRO Quests is now part of [World Sync Extras](https://github.com/LilArt420/world-sync-extras) (2.0.0 and later), as seven blocks: Bounty Boards, Criminal Activities, Eye of the Beholder, Overlook Water Dungeon, Gramps, City Investment and the 2021 town quests. Install World Sync Extras from Settings → Mods instead, and remove iRO Quests if you had it.
+
 # 📜 iRO Quests
 
 The permanent quests of iRO (International Ragnarok Online) that Ragnarok Offline's server has no script for, written for Ragnarok Offline's rAthena 🗺️ The quest ids are the iRO client's own, so the quest window (**Alt+U**) shows iRO's own text for them.
