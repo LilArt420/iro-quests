@@ -7,6 +7,7 @@
 - New: **Town quests (2021 revamp)**, Payon: Durevak's liquor, the lost grandson and Reno in Payon Cave, the elder's tale and the Moonlight Flower fox hunt, Dong Dong's firewood, the worried neighbours' boa, "onion" and mushroom hunts, the Wandering Monk's ghost fires and the Young Apprentice's handkerchiefs, with 9 dailies.
 - New: **Town quests (2021 revamp)**, Prontera: Paul and Ann's playground hunts outside the west gate; the Knights' Orc and Goblin subjugation (supply run from the Knights' office to Orc Village, 6 hunts); Priest Leader Lars, Claude and the Glast Heim monastery (Tatiana and Marylin pray for you), Charon and Nadir at the castle. 13 dailies.
 - New: **Town quests (2021 revamp)**, Izlude: Instructor Pontes' training requests, Student Helden and the Wandering Store Owner on Byalan Island, and Leader Maxim's research team in the undersea tunnel (Ernest, Kusekili, Ankana). 9 dailies.
+- New: **Town quests (2021 revamp)**, Aldebaran and the Juno fields: the homemade lunch for the checkpoint guard, Commander Cesare, the Kiel Hyre Academy's student, guard and Cat Paw Merchant, and the Clock Tower Manager's four clock tower hunts. Hugel: Fisherman Ein and Blacksmith Dry. Einbroch, Einbech and Lighthalzen: Ernst's letter and Friedrich's commuter pass to Einbech, Guard Artin's mine, Guard Eisen, Theodore and Reno. 23 dailies.
 - Fix: the town quests' daily hunts and cooldowns are now defined in this mod too (word for word as in eden-rework-2021), so they work with that mod switched off.
 
 ## 0.2.0

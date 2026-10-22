@@ -445,3 +445,201 @@ Body:
   - Id: 21244
     Title: The Woman of His Dreams (Standby)
     TimeLimit: 4h
+  # Aldebaran, Juno fields, Einbroch story steps
+  - Id: 21276
+    Title: "A Mother's Homemade Lunch"
+  - Id: 21279
+    Title: "Soft and Fluffy"
+  - Id: 21300
+    Title: "A Mother's Homemade Lunch - Cooldown"
+    TimeLimit: 4h
+  - Id: 21301
+    Title: "Please Say Hello to My Brother"
+  - Id: 21304
+    Title: "A Free Pass for Commuting"
+  - Id: 21311
+    Title: "The Situation in Einbroch"
+  - Id: 21318
+    Title: "Deliver the Shift Change Notice"
+  # Aldebaran, Juno fields, Hugel, Einbroch, Lighthalzen dailies (as in eden-rework-2021)
+  - Id: 21277
+    Title: Border Checkpoint Duty
+    Targets:
+      - Mob: GEOGRAPHER
+        Count: 10
+      - Mob: MANTIS
+        Count: 10
+  - Id: 21278
+    Title: Border Checkpoint Duty (Standby)
+    TimeLimit: 4h
+  - Id: 21280
+    Title: Academy Security
+    Targets:
+      - Mob: HARPY
+        Count: 15
+      - Mob: SLEEPER
+        Count: 15
+  - Id: 21281
+    Title: Academy Security (Standby)
+    TimeLimit: 4h
+  - Id: 21282
+    Title: A Groundbreaking Business Idea
+  - Id: 21283
+    Title: A Groundbreaking Business Idea (Standby)
+    TimeLimit: 4h
+  - Id: 21284
+    Title: A Proper Finish
+    Targets:
+      - Mob: GOAT
+        Count: 20
+      - Mob: GRAND_PECO
+        Count: 20
+  - Id: 21285
+    Title: A Proper Finish (Standby)
+    TimeLimit: 4h
+  - Id: 21286
+    Title: Clock Tower 1F Cleanup
+    Targets:
+      - Mob: RIDEWORD
+        Count: 20
+      - Mob: PUNK
+        Count: 15
+  - Id: 21287
+    Title: Clock Tower 1F Cleanup (Standby)
+    TimeLimit: 4h
+  - Id: 21288
+    Title: Living Clocks 1
+    Targets:
+      - Mob: CLOCK
+        Count: 15
+  - Id: 21289
+    Title: Living Clocks 1 (Standby)
+    TimeLimit: 4h
+  - Id: 21290
+    Title: Living Clocks 2
+    Targets:
+      - Mob: ALARM
+        Count: 20
+  - Id: 21291
+    Title: Living Clocks 2 (Standby)
+    TimeLimit: 4h
+  - Id: 21292
+    Title: Laughter from Below
+    Targets:
+      - Mob: BATHORY
+        Count: 20
+  - Id: 21293
+    Title: Laughter from Below (Standby)
+    TimeLimit: 4h
+  - Id: 21294
+    Title: A Noble War
+    Targets:
+      - Mob: ASTER
+        Count: 10
+      - Mob: CRAB
+        Count: 10
+  - Id: 21295
+    Title: Clam Digging
+    Targets:
+      - Mob: SHELLFISH
+        Count: 10
+  - Id: 21296
+    Title: Behind the Broken Water Pipes
+    Targets:
+      - Mob: NOVUS_
+        Count: 10
+      - Mob: NOVUS
+        Count: 10
+  - Id: 21297
+    Title: A Noble War (Standby)
+    TimeLimit: 4h
+  - Id: 21298
+    Title: Clam Digging (Standby)
+    TimeLimit: 4h
+  - Id: 21299
+    Title: Behind the Broken Water Pipes (Standby)
+    TimeLimit: 4h
+  - Id: 21302
+    Title: Tidy Up Around Here
+    Targets:
+      - Mob: METALING
+        Count: 20
+      - Mob: MOLE
+        Count: 10
+  - Id: 21303
+    Title: Tidy Up Around Here (Standby)
+    TimeLimit: 4h
+  - Id: 21305
+    Title: Shadow Miners
+    Targets:
+      - Mob: PITMAN
+        Count: 20
+  - Id: 21306
+    Title: Shadow Miners (Standby)
+    TimeLimit: 4h
+  - Id: 21307
+    Title: "Why Does That Thing Move?!"
+    Targets:
+      - Mob: WASTE_STOVE
+        Count: 15
+  - Id: 21308
+    Title: "Why Does That Thing Move?! (Standby)"
+    TimeLimit: 4h
+  - Id: 21309
+    Title: Jumping Minerals
+    Targets:
+      - Mob: MINERAL
+        Count: 15
+      - Mob: OBSIDIAN
+        Count: 5
+  - Id: 21310
+    Title: Jumping Minerals (Standby)
+    TimeLimit: 4h
+  - Id: 21312
+    Title: Floating Toxic Gas 1
+    Targets:
+      - Mob: VENOMOUS
+        Count: 20
+  - Id: 21313
+    Title: Floating Toxic Gas 1 (Standby)
+    TimeLimit: 4h
+  - Id: 21314
+    Title: Floating Toxic Gas 2
+    Targets:
+      - Mob: NOXIOUS
+        Count: 20
+  - Id: 21315
+    Title: Floating Toxic Gas 2 (Standby)
+    TimeLimit: 4h
+  - Id: 21316
+    Title: Cute and Creepy
+    Targets:
+      - Mob: TEDDY_BEAR
+        Count: 15
+  - Id: 21317
+    Title: Cute and Creepy (Standby)
+    TimeLimit: 4h
+  - Id: 21319
+    Title: "A Pool That Big, and Still?!"
+    Targets:
+      - Mob: RAFFLESIA
+        Count: 20
+  - Id: 21320
+    Title: "A Pool That Big, and Still?! (Standby)"
+    TimeLimit: 4h
+  - Id: 21321
+    Title: Slapping at the Ankles
+    Targets:
+      - Mob: STEM_WORM
+        Count: 20
+  - Id: 21322
+    Title: Slapping at the Ankles (Standby)
+    TimeLimit: 4h
+  - Id: 21323
+    Title: The Valley of the Reaper
+    Targets:
+      - Mob: BREEZE
+        Count: 20
+  - Id: 21324
+    Title: The Valley of the Reaper (Standby)
+    TimeLimit: 4h

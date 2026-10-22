@@ -1,0 +1,36 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Hugel town quests (kRO's 2021 town quest revamp, on iRO)
+//===== Description: =========================================
+//= Fisherman Ein's nets and clams, and Blacksmith Dry's water
+//= pipes at Abyss Lake. Dailies only, shared with the Eden
+//= Group's mission boards (mod eden-rework-2021 uses the same
+//= quest ids and cooldowns). NPCs, positions and steps are the
+//= iRO client's (quest text 21294-21299, navigation table); kill
+//= counts and rewards are the Eden board's. Fisherman Ein stands 3 cells west
+//= of iRO's spot (a Warper and Marigold are there on this server).
+//============================================================
+
+hugel,97,149,4	script	Fisherman Ein#iqhu	712,{
+	mes "[Fisherman Ein]";
+	mes "Welcome to Hugel! Crabs and Asters";
+	mes "keep tearing my nets on the beach.";
+	mes "And while you're here, why not dig";
+	mes "some clams? Fishing village life!";
+	next;
+	switch (select("A Noble War (daily):Clam-Digging Experience (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21294, 21297, 8400, 8380, 0, 0, "Fisherman Ein", 40; end;
+	case 2: callfunc "F_IQ_TownDaily", 21295, 21298, 8400, 8380, Flesh_Of_Clam, 5, "Fisherman Ein", 40; end;
+	case 3: close;
+	}
+}
+
+hugel,91,142,4	script	Blacksmith Dry#iqhu	10004,{
+	mes "[Blacksmith Dry]";
+	mes "I look after Hugel's water. The";
+	mes "Novus around Abyss Lake keep";
+	mes "breaking the pipes! Red ones,";
+	mes "yellow ones, all of them.";
+	next;
+	callfunc "F_IQ_TownDaily", 21296, 21299, 43080, 40160, 0, 0, "Blacksmith Dry", 80;
+	end;
+}

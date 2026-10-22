@@ -55,7 +55,7 @@
       "type": "boolean",
       "default": true,
       "label": "Town quests (2021 revamp)",
-      "description": "kRO's 2021 town quests that iRO runs: so far Morroc, Payon, Prontera (with Orc Village and Glast Heim) and Izlude (with Byalan Island), with their dailies, shared with the Eden Group's mission boards."
+      "description": "kRO's 2021 town quests that iRO runs: so far Morroc, Payon, Prontera (with Orc Village and Glast Heim), Izlude, Aldebaran and the Juno fields, Hugel, Einbroch and Lighthalzen, with their dailies, shared with the Eden Group's mission boards."
     }
   ]
 }
