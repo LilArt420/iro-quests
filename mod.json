@@ -55,7 +55,7 @@
       "type": "boolean",
       "default": true,
       "label": "Town quests (2021 revamp)",
-      "description": "kRO's 2021 town quests that iRO runs: so far Morroc's chain (Elderly Scholar, Lumin, Ernest, Leader Maxim) and its dailies, shared with the Eden Group's mission boards."
+      "description": "kRO's 2021 town quests that iRO runs: so far Morroc (Elderly Scholar, Lumin, Ernest, Leader Maxim) and Payon (the well, the lost grandson, the fox spirit, Dong Dong and the neighbours), with their dailies, shared with the Eden Group's mission boards."
     }
   ]
 }

@@ -1,5 +1,7 @@
-# iRO Quests: the 2021 town quests' story steps that rAthena's quest_db lacks (iRO client ids).
-# The dailies (21202, 21205, 21213-21220 and their cooldowns) are rAthena's own entries.
+# iRO Quests: the 2021 town quests (iRO client ids). rAthena's quest_db has only the dailies'
+# cooldowns (21016, 21018, ... 21203, 21206, ...). The daily hunts themselves are copied
+# word for word from mod eden-rework-2021's quest_db, so they work with that mod off and
+# match it exactly when it is on.
 Header:
   Type: QUEST_DB
   Version: 3
@@ -41,3 +43,136 @@ Body:
       - Mob: MARDUK
         Item: Worn_Out_Papyrus
         Rate: 3000
+  # Morroc dailies (as in eden-rework-2021)
+  - Id: 21202
+    Title: In the Way
+    Targets:
+      - Mob: SAND_MAN
+        Count: 10
+  - Id: 21205
+    Title: "Can't Sleep"
+    Targets:
+      - Mob: VERIT
+        Count: 10
+      - Mob: MINOROUS
+        Count: 10
+  - Id: 21213
+    Title: Defeat Isis
+    Targets:
+      - Mob: ISIS
+        Count: 20
+  - Id: 21215
+    Title: "The Sphinx's Workers"
+    Targets:
+      - Mob: ZEROM
+        Count: 15
+      - Mob: REQUIEM
+        Count: 15
+  - Id: 21217
+    Title: "The Sphinx's Secret"
+    Targets:
+      - Mob: MARDUK
+        Count: 15
+      - Mob: PASANA
+        Count: 15
+    Drops:
+      - Mob: MARDUK
+        Item: Worn_Out_Papyrus
+        Rate: 3000
+  - Id: 21219
+    Title: Mummies and the Blue Box
+    Targets:
+      - Mob: MUMMY
+        Count: 10
+  # Payon story steps
+  - Id: 21011
+    Title: "Durevak's Liquor"
+  - Id: 21012
+    Title: "The Grandson's Whereabouts"
+  - Id: 21013
+    Title: "Looking for One, Finding None"
+  - Id: 21014
+    Title: "Smelly, Slippery Ghosts"
+    Targets:
+      - Mob: ZOMBIE
+        Count: 5
+  - Id: 21023
+    Title: "Fox Hunting"
+    Drops:
+      - Mob: MOONLIGHT
+        Item: FoxBeads
+        Rate: 10000
+  - Id: 21025
+    Title: "A Story From Long Ago"
+  - Id: 21026
+    Title: "Waiting for Firewood"
+  - Id: 21027
+    Title: "It's Just a Tree"
+    Targets:
+      - Mob: WILOW
+        Count: 3
+  - Id: 21030
+    Title: "For the Children"
+    Targets:
+      - Mob: SNAKE
+        Count: 5
+  - Id: 21033
+    Title: "A Wondrous Onion"
+    Targets:
+      - Mob: WORM_TAIL
+        Count: 1
+  - Id: 21036
+    Title: "Wondrous Mushrooms"
+    Targets:
+      - Mob: SPORE
+        Count: 5
+  - Id: 21039
+    Title: "I Only Trust You!"
+  - Id: 21046
+    Title: "The Young Apprentice's Taste"
+  # Payon dailies (as in eden-rework-2021)
+  - Id: 21015
+    Title: The Undead War
+    Targets:
+      - Mob: ZOMBIE
+        Count: 10
+      - Mob: SKELETON
+        Count: 20
+  - Id: 21017
+    Title: Soul Cleansing Ritual
+    Targets:
+      - Mob: MUNAK
+        Count: 15
+      - Mob: BON_GUN
+        Count: 15
+  - Id: 21019
+    Title: Sorrow Soothed with a Drink
+  - Id: 21021
+    Title: Traces of Great Magic
+    Targets:
+      - Mob: SOHEE
+        Count: 12
+    Drops:
+      - Mob: SOHEE
+        Item: Handkerchief_of_Girl
+        Rate: 3000
+  - Id: 21028
+    Title: A Cushy Job
+    Targets:
+      - Mob: WILOW
+        Count: 5
+  - Id: 21031
+    Title: Pro Snake Hunter
+    Targets:
+      - Mob: SNAKE
+        Count: 5
+  - Id: 21034
+    Title: That Onion Is Harmful
+    Targets:
+      - Mob: WORM_TAIL
+        Count: 5
+  - Id: 21037
+    Title: "Before It's All Mushrooms"
+    Targets:
+      - Mob: SPORE
+        Count: 10

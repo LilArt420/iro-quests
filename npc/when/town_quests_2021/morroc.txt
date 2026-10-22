@@ -16,55 +16,6 @@
 //= Character variable: iq_moc21 (story step, 0-13).
 //============================================================
 
-// getarg: 0 quest, 1 cooldown quest, 2 Base EXP, 3 Job EXP, 4 item, 5 count, 6 NPC name, 7 min level
-// Returns 1 if it handled the conversation as the daily, 0 if the daily isn't available.
-function	script	F_IQ_TownDaily	{
-	.@q = getarg(0); .@cd = getarg(1);
-	if (checkquest(.@cd, PLAYTIME) == 2)
-		erasequest .@cd;
-	mes "[" + getarg(6) + "]";
-	if (checkquest(.@q) >= 0 && checkquest(.@q) < 2) {
-		if (checkquest(.@q, HUNTING) != 2 || (getarg(4) && countitem(getarg(4)) < getarg(5))) {
-			mes "Not done yet? Your quest log";
-			mes "says what's left.";
-			if (getarg(4))
-				mes "^777777(Bring " + getarg(5) + " " + getitemname(getarg(4)) + ".)^000000";
-			close;
-		}
-		if (getarg(4))
-			delitem getarg(4), getarg(5);
-		erasequest .@q;
-		if (checkquest(.@cd) >= 0)
-			erasequest .@cd;
-		setquest .@cd;
-		getexp getarg(2), getarg(3);
-		mes "That's the job done. Thank you!";
-		mes "Come back tomorrow, if you like.";
-		close;
-	}
-	if (checkquest(.@cd) >= 0) {
-		mes "That's enough for today. Come";
-		mes "back tomorrow, after 4 AM.";
-		close;
-	}
-	if (BaseLevel < getarg(7)) {
-		mes "It's dangerous work. Come back";
-		mes "when you're stronger. ^777777(Base Level " + getarg(7) + ")^000000";
-		close;
-	}
-	mes "Could you help me again today?";
-	next;
-	if (select("Sure:Not today") == 2)
-		close;
-	if (checkquest(.@q) == 2)
-		erasequest .@q;
-	setquest .@q;
-	mes "[" + getarg(6) + "]";
-	mes "Thank you! Your quest log has";
-	mes "the details.";
-	close;
-}
-
 morocc,151,86,4	script	Elderly Scholar#iqmoc1	897,{
 	mes "[Elderly Scholar]";
 	if (iq_moc21 == 0) {

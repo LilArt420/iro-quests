@@ -267,7 +267,7 @@ kRO's 2015 "City Contribution" system, which iRO runs as the Merchant Union.
 - Not in the sources, chosen here: when B and A deliveries open (10 and 30 finished requests) and the gear prices (100,000-250,000 zeny).
 
 ## 🏜️ Town quests (2021 revamp)
-kRO rewrote its town quests in 2021, and iRO runs them. So far: **Morroc** (Base Level 40+). An Elderly Scholar (morocc 151, 86) sends you after his apprentice in the desert; the trail runs through the Thieves' Guild ruins, Ernest's research and Leader Maxim's team in the pyramid, to the Sphinx. Each hunt becomes a daily once done, shared with the Eden Group's mission boards (same quest ids and 4 AM resets).
+kRO rewrote its town quests in 2021, and iRO runs them. So far: **Morroc** (Base Level 40+). An Elderly Scholar (morocc 151, 86) sends you after his apprentice in the desert; the trail runs through the Thieves' Guild ruins, Ernest's research and Leader Maxim's team in the pyramid, to the Sphinx. **Payon** (Base Level 1+, cave steps 15-60): a Village Grandfather (payon 192, 109) wants his liquor from the well, then his grandson back from Payon Cave; the Archer Village guard, Reno, the elder and the fox spirit of the abandoned village follow, and the neighbours (Dong Dong's father, the worried lady, grandma and grandpa) have small hunts. Each hunt becomes a daily once done, shared with the Eden Group's mission boards (same quest ids and 4 AM resets).
 
 ## ⚙️ Settings
 In **Settings → Mods → iro-quests**:

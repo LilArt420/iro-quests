@@ -1,0 +1,534 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Payon town quests (kRO's 2021 town quest revamp, on iRO)
+//===== Description: =========================================
+//= An old man's well and a missing grandson lead into Payon
+//= Cave with Reno; the Archer Village guard, the elder and the
+//= fox spirit of the abandoned village follow. Beside it, Payon's
+//= neighbours have small requests (Dong Dong's firewood, a boa,
+//= an "onion", mushrooms), and the Wandering Monk and the young
+//= apprentice post dailies in the cave. Every hunt turns into a
+//= daily once done, shared with the Eden Group's mission boards
+//= (mod eden-rework-2021 uses the same quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21011-21046, navigation table); kill counts and daily rewards
+//= are the Eden board's figures. Not in any source, chosen here:
+//= story-step rewards (each pays like its daily), the fox hunt's
+//= reward, and the Archer Village guard stands 2 cells south of
+//= iRO's spot (a Warper is there on this server). iRO's reunion
+//= scene in Archer Village (a second grandfather, Reno and guards)
+//= is left out: rAthena's own NPCs stand on those cells.
+//=
+//= Character variables: iq_pay21 (main story, 0-8), iq_pay_dd
+//= (Dong Dong, 0-4), iq_pay_side (bits: 1 lady, 2 grandma, 4 grandpa).
+//============================================================
+
+payon,192,109,4	script	Village Grandfather#iqpay	842,{
+	mes "[Village Grandfather]";
+	if (checkquest(21019) >= 0 && checkquest(21019) < 2 && countitem(Liqueur_Of_Lotus) < 10 && countitem(FaintBreathing) < 10) {
+		mes "The monk wants to calm the poor";
+		mes "souls with a drink? Here, ^0000FFHa";
+		mes "Soju^000000. The good stuff.";
+		getitem Liqueur_Of_Lotus, 10 - countitem(Liqueur_Of_Lotus);
+		close;
+	}
+	switch (iq_pay21) {
+	case 0:
+		mes "Young one! My back won't let me";
+		mes "bend over the well, and my liquor";
+		mes "is chilling in a stave down there.";
+		mes "Durevak's own recipe. Would you";
+		mes "pull it up for me?";
+		next;
+		if (select("Sure:Not now") == 2)
+			close;
+		iq_pay21 = 1;
+		setquest 21011;
+		mes "[Village Grandfather]";
+		mes "The well right beside me. Pull";
+		mes "slowly, the rope is old.";
+		close;
+	case 1:
+		mes "The well right beside me!";
+		close;
+	case 2:
+		mes "Ahh, still cold. Thank you!";
+		getexp 800, 800;
+		next;
+		mes "[Village Grandfather]";
+		mes "Now... I hate to ask more, but my";
+		mes "grandson snuck off to the Archer";
+		mes "Village this morning and hasn't";
+		mes "come back. The ^0000FFguard by the cave^000000";
+		mes "might have seen him.";
+		erasequest 21011;
+		setquest 21012;
+		iq_pay21 = 3;
+		close;
+	case 3:
+	case 4:
+	case 5:
+		mes "Any news of my grandson? The guard";
+		mes "by the cave in Archer Village...";
+		close;
+	default:
+		mes "My grandson is home, sulking.";
+		mes "Good! Thank you, young one.";
+		close;
+	}
+}
+
+payon,195,108,0	script	Well#iqpay	CLEAR_NPC,{
+	if (iq_pay21 != 1) {
+		mes "An old well. The water smells";
+		mes "faintly of... rice liquor?";
+		close;
+	}
+	mes "A rope hangs into the well, tied";
+	mes "to something heavy.";
+	next;
+	if (select("Pull it up:Leave it") == 2)
+		close;
+	specialeffect2 EF_BUBBLE;
+	mes "Hand over hand... up comes a";
+	mes "dripping stave of liquor.";
+	iq_pay21 = 2;
+	close;
+}
+
+pay_arche,41,131,4	script	Guard#iqpay	708,{
+	mes "[Guard]";
+	switch (iq_pay21) {
+	case 3:
+		mes "The old man's grandson? He ran";
+		mes "into the cave! And a young fellow";
+		mes "called ^0000FFReno^000000 went in after him.";
+		mes "Neither has come back. Please,";
+		mes "find them.";
+		erasequest 21012;
+		setquest 21013;
+		iq_pay21 = 4;
+		close;
+	case 4:
+	case 5:
+		mes "Reno went into the cave, first";
+		mes "floor. Hurry!";
+		close;
+	case 6:
+		mes "They're out! Thank you. The";
+		mes "zombies are getting bolder down";
+		mes "there, and no one knows why.";
+		getexp 3200, 3000;
+		next;
+		mes "[Guard]";
+		mes "The elder in front of the Buddha";
+		mes "statue wants to meet you. He knows";
+		mes "this valley's old stories.";
+		erasequest 21014;
+		iq_pay21 = 7;
+		close;
+	}
+	if (iq_pay21 < 6) {
+		mes "Payon Cave is dangerous. Keep";
+		mes "your wits about you.";
+		close;
+	}
+	mes "Help me with the cave?";
+	next;
+	switch (select("Undead War (daily):Soul Purification Ritual (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21015, 21016, 3200, 3000, 0, 0, "Guard", 15; end;
+	case 2: callfunc "F_IQ_TownDaily", 21017, 21018, 13200, 12300, Amulet, 15, "Guard", 50; end;
+	case 3: close;
+	}
+}
+
+pay_dun00,155,174,4	script	Reno#iqpay	10244,{
+	mes "[Reno]";
+	if (iq_pay21 == 4) {
+		mes "You came for the boy too? He's";
+		mes "hiding behind those rocks, but";
+		mes "the zombies won't leave! I can't";
+		mes "get past them. ^0000FF5 zombies^000000, please!";
+		erasequest 21013;
+		setquest 21014;
+		iq_pay21 = 5;
+		close;
+	}
+	if (iq_pay21 == 5) {
+		if (checkquest(21014, HUNTING) != 2) {
+			mes "5 zombies! They smell awful.";
+			close;
+		}
+		mes "That's all of them! Come on out,";
+		mes "kid. Grandpa's worried sick.";
+		mes "Let's tell the guard we're safe.";
+		iq_pay21 = 6;
+		close;
+	}
+	mes "This cave gives me the creeps.";
+	mes "Let's not come back. Ever.";
+	close;
+}
+
+pay_arche,139,33,4	script	Elder Payon#iqpay	684,{
+	mes "[Elder Payon]";
+	if (iq_pay21 == 7) {
+		mes "So you're the one who went into the";
+		mes "cave. Sit. Long ago, this valley";
+		mes "was one village, until a fox";
+		mes "spirit, ^0000FFthe Moonlight Flower^000000, bound";
+		mes "the souls of its people.";
+		next;
+		mes "[Elder Payon]";
+		mes "The dead still wander the old";
+		mes "village under the cave. As long as";
+		mes "she lives, they won't rest.";
+		setquest 21025;
+		completequest 21025;
+		getexp 3200, 3000;
+		iq_pay21 = 8;
+		next;
+		mes "[Elder Payon]";
+		mes "If you grow strong enough, hunt";
+		mes "her. The ^0000FFnotice^000000 at the abandoned";
+		mes "village's gate takes volunteers.";
+		mes "Bring her ^0000FFFox Bead^000000 to me.";
+		mes "^777777(Base Level 60)^000000";
+		close;
+	}
+	if (iq_pay21 >= 8) {
+		if (checkquest(21023) >= 0 && checkquest(21023) < 2) {
+			if (!countitem(FoxBeads)) {
+				mes "The Moonlight Flower, in the";
+				mes "abandoned village. Her Fox Bead.";
+				close;
+			}
+			delitem FoxBeads, 1;
+			erasequest 21023;
+			if (checkquest(21024) >= 0)
+				erasequest 21024;
+			setquest 21024;
+			getexp 20000, 20000;
+			mes "Her bead... The souls will rest a";
+			mes "while. She always comes back,";
+			mes "though. The notice will call for";
+			mes "hunters again tomorrow.";
+			close;
+		}
+		mes "The fox spirit still binds the";
+		mes "dead. The notice at the abandoned";
+		mes "village's gate takes volunteers.";
+		close;
+	}
+	mes "Peace be with you, traveler.";
+	close;
+}
+
+pay_dun02,134,123,4	script	Wandering Monk#iqpay	834,{
+	mes "[Wandering Monk]";
+	mes "Below us, in the abandoned village,";
+	mes "ghost fires weep. A cup of clear";
+	mes "liquor calms them. The old man by";
+	mes "the well in Payon brews it.";
+	next;
+	callfunc "F_IQ_TownDaily", 21019, 21020, 9600, 9600, FaintBreathing, 10, "Wandering Monk", 50;
+	end;
+}
+
+// Ghost fires of the abandoned village (only if mod eden-rework-2021's
+// Will-o'-Wisps are not loaded: they do the same job).
+pay_dun03,210,133,0	script	Ghost Fire#iqpay1	10042,{
+	if (checkquest(21019) < 0 || checkquest(21019) == 2) {
+		mes "A pale flame weeps in the dark.";
+		close;
+	}
+	if (countitem(FaintBreathing) >= 10) {
+		mes "You already hold 10 Last Breaths.";
+		mes "Take them to the Wandering Monk.";
+		close;
+	}
+	if (!countitem(Liqueur_Of_Lotus)) {
+		mes "The flame waits. You have no Ha";
+		mes "Soju to offer it.";
+		close;
+	}
+	mes "Pour it a cup of Ha Soju?";
+	next;
+	if (select("Pour a cup:Leave it") == 2)
+		close;
+	delitem Liqueur_Of_Lotus, 1;
+	getitem FaintBreathing, 1;
+	mes "The flame sways and fades, leaving";
+	mes "a cold breath in your hand.";
+	close2;
+	disablenpc strnpcinfo(0);
+	sleep 30000;
+	enablenpc strnpcinfo(0);
+	end;
+
+OnInit:
+	if (getnpcid(0, "Will-o'-Wisp#edmb1"))
+		disablenpc strnpcinfo(0);
+	end;
+}
+pay_dun03,211,84,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay2	10042
+pay_dun03,164,120,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay3	10042
+pay_dun03,248,232,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay4	10042
+pay_dun03,63,126,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay5	10042
+pay_dun03,52,132,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay6	10042
+pay_dun03,38,129,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay7	10042
+pay_dun03,55,106,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay8	10042
+pay_dun03,43,79,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay9	10042
+pay_dun03,70,82,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay10	10042
+pay_dun03,84,82,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay11	10042
+pay_dun03,84,63,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay12	10042
+pay_dun03,93,66,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay13	10042
+pay_dun03,68,42,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay14	10042
+pay_dun03,113,85,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay15	10042
+pay_dun03,117,50,0	duplicate(Ghost Fire#iqpay1)	Ghost Fire#iqpay16	10042
+
+pay_dun03,121,62,4	script	Payon Guard Garam#iqpay	708,{
+	mes "[Payon Guard Garam]";
+	mes "Beyond here lies the abandoned";
+	mes "village. Sohee, Munak, Bongun...";
+	mes "and ghost fires. Watch yourself.";
+	close;
+}
+
+pay_dun03,121,65,4	script	Notice#iqpay	837,{
+	mes "[Notice]";
+	mes "^FF0000DANGER^000000: abandoned village ahead.";
+	mes "The souls here are restless. Do";
+	mes "not disturb the ghost fires";
+	mes "without an offering.";
+	if (iq_pay21 < 8)
+		close;
+	next;
+	mes "[Notice]";
+	mes "^0000FFWANTED^000000: hunters for the fox";
+	mes "spirit, the Moonlight Flower. Bring";
+	mes "her Fox Bead to the elder in front";
+	mes "of the Buddha statue, Archer Village.";
+	if (checkquest(21023) >= 0 && checkquest(21023) < 2)
+		close;
+	if (checkquest(21024, PLAYTIME) == 2)
+		erasequest 21024;
+	if (checkquest(21024) >= 0) {
+		mes "^777777(Someone has crossed today's";
+		mes "hunt off. Come back after 04:00.)^000000";
+		close;
+	}
+	if (BaseLevel < 60) {
+		mes "^777777(Base Level 60)^000000";
+		close;
+	}
+	next;
+	if (select("Sign up for the hunt:Leave it") == 2)
+		close;
+	if (checkquest(21023) == 2)
+		erasequest 21023;
+	setquest 21023;
+	mes "[Notice]";
+	mes "^777777(You write your name under the";
+	mes "notice.)^000000";
+	close;
+}
+
+payon,198,111,4	script	Young Apprentice#iqpay	754,{
+	if (checkquest(21022) >= 0 && checkquest(21046) < 0) {
+		setquest 21046;
+		completequest 21046;
+	}
+	mes "[Young Apprentice]";
+	mes "I'm studying traces of old magic.";
+	mes "Don't laugh: I need ^0000FFGirl's";
+	mes "Handkerchiefs^000000. The Sohee in the";
+	mes "abandoned village carry them.";
+	next;
+	callfunc "F_IQ_TownDaily", 21021, 21022, 10480, 12400, Handkerchief_of_Girl, 3, "Young Apprentice", 50;
+	end;
+}
+
+payon,173,77,4	script	Anxious Middle-Aged Man#iqpay	88,{
+	mes "[Anxious Middle-Aged Man]";
+	switch (iq_pay_dd) {
+	case 0:
+		mes "My son Dong Dong went to chop";
+		mes "firewood in the forest south of";
+		mes "Payon and hasn't come back. Would";
+		mes "you look for him?";
+		next;
+		if (select("I'll look:Not now") == 2)
+			close;
+		setquest 21026;
+		iq_pay_dd = 1;
+		close;
+	case 1:
+	case 2:
+		mes "The forest south of Payon. Please!";
+		close;
+	case 3:
+		mes "He's fine? Just... lazy? *sigh*";
+		mes "Thank you. If you're ever passing,";
+		mes "bring me some dry wood: ^0000FF3 Barren";
+		mes "Trunks^000000 from Willows.";
+		erasequest 21039;
+		getexp 800, 800;
+		iq_pay_dd = 4;
+		close;
+	}
+	callfunc "F_IQ_TownDaily", 21028, 21029, 800, 800, Tree_Of_Archer_3, 3, "Anxious Middle-Aged Man", 1;
+	end;
+}
+
+pay_fild01,328,351,4	script	Relaxed Man#iqpay	881,{
+	mes "[Dong Dong]";
+	if (iq_pay_dd == 1) {
+		mes "Dad sent you? I'm working! ...On";
+		mes "my nap. The Willows have the";
+		mes "good dry wood, but they're mean.";
+		mes "Beat ^0000FF3 Willows^000000 and bring me ^0000FF2";
+		mes "Barren Trunks^000000?";
+		erasequest 21026;
+		setquest 21027;
+		iq_pay_dd = 2;
+		close;
+	}
+	if (iq_pay_dd == 2) {
+		if (checkquest(21027, HUNTING) != 2 || countitem(Tree_Of_Archer_3) < 2) {
+			mes "3 Willows, 2 Barren Trunks.";
+			close;
+		}
+		delitem Tree_Of_Archer_3, 2;
+		erasequest 21027;
+		setquest 21039;
+		iq_pay_dd = 3;
+		mes "Perfect! Tell Dad I worked hard.";
+		mes "Please?";
+		close;
+	}
+	mes "Zzz... Oh! I'm working!";
+	close;
+}
+
+payon,217,94,4	script	Worried Young Lady#iqpay	77,{
+	mes "[Worried Young Lady]";
+	if (!(iq_pay_side & 1)) {
+		if (checkquest(21030) < 0) {
+			mes "Boas come out of the forest east";
+			mes "of Payon! My children play there.";
+			mes "Could you drive off ^0000FF5 Boas^000000?";
+			next;
+			if (select("Sure:Not now") == 2)
+				close;
+			setquest 21030;
+			close;
+		}
+		if (checkquest(21030, HUNTING) != 2) {
+			mes "5 Boas, in the forest east of town.";
+			close;
+		}
+		erasequest 21030;
+		getexp 1600, 1400;
+		getitem Strawberry, 5;
+		iq_pay_side = iq_pay_side | 1;
+		mes "Thank you! Have some strawberries.";
+		close;
+	}
+	callfunc "F_IQ_TownDaily", 21031, 21032, 1600, 1400, 0, 0, "Worried Young Lady", 15, Strawberry, 5;
+	end;
+}
+
+payon,237,64,4	script	Worried Grandma#iqpay	863,{
+	mes "[Worried Grandma]";
+	if (!(iq_pay_side & 2)) {
+		if (checkquest(21033) < 0) {
+			mes "I saw the strangest onion in the";
+			mes "eastern forest. It wriggled! Could";
+			mes "you check one for me? They call it";
+			mes "a ^0000FFWormtail^000000.";
+			next;
+			if (select("I'll check:Not now") == 2)
+				close;
+			setquest 21033;
+			close;
+		}
+		if (checkquest(21033, HUNTING) != 2) {
+			mes "Just one Wormtail, dear.";
+			close;
+		}
+		erasequest 21033;
+		getexp 1600, 1400;
+		iq_pay_side = iq_pay_side | 2;
+		mes "Not an onion at all?! It's been";
+		mes "fooling people. Nasty thing.";
+		close;
+	}
+	callfunc "F_IQ_TownDaily", 21034, 21035, 1600, 1400, 0, 0, "Worried Grandma", 15;
+	end;
+}
+
+payon,239,64,4	script	Worried Grandpa#iqpay	866,{
+	mes "[Worried Grandpa]";
+	if (!(iq_pay_side & 4)) {
+		if (checkquest(21036) < 0) {
+			mes "Mushrooms walking around in the";
+			mes "eastern forest! ^0000FFSpores^000000, they say.";
+			mes "Dangerous, I'm sure. Thin them";
+			mes "out? 5 should do, for a start.";
+			next;
+			if (select("Sure:Not now") == 2)
+				close;
+			setquest 21036;
+			close;
+		}
+		if (checkquest(21036, HUNTING) != 2) {
+			mes "5 Spores, east of town.";
+			close;
+		}
+		erasequest 21036;
+		getexp 3000, 2000;
+		iq_pay_side = iq_pay_side | 4;
+		mes "Good, good. Before the whole forest";
+		mes "turns into mushrooms!";
+		close;
+	}
+	callfunc "F_IQ_TownDaily", 21037, 21038, 3000, 2000, 0, 0, "Worried Grandpa", 15;
+	end;
+}
+
+payon,190,112,4	script	Reno#iqpay2	10244,{
+	mes "[Reno]";
+	if (iq_pay21 >= 6) {
+		mes "Never again. Never. Zombies are";
+		mes "bad enough, but the smell stays";
+		mes "in your clothes for days.";
+		close;
+	}
+	mes "The old man's grandson ran off";
+	mes "again? Kids these days...";
+	close;
+}
+
+pay_arche,39,128,4	script	Little Kid#iqpay	587,{
+	mes "[Little Kid]";
+	if (iq_pay21 >= 6) {
+		mes "I only wanted to see the cave...";
+		mes "Grandpa says I'm grounded until";
+		mes "I'm as old as he is.";
+		close;
+	}
+	mes "Grandpa says the cave is scary.";
+	mes "I bet it isn't.";
+	close;
+}
+
+payon,203,113,4	script	Wandering Monk#iqpay2	834,{
+	mes "[Wandering Monk]";
+	mes "I came up for the old man's liquor.";
+	mes "The ghost fires in the abandoned";
+	mes "village weep for a cup of it.";
+	next;
+	callfunc "F_IQ_TownDaily", 21019, 21020, 9600, 9600, FaintBreathing, 10, "Wandering Monk", 50;
+	end;
+}
