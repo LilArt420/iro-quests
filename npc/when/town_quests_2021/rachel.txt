@@ -1,0 +1,50 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Rachel and Veins town quests (kRO's 2021 revamp, on iRO)
+//===== Description: =========================================
+//= The Rachel airport guard keeps the pilgrims' road safe from
+//= Roweens, Leonard wants revenge on the Siromas of the Ice
+//= Cave, and Craven in Veins buys the miners time from the
+//= Stapos. Each first hunt is a story step; after it, the same
+//= hunt becomes a daily, shared with the Eden Group's mission
+//= boards (mod eden-rework-2021 uses the same quest ids and
+//= cooldowns). NPCs, positions and steps are the iRO client's
+//= (quest text 21140-21148, navigation table); kill counts and
+//= rewards are the Eden board's (each first hunt pays like its
+//= daily).
+//=
+//= Character variable: iq_ra21 (bits: 1 Roweens, 2 Siromas,
+//= 4 Stapos).
+//============================================================
+
+ra_fild12,296,200,4	script	Airport Security Guard#iqra	413,{
+	mes "[Airport Security Guard]";
+	mes "Pilgrims and adventurers come";
+	mes "through here all day, and the";
+	mes "Roweens prey on the weak ones.";
+	mes "Thin them out? 30 should do.";
+	next;
+	callfunc "F_IQ_FirstHunt", 21140, 21142, 21141, "iq_ra21", 1, 86000, 82000, "Airport Security Guard", 90;
+	end;
+}
+
+rachel,192,138,4	script	Leonard#iqra	878,{
+	mes "[Leonard]";
+	mes "The Siromas on the Ice Cave's first";
+	mes "floor... what they did to me. I";
+	mes "won't speak of it. 30 of them.";
+	mes "Avenge me.";
+	next;
+	callfunc "F_IQ_FirstHunt", 21143, 21145, 21144, "iq_ra21", 2, 92000, 82000, "Leonard", 90;
+	end;
+}
+
+veins,182,130,4	script	Craven#iqra	574,{
+	mes "[Craven]";
+	mes "We live off the minerals here, but";
+	mes "the Stapos swallow everything:";
+	mes "stones, minerals, anything. Buy us";
+	mes "some time? 30 of them.";
+	next;
+	callfunc "F_IQ_FirstHunt", 21146, 21148, 21147, "iq_ra21", 4, 86000, 82000, "Craven", 90;
+	end;
+}

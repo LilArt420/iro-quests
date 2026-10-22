@@ -1,0 +1,224 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Comodo town quests (kRO's 2021 revamp, on iRO)
+//===== Description: =========================================
+//= Chef Bobby Q wants a new sauce from Que Sera, Sera, the herb
+//= Serabi grows; his daughter Bunny Q puts it on her face
+//= instead. Then Bobby Q's frogs, Bunny Q's tentacles and
+//= Serabi's Megalodons become dailies. Comodo's Vigilantes and an
+//= Explorer have their own hunts, with a one-time bonus for
+//= turning the first one in in person. All dailies are shared
+//= with the Eden Group's mission boards (mod eden-rework-2021
+//= uses the same quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21401-21421, 21442-21444, navigation table); kill counts and
+//= daily rewards are the Eden board's. Not in any source, chosen
+//= here: the story steps' rewards (like the dailies), the "frog
+//= eggs" of the first step (Sticky Webfoots: there is no Frog Egg
+//= item) and the one-time bonus (the hunt's EXP a second time).
+//=
+//= Character variables: iq_cmd21 (Que Sera, Sera step, 0-9),
+//= iq_cmd21b (bits: 1, 2, 4 = bonus taken at each Vigilante or
+//= the Explorer).
+//============================================================
+
+comodo,206,304,4	script	Chef Bobby Q#iqcmd	46,{
+	mes "[Chef Bobby Q]";
+	switch (iq_cmd21) {
+	case 0:
+		mes "A new sauce! The greatest sauce!";
+		mes "I need ingredients: beat ^0000FF10 Thara";
+		mes "Frogs^000000 in the Eastern Cave and bring";
+		mes "me ^0000FF5 Sticky Webfoots^000000. Frog eggs,";
+		mes "webfoots, all the same to a chef!";
+		if (BaseLevel < 30) {
+			mes "^777777(Base Level 30)^000000";
+			close;
+		}
+		next;
+		if (select("I'll get them:Not now") == 2)
+			close;
+		setquest 21401;
+		iq_cmd21 = 1;
+		close;
+	case 1:
+		if (checkquest(21401, HUNTING) != 2 || countitem(Sticky_Webfoot) < 5) {
+			mes "10 Thara Frogs and 5 Sticky";
+			mes "Webfoots, from the Eastern Cave!";
+			close;
+		}
+		delitem Sticky_Webfoot, 5;
+		erasequest 21401;
+		getexp 5500, 5500;
+		setquest 21402;
+		iq_cmd21 = 2;
+		mes "Wonderful. Now the secret: ^0000FFQue";
+		mes "Sera, Sera^000000. Ask ^0000FFSerabi^000000 on the";
+		mes "southern coast. She knows it best.";
+		close;
+	case 4:
+		mes "The Que Sera, Sera? Sent to me?";
+		mes "I never got it! Go to my house,";
+		mes "east of here. Maybe it's there.";
+		erasequest 21404;
+		setquest 21405;
+		iq_cmd21 = 5;
+		close;
+	case 8:
+		if (countitem(Sticky_Webfoot) < 10) {
+			mes "10 Sticky Webfoots, to my camp!";
+			mes "From the Thara Frogs!";
+			close;
+		}
+		delitem Sticky_Webfoot, 10;
+		erasequest 21408;
+		getexp 5500, 5500;
+		iq_cmd21 = 9;
+		mes "My daughter is all right, and I";
+		mes "have my sauce. Que Sera, Sera!";
+		mes "Come cook with me again any day.";
+		close;
+	}
+	if (iq_cmd21 >= 9) {
+		mes "Back for more cooking?";
+		next;
+		callfunc "F_IQ_TownDaily", 21411, 21410, 5500, 5500, Sticky_Webfoot, 10, "Chef Bobby Q", 30;
+		end;
+	}
+	mes "The sauce! How is the sauce?";
+	close;
+}
+
+comodo,166,137,4	script	Serabi#iqcmd	52,{
+	mes "[Serabi]";
+	switch (iq_cmd21) {
+	case 2:
+		mes "Que Sera, Sera? Bobby Q wants it";
+		mes "for a sauce? Ha. It only grows";
+		mes "clean if the Megalodons' poison";
+		mes "is cleared. Beat ^0000FF10 Megalodons^000000 in";
+		mes "the Eastern Cave.";
+		erasequest 21402;
+		setquest 21403;
+		iq_cmd21 = 3;
+		close;
+	case 3:
+		if (checkquest(21403, HUNTING) != 2) {
+			mes "10 Megalodons, in the Eastern Cave.";
+			close;
+		}
+		erasequest 21403;
+		getexp 5500, 5500;
+		setquest 21404;
+		iq_cmd21 = 4;
+		mes "Beautiful leaves. High quality! I";
+		mes "already sent them to Bobby Q. Go";
+		mes "tell him.";
+		close;
+	case 6:
+		mes "She put it on her ^FF0000face^000000?! Oh, that";
+		mes "girl. A massage with Hydra";
+		mes "Tentacles will calm her skin. Beat";
+		mes "^0000FF10 Hydras^000000 and bring her ^0000FF5 Tentacles^000000.";
+		erasequest 21406;
+		setquest 21407;
+		iq_cmd21 = 7;
+		close;
+	}
+	if (iq_cmd21 >= 9) {
+		mes "Help me keep the Que Sera, Sera";
+		mes "clean?";
+		next;
+		callfunc "F_IQ_TownDaily", 21415, 21414, 5500, 5500, 0, 0, "Serabi", 30;
+		end;
+	}
+	mes "The sea breeze is good for herbs.";
+	close;
+}
+
+comodo,249,300,4	script	Bunny Q#iqcmd	46,{
+	mes "[Bunny Q]";
+	switch (iq_cmd21) {
+	case 5:
+		mes "Don't look at me! A friend said Que";
+		mes "Sera, Sera is good for the skin,";
+		mes "and now... ugh! Dad's package...";
+		mes "I used it. Please, ask ^0000FFSerabi^000000 what";
+		mes "to do!";
+		erasequest 21405;
+		setquest 21406;
+		iq_cmd21 = 6;
+		close;
+	case 7:
+		if (checkquest(21407, HUNTING) != 2 || countitem(Tentacle) < 5) {
+			mes "10 Hydras, 5 Tentacles. Please!";
+			close;
+		}
+		delitem Tentacle, 5;
+		erasequest 21407;
+		getexp 5500, 5500;
+		setquest 21408;
+		iq_cmd21 = 8;
+		mes "Ahh, that's better. So smooth!";
+		next;
+		mes "[Chef Bobby Q]";
+		mes "My daughter! Is she all right?";
+		mes "Then... my sauce! Bring ^0000FF10 Sticky";
+		mes "Webfoots^000000 to my camp!";
+		close;
+	}
+	if (iq_cmd21 >= 9) {
+		mes "My skin's still not quite right.";
+		mes "Another massage?";
+		next;
+		callfunc "F_IQ_TownDaily", 21413, 21412, 5500, 5500, Tentacle, 5, "Bunny Q", 30;
+		end;
+	}
+	mes "Hi! Dad's out cooking somewhere.";
+	close;
+}
+
+// The Vigilantes' and the Explorer's hunts: the first one turned in in person
+// pays a one-time bonus and records 21442-21444.
+// getarg: 0 daily, 1 cooldown, 2 bonus record, 3 bit, 4 Base EXP, 5 Job EXP, 6 NPC name
+function	script	F_IQ_CmdHunt	{
+	if (!(iq_cmd21b & getarg(3)) && checkquest(getarg(0)) == 1 && checkquest(getarg(0), HUNTING) == 2) {
+		iq_cmd21b = iq_cmd21b | getarg(3);
+		setquest getarg(2);
+		completequest getarg(2);
+		getexp getarg(4), getarg(5);
+	}
+	callfunc "F_IQ_TownDaily", getarg(0), getarg(1), getarg(4), getarg(5), 0, 0, getarg(6), 60;
+	end;
+}
+
+comodo,326,215,4	script	Vigilante#iqcmd1	707,{
+	mes "[Vigilante]";
+	mes "Seals and Sea Otters on Kokomo";
+	mes "Beach. Cute, yes. Also biting the";
+	mes "tourists. 10 of each?";
+	next;
+	callfunc "F_IQ_CmdHunt", 21416, 21417, 21442, 1, 10000, 10000, "Vigilante";
+	end;
+}
+
+comodo,170,347,4	script	Vigilante#iqcmd2	707,{
+	mes "[Vigilante]";
+	mes "The road to Umbala runs through";
+	mes "the northern cave, and it's full";
+	mes "of rocks that walk. Stalactic";
+	mes "Golems, Tri Joints, Megaliths.";
+	next;
+	callfunc "F_IQ_CmdHunt", 21418, 21419, 21443, 2, 20000, 20000, "Vigilante";
+	end;
+}
+
+cmd_fild01,40,320,4	script	Explorer#iqcmd	742,{
+	mes "[Explorer]";
+	mes "I'm studying Papuchica Forest and";
+	mes "Jinai Swamp. The Groves and";
+	mes "Alligators make it... difficult.";
+	next;
+	callfunc "F_IQ_CmdHunt", 21420, 21421, 21444, 4, 15000, 15000, "Explorer";
+	end;
+}

@@ -53,3 +53,40 @@ function	script	F_IQ_TownDaily	{
 	close;
 }
 
+
+// A hunt that is a story step the first time, then a daily.
+// getarg: 0 story quest, 1 daily, 2 cooldown, 3 character variable (bits), 4 bit,
+// 5 Base EXP, 6 Job EXP, 7 NPC name, 8 min level
+function	script	F_IQ_FirstHunt	{
+	.@q = getarg(0); .@var$ = getarg(3); .@bit = getarg(4);
+	if (getd(.@var$) & .@bit) {
+		callfunc "F_IQ_TownDaily", getarg(1), getarg(2), getarg(5), getarg(6), 0, 0, getarg(7), getarg(8);
+		end;
+	}
+	mes "[" + getarg(7) + "]";
+	if (checkquest(.@q) < 0) {
+		if (BaseLevel < getarg(8)) {
+			mes "Come back when you're stronger.";
+			mes "^777777(Base Level " + getarg(8) + ")^000000";
+			close;
+		}
+		setquest .@q;
+		mes "Your quest log has the details.";
+		mes "Show me what you can do!";
+		close;
+	}
+	if (checkquest(.@q, HUNTING) != 2) {
+		mes "Not done yet? Your quest log says";
+		mes "what's left.";
+		close;
+	}
+	erasequest .@q;
+	if (checkquest(getarg(2)) >= 0)
+		erasequest getarg(2);
+	setquest getarg(2);
+	getexp getarg(5), getarg(6);
+	setd .@var$, getd(.@var$) | .@bit;
+	mes "Well done! Come back tomorrow and";
+	mes "do it again, if you like.";
+	close;
+}

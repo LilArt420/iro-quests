@@ -1,0 +1,59 @@
+//===== Ragnarok Offline mod: iRO Quests =====================
+//= Geffen town quests (kRO's 2021 town quest revamp, on iRO)
+//===== Description: =========================================
+//= Geffen Tower and the Eden Group clean out the tower's
+//= dungeon: an Apprentice Mage hands out the hunts, floor by
+//= floor. A Tired Man in the tower swears Nightmares keep him
+//= awake, and the Petit Boy wants a Petite that won't bite. Each
+//= first hunt is a story step; after it, the same hunt becomes a
+//= daily, shared with the Eden Group's mission boards (mod
+//= eden-rework-2021 uses the same quest ids and cooldowns).
+//=
+//= Steps, NPCs and positions are the iRO client's (quest text
+//= 21101-21118, navigation table); kill counts and rewards are
+//= the Eden board's figures (each first hunt pays like its daily).
+//=
+//= Character variable: iq_gef21 (bits: 1 Hunter Flies, 2 Ghouls
+//= and Jakks, 4 Marionettes and Deviruchis, 8 Nightmares,
+//= 16 Sky Petites, 32 Ground Petites).
+//============================================================
+
+geffen,126,113,4	script	Apprentice Mage#iqgef	755,{
+	mes "[Apprentice Mage]";
+	mes "Geffen Tower and the Eden Group";
+	mes "are clearing the tower's dungeon.";
+	mes "The monsters multiply every day!";
+	mes "Which floor will you take?";
+	next;
+	switch (select("Hunterflies, 1F (Base Level 55):Ghouls and Jakks, 2F (Base Level 55):Marionettes and Deviruchis, 3F (Base Level 80):Never mind")) {
+	case 1: callfunc "F_IQ_FirstHunt", 21101, 21103, 21102, "iq_gef21", 1, 8000, 6800, "Apprentice Mage", 55; end;
+	case 2: callfunc "F_IQ_FirstHunt", 21104, 21106, 21105, "iq_gef21", 2, 14800, 13660, "Apprentice Mage", 55; end;
+	case 3: callfunc "F_IQ_FirstHunt", 21107, 21109, 21108, "iq_gef21", 4, 37520, 41740, "Apprentice Mage", 80; end;
+	case 4: close;
+	}
+}
+
+gef_tower,48,140,4	script	Tired Man#iqgef	881,{
+	mes "[Tired Man]";
+	mes "I can't sleep. I have nightmares.";
+	mes "Because there are ^0000FFNightmares^000000. Horses!";
+	mes "In the tower! ...You don't believe";
+	mes "me. Just get rid of 10 of them.";
+	next;
+	callfunc "F_IQ_FirstHunt", 21110, 21112, 21111, "iq_gef21", 8, 42000, 38000, "Tired Man", 80;
+	end;
+}
+
+geffen,40,113,4	script	Petit Boy#iqgef	706,{
+	mes "[Petit Boy]";
+	mes "I want a Petite! But they're so";
+	mes "mean, I can't get near them. Find";
+	mes "me a friendly one? If they attack";
+	mes "you... fight back!";
+	next;
+	switch (select("Sky Petites:Ground Petites:Never mind")) {
+	case 1: callfunc "F_IQ_FirstHunt", 21113, 21115, 21114, "iq_gef21", 16, 9900, 10120, "Petit Boy", 75; end;
+	case 2: callfunc "F_IQ_FirstHunt", 21116, 21118, 21117, "iq_gef21", 32, 12860, 13160, "Petit Boy", 75; end;
+	case 3: close;
+	}
+}
