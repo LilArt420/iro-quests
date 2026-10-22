@@ -251,9 +251,16 @@ iRO's copy of the Byalan dungeon for **Base Level 30-85**, entered through **The
 
 On iRO it is a VIP dungeon; this server has no VIP, so it is open to everyone in the level range.
 
+## 👴 Gramps' weekly turn-ins
+iRO's Gramps at the Eden Group HQ (moc_para01 29, 35) pays you to thin out Midgard's monsters, for **Base Level 70-150**.
+- 🎯 Each week (from Tuesday) he posts two hunts per tier: Low 70-100, Mid 101-125, High 126-150. Each asks for **400** kills.
+- 🎁 Turning in pays 400 × the monster's Base and Job EXP, 65,000 zeny and an Eden Merit Badge. Hunts can be turned in at any level, even after the week changes.
+- ⏳ Taking a hunt starts a 16-hour Hunting Timer for that slot. Gramps can also warp you to the monster or let you quit a hunt.
+- iRO's VIP extras (timer resets with Magical Stones, bullions) are left out: this server has no VIP.
+
 ## ⚙️ Settings
 In **Settings → Mods → iro-quests**:
-- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
+- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**, **Gramps' weekly turn-ins**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
 
 ## 💾 Installing
 Renewal servers, Ragnarok Offline 1.6.7 or newer. Download `iro-quests-v<version>.zip` from the [Releases](../../releases) page and install it with **Settings → Mods → Install from a folder…**, then restart the server.

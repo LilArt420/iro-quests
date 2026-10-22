@@ -4,3 +4,4 @@ build/
 *.zip
 triage/triage.tsv
 __pycache__/
+tools/union/union_data.json
