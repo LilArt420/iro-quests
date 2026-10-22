@@ -34,3 +34,80 @@ hugel,91,142,4	script	Blacksmith Dry#iqhu	10004,{
 	callfunc "F_IQ_TownDaily", 21296, 21299, 43080, 40160, 0, 0, "Blacksmith Dry", 80;
 	end;
 }
+
+// Abyss Lake: Nahadan's dragon hunt and the injured traveler, then his dailies
+// (quest text 21638-21648; Eden board figures). Character variable: iq_hu21
+// (0 none, 1 hunting Red Ferus, 2 bring the traveler home, 3 done).
+hugel,69,121,4	script	Nahadan#iqhu1	746,{
+	mes "[Nahadan]";
+	if (iq_hu21 == 0) {
+		mes "The dragons of Abyss Lake are";
+		mes "restless. Hunt ^0000FF30 Red Ferus^000000 at the";
+		mes "lake. I'll meet you there.";
+		if (BaseLevel < 120) {
+			mes "^777777(Base Level 120)^000000";
+			close;
+		}
+		next;
+		if (select("I'll go:Not now") == 2)
+			close;
+		setquest 21638;
+		iq_hu21 = 1;
+		close;
+	}
+	if (iq_hu21 < 3) {
+		mes "Abyss Lake. I'll be there.";
+		close;
+	}
+	mes "The lake's dragons, again. Ready?";
+	next;
+	switch (select("Dragon of the Lake (daily):Wyvern of the Lake (daily):Triadragon of the Lake (daily):Never mind")) {
+	case 1: callfunc "F_IQ_TownDaily", 21640, 21641, 500000, 500000, 0, 0, "Nahadan", 120, 25223, 2; end;
+	case 2: callfunc "F_IQ_TownDaily", 21643, 21644, 500000, 500000, 0, 0, "Nahadan", 120, 25223, 2; end;
+	case 3: callfunc "F_IQ_TownDaily", 21646, 21647, 500000, 500000, 0, 0, "Nahadan", 120, 25223, 1; end;
+	case 4: close;
+	}
+}
+
+hu_fild05,185,36,4	script	Nahadan#iqhu2	746,{
+	mes "[Nahadan]";
+	if (iq_hu21 == 1) {
+		if (checkquest(21638, HUNTING) != 2) {
+			mes "30 Red Ferus. Then come back.";
+			close;
+		}
+		erasequest 21638;
+		getexp 500000, 500000;
+		setquest 21639;
+		iq_hu21 = 2;
+		mes "Good hunting. But look: I found";
+		mes "this traveler hurt by the lake.";
+		mes "Get to town and tell ^0000FFMyungkyung^000000";
+		mes "to send help. Quickly!";
+		close;
+	}
+	mes "The lake is quiet. For now.";
+	close;
+}
+
+hu_fild05,183,37,4	script	Injured#iqhu	699,{
+	mes "[Injured Traveler]";
+	mes "Ugh... the dragons... came out of";
+	mes "nowhere...";
+	close;
+}
+
+hugel,67,119,4	script	Myungkyung#iqhu	10001,{
+	mes "[Myungkyung]";
+	if (iq_hu21 == 2) {
+		mes "A traveler hurt at Abyss Lake?";
+		mes "I'll send people right away. Thank";
+		mes "you! Nahadan will want your help";
+		mes "with the dragons again, I'm sure.";
+		erasequest 21639;
+		iq_hu21 = 3;
+		close;
+	}
+	mes "Hugel's a quiet town. Mostly.";
+	close;
+}

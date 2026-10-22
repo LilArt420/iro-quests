@@ -168,6 +168,15 @@ airport,133,42,4	script	Guard Karl#iqein	852,{
 
 lighthalzen,200,314,4	script	Theodore#iqein	868,{
 	mes "[Theodore]";
+	if (checkquest(21325) < 0) {
+		setquest 21325;
+		completequest 21325;
+		mes "I'm on vacation. ^0000FFVacation^000000. And";
+		mes "still the children come with their";
+		mes "demands...";
+		next;
+		mes "[Theodore]";
+	}
 	mes "Amy wants the big pool outside";
 	mes "town, but Rafflesias took it. Miya";
 	mes "says Stem Worms slap her ankles.";
