@@ -5,6 +5,9 @@
 - New: **City Investment** (kRO/iRO City Merchant Union): join at the Eden Group (Union Manager, Bulletin Board, Secretary Governor), get Union Insignias from monsters (about 1 in 5) and from requests (111 A/B/C deliveries to NPCs in dungeons, 20-50 Insignias; 23 weekly Wanted bosses, 100-300), invest up to 250 a day in one of 9 cities and buy its account-bound Union gear as your standing grows.
 - New: **Town quests (2021 revamp)**, Morroc: the Elderly Scholar, his apprentice, Lumin, Ernest and Leader Maxim's pyramid team (13 story steps), then their dailies, shared with the Eden Group's mission boards.
 - New: **Town quests (2021 revamp)**, Payon: Durevak's liquor, the lost grandson and Reno in Payon Cave, the elder's tale and the Moonlight Flower fox hunt, Dong Dong's firewood, the worried neighbours' boa, "onion" and mushroom hunts, the Wandering Monk's ghost fires and the Young Apprentice's handkerchiefs, with 9 dailies.
+- New: **Town quests (2021 revamp)**, Prontera: Paul and Ann's playground hunts outside the west gate; the Knights' Orc and Goblin subjugation (supply run from the Knights' office to Orc Village, 6 hunts); Priest Leader Lars, Claude and the Glast Heim monastery (Tatiana and Marylin pray for you), Charon and Nadir at the castle. 13 dailies.
+- New: **Town quests (2021 revamp)**, Izlude: Instructor Pontes' training requests, Student Helden and the Wandering Store Owner on Byalan Island, and Leader Maxim's research team in the undersea tunnel (Ernest, Kusekili, Ankana). 9 dailies.
+- Fix: the town quests' daily hunts and cooldowns are now defined in this mod too (word for word as in eden-rework-2021), so they work with that mod switched off.
 
 ## 0.2.0
 - New: **Criminal Activities** (iRO, Base Level 70): Agent York, Vince Noir's band and Jymmy the Thumb's casino airship, from Geffen to Izlude. 1,000,000 / 700,000 EXP and an Old Purple Box.

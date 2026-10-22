@@ -1,7 +1,7 @@
-# iRO Quests: the 2021 town quests (iRO client ids). rAthena's quest_db has only the dailies'
-# cooldowns (21016, 21018, ... 21203, 21206, ...). The daily hunts themselves are copied
-# word for word from mod eden-rework-2021's quest_db, so they work with that mod off and
-# match it exactly when it is on.
+# iRO Quests: the 2021 town quests (iRO client ids). rAthena's quest_db has only some of the
+# dailies' cooldowns (Payon's, Glast Heim's). The other dailies and cooldowns are copied word
+# for word from mod eden-rework-2021's quest_db, so they work with that mod off and match it
+# exactly when it is on.
 Header:
   Type: QUEST_DB
   Version: 3
@@ -84,6 +84,24 @@ Body:
     Targets:
       - Mob: MUMMY
         Count: 10
+  - Id: 21203
+    Title: In the Way (Standby)
+    TimeLimit: 4h
+  - Id: 21206
+    Title: "Can't Sleep (Standby)"
+    TimeLimit: 4h
+  - Id: 21214
+    Title: Defeat Isis (Standby)
+    TimeLimit: 4h
+  - Id: 21216
+    Title: "The Sphinx's Workers (Standby)"
+    TimeLimit: 4h
+  - Id: 21218
+    Title: "The Sphinx's Secret (Standby)"
+    TimeLimit: 4h
+  - Id: 21220
+    Title: Mummies and the Blue Box (Standby)
+    TimeLimit: 4h
   # Payon story steps
   - Id: 21011
     Title: "Durevak's Liquor"
@@ -176,3 +194,254 @@ Body:
     Targets:
       - Mob: SPORE
         Count: 10
+  # Prontera story steps
+  - Id: 21246
+    Title: "Are You Strong? 1"
+    Targets:
+      - Mob: HORNET
+        Count: 10
+  - Id: 21247
+    Title: "Are You Strong? 2"
+    Targets:
+      - Mob: ROCKER
+        Count: 10
+  - Id: 21248
+    Title: "Are You Strong? 3"
+    Targets:
+      - Mob: AMBERNITE
+        Count: 10
+  - Id: 21255
+    Title: "Regular Monster Subjugation Cooperation Notice"
+  - Id: 21266
+    Title: "The Supplies Are Here! 1"
+  - Id: 21267
+    Title: "The Supplies Are Here! 2"
+  - Id: 21268
+    Title: "The Supplies Are Here! - Cooldown"
+    TimeLimit: 4h
+  - Id: 21271
+    Title: "The Whereabouts of the Acolyte"
+  # Prontera, Orc Village and Glast Heim dailies (as in eden-rework-2021)
+  - Id: 21040
+    Title: Prisoners Dreaming of Escape
+    Targets:
+      - Mob: ZOMBIE_PRISONER
+        Count: 10
+      - Mob: SKEL_PRISONER
+        Count: 10
+  - Id: 21042
+    Title: The Vicious Torturer
+    Targets:
+      - Mob: RYBIO
+        Count: 10
+  - Id: 21044
+    Title: Refined Tastes
+    Targets:
+      - Mob: INJUSTICE
+        Count: 20
+  - Id: 21249
+    Title: "Playground Cleanup: Hornets"
+    Targets:
+      - Mob: HORNET
+        Count: 10
+  - Id: 21250
+    Title: "Playground Cleanup: Rockers"
+    Targets:
+      - Mob: ROCKER
+        Count: 10
+  - Id: 21251
+    Title: The Legendary Knight Ambernite
+    Targets:
+      - Mob: AMBERNITE
+        Count: 10
+  - Id: 21252
+    Title: "Playground Cleanup: Hornets (Standby)"
+    TimeLimit: 4h
+  - Id: 21253
+    Title: "Playground Cleanup: Rockers (Standby)"
+    TimeLimit: 4h
+  - Id: 21254
+    Title: The Legendary Knight Ambernite (Standby)
+    TimeLimit: 4h
+  - Id: 21256
+    Title: Round Up the Orcs
+    Targets:
+      - Mob: ORK_WARRIOR
+        Count: 15
+      - Mob: ORC_LADY
+        Count: 15
+      - Mob: ORC_BABY
+        Count: 10
+  - Id: 21257
+    Title: Round Up the Orcs (Standby)
+    TimeLimit: 4h
+  - Id: 21258
+    Title: Those Wretched Orcs
+    Targets:
+      - Mob: ORC_SKELETON
+        Count: 20
+      - Mob: ORC_ZOMBIE
+        Count: 20
+  - Id: 21259
+    Title: Those Wretched Orcs (Standby)
+    TimeLimit: 4h
+  - Id: 21260
+    Title: Greedy Guts
+    Targets:
+      - Mob: ZENORC
+        Count: 20
+  - Id: 21261
+    Title: Greedy Guts (Standby)
+    TimeLimit: 4h
+  - Id: 21262
+    Title: Fierce Goblins
+    Targets:
+      - Mob: GOBLIN_3
+        Count: 10
+      - Mob: GOBLIN_2
+        Count: 10
+  - Id: 21263
+    Title: Fierce Goblins (Standby)
+    TimeLimit: 4h
+  - Id: 21264
+    Title: Nimble Goblins
+    Targets:
+      - Mob: GOBLIN_4
+        Count: 10
+      - Mob: GOBLIN_1
+        Count: 10
+  - Id: 21265
+    Title: Nimble Goblins (Standby)
+    TimeLimit: 4h
+  - Id: 21269
+    Title: A Troublesome Bunch
+    Targets:
+      - Mob: GOBLIN_5
+        Count: 10
+      - Mob: GOBLIN_ARCHER
+        Count: 10
+  - Id: 21270
+    Title: A Troublesome Bunch (Standby)
+    TimeLimit: 4h
+  - Id: 21272
+    Title: Purify the Monastery
+    Targets:
+      - Mob: WRAITH
+        Count: 15
+      - Mob: EVIL_DRUID
+        Count: 15
+  - Id: 21273
+    Title: Purify the Monastery (Standby)
+    TimeLimit: 4h
+  - Id: 21274
+    Title: Calm the Catacombs
+    Targets:
+      - Mob: DARK_PRIEST
+        Count: 10
+      - Mob: C4_DARK_PRIEST
+        Count: 1
+  - Id: 21275
+    Title: Calm the Catacombs (Standby)
+    TimeLimit: 4h
+  # Izlude story steps
+  - Id: 21221
+    Title: "It's All Experience, Too. 1"
+    Targets:
+      - Mob: PECOPECO
+        Count: 10
+      - Mob: MUKA
+        Count: 10
+  - Id: 21224
+    Title: "It's All Experience, Too. 2"
+    Targets:
+      - Mob: MAGNOLIA
+        Count: 10
+      - Mob: METALLER
+        Count: 10
+  - Id: 21227
+    Title: "People in Trouble 1"
+  - Id: 21230
+    Title: "Profiting from Others' Misfortune"
+  - Id: 21233
+    Title: "No News Is Good News..? 1"
+  - Id: 21234
+    Title: "The Extreme Chef"
+  - Id: 21236
+    Title: "No News Is Good News..? 2"
+  - Id: 21241
+    Title: "Proof of the God of the Sea"
+  # Izlude dailies (as in eden-rework-2021)
+  - Id: 21222
+    Title: Noisy Ones
+    Targets:
+      - Mob: PECOPECO
+        Count: 10
+      - Mob: MUKA
+        Count: 10
+  - Id: 21223
+    Title: Noisy Ones (Standby)
+    TimeLimit: 4h
+  - Id: 21225
+    Title: Eggs and Grasshoppers
+    Targets:
+      - Mob: MAGNOLIA
+        Count: 10
+      - Mob: METALLER
+        Count: 10
+  - Id: 21226
+    Title: Eggs and Grasshoppers (Standby)
+    TimeLimit: 4h
+  - Id: 21228
+    Title: Sampling Is the Hard Part
+    Targets:
+      - Mob: MARINA
+        Count: 10
+      - Mob: PLANKTON
+        Count: 10
+  - Id: 21229
+    Title: Sampling Is the Hard Part (Standby)
+    TimeLimit: 4h
+  - Id: 21231
+    Title: Make Hay While the Sun Shines
+    Targets:
+      - Mob: VADON
+        Count: 10
+  - Id: 21232
+    Title: Make Hay While the Sun Shines (Standby)
+    TimeLimit: 4h
+  - Id: 21235
+    Title: The Woman of His Dreams
+    Targets:
+      - Mob: OBEAUNE
+        Count: 10
+  - Id: 21237
+    Title: For a Friend
+    Targets:
+      - Mob: SWORD_FISH
+        Count: 10
+      - Mob: MARC
+        Count: 10
+  - Id: 21238
+    Title: For a Friend (Standby)
+    TimeLimit: 4h
+  - Id: 21239
+    Title: Cooking Supplies
+    Targets:
+      - Mob: MARSE
+        Count: 20
+  - Id: 21240
+    Title: Cooking Supplies (Standby)
+    TimeLimit: 4h
+  - Id: 21242
+    Title: Pesky Guards
+    Targets:
+      - Mob: STROUF
+        Count: 10
+      - Mob: MERMAN
+        Count: 10
+  - Id: 21243
+    Title: Pesky Guards (Standby)
+    TimeLimit: 4h
+  - Id: 21244
+    Title: The Woman of His Dreams (Standby)
+    TimeLimit: 4h
