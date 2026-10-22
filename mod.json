@@ -48,7 +48,7 @@
       "type": "boolean",
       "default": true,
       "label": "City Investment (Merchant Union)",
-      "description": "Join the City Merchant Union at the Eden Group, earn Union Insignias from monsters and Union requests (111 deliveries, weekly Wanted bosses), invest them in 9 cities and buy their account-bound Union gear."
+      "description": "Join the City Merchant Union at the Eden Group, earn Union Insignias from monsters and Union requests (113 deliveries, weekly Wanted bosses), invest them in 9 cities and buy their account-bound Union gear."
     },
     {
       "key": "town_quests_2021",

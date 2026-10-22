@@ -448,3 +448,11 @@ juperos_01,58,227,4	script	Yunologist Jeobi#iqu5719	755,{
 	callfunc "F_IQ_UnionDeliver", 5719, Center_Potion, 10, "Yunologist Jeobi";
 	end;
 }
+alde_dun01,80,275,4	script	Wanderer Vivi#iqu5721	704,{
+	callfunc "F_IQ_UnionDeliver", 5721, Wing_Of_Fly, 10, "Wanderer Vivi";
+	end;
+}
+c_tower1,378,118,4	script	Wanderer Vivi#iqu5723	704,{
+	callfunc "F_IQ_UnionDeliver", 5723, Wing_Of_Fly, 10, "Wanderer Vivi";
+	end;
+}
