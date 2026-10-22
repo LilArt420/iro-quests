@@ -266,9 +266,12 @@ kRO's 2015 "City Contribution" system, which iRO runs as the Merchant Union.
 - 🛡️ The city's **Merchant Union** sells its account-bound Union gear as your standing grows: weapons and shield at 3,000 points, shoes at 9,000, armor at 21,000, garment at 41,000.
 - Not in the sources, chosen here: when B and A deliveries open (10 and 30 finished requests) and the gear prices (100,000-250,000 zeny).
 
+## 🏜️ Town quests (2021 revamp)
+kRO rewrote its town quests in 2021, and iRO runs them. So far: **Morroc** (Base Level 40+). An Elderly Scholar (morocc 151, 86) sends you after his apprentice in the desert; the trail runs through the Thieves' Guild ruins, Ernest's research and Leader Maxim's team in the pyramid, to the Sphinx. Each hunt becomes a daily once done, shared with the Eden Group's mission boards (same quest ids and 4 AM resets).
+
 ## ⚙️ Settings
 In **Settings → Mods → iro-quests**:
-- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**, **Gramps' weekly turn-ins**, **City Investment**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
+- **Bounty Boards**, **Criminal Activities**, **Eye of the Beholder**, **Overlook Water Dungeon**, **Gramps' weekly turn-ins**, **City Investment**, **Town quests (2021)**: one switch each, all on by default. Turning a quest off removes its NPCs; quest logs and progress stay, except for the Overlook hunts, which leave with their monsters.
 
 ## 💾 Installing
 Renewal servers, Ragnarok Offline 1.6.7 or newer. Download `iro-quests-v<version>.zip` from the [Releases](../../releases) page and install it with **Settings → Mods → Install from a folder…**, then restart the server.

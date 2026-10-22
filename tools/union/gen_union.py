@@ -35,7 +35,8 @@ ITEM = {'fly wing': 'Wing_Of_Fly', 'yggdrasil lea': 'Leaf_Of_Yggdrasil', 'white 
         'awakening potion': 'Awakening_Potion', 'berserk potion': 'Berserk_Potion', 'carrot': 'Carrot',
         'sweet potato': 'Sweet_Potato', 'holy water': 'Holy_Water', 'spicy sauce': 'Hot_Sauce', 'fire arrow': 'Fire_Arrow',
         'trap': 'Booby_Trap', 'green potion': 'Green_Potion', 'cotton shirt': 'Cotton_Shirt',
-        "monsters' food": "Monster's_Feed", 'concentration': 'Center_Potion'}
+        "monsters' food": '528',   # Monster's_Feed: the apostrophe can't be a script constant
+        'concentration': 'Center_Potion'}
 
 
 def item_of(name):

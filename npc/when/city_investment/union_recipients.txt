@@ -441,7 +441,7 @@ tha_t01,122,44,4	script	Archaeologist Mien#iqu5715	702,{
 	end;
 }
 abyss_01,247,267,4	script	Boss Cat#iqu5717	561,{
-	callfunc "F_IQ_UnionDeliver", 5717, Monster's_Feed, 10, "Boss Cat";
+	callfunc "F_IQ_UnionDeliver", 5717, 528, 10, "Boss Cat";
 	end;
 }
 juperos_01,58,227,4	script	Yunologist Jeobi#iqu5719	755,{

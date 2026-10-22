@@ -3,6 +3,7 @@
 ## 0.3.0
 - New: **Gramps' weekly turn-ins** (iRO, Base Level 70-150) at the Eden Group: 400-kill hunts, two monsters a week in each of three tiers (184 hunts from the iRO client), paying 400x the monster's EXP, 65,000 zeny and an Eden Merit Badge, with a 16-hour Hunting Timer. Replaces rAthena's talk-only Gramps.
 - New: **City Investment** (kRO/iRO City Merchant Union): join at the Eden Group (Union Manager, Bulletin Board, Secretary Governor), get Union Insignias from monsters (about 1 in 5) and from requests (111 A/B/C deliveries to NPCs in dungeons, 20-50 Insignias; 23 weekly Wanted bosses, 100-300), invest up to 250 a day in one of 9 cities and buy its account-bound Union gear as your standing grows.
+- New: **Town quests (2021 revamp)**, Morroc: the Elderly Scholar, his apprentice, Lumin, Ernest and Leader Maxim's pyramid team (13 story steps), then their dailies, shared with the Eden Group's mission boards.
 
 ## 0.2.0
 - New: **Criminal Activities** (iRO, Base Level 70): Agent York, Vince Noir's band and Jymmy the Thumb's casino airship, from Geffen to Izlude. 1,000,000 / 700,000 EXP and an Old Purple Box.
