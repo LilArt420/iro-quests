@@ -49,6 +49,13 @@
       "default": true,
       "label": "City Investment (Merchant Union)",
       "description": "Join the City Merchant Union at the Eden Group, earn Union Insignias from monsters and Union requests (111 deliveries, weekly Wanted bosses), invest them in 9 cities and buy their account-bound Union gear."
+    },
+    {
+      "key": "town_quests_2021",
+      "type": "boolean",
+      "default": true,
+      "label": "Town quests (2021 revamp)",
+      "description": "kRO's 2021 town quests that iRO runs: so far Morroc's chain (Elderly Scholar, Lumin, Ernest, Leader Maxim) and its dailies, shared with the Eden Group's mission boards."
     }
   ]
 }

@@ -1,0 +1,43 @@
+# iRO Quests: the 2021 town quests' story steps that rAthena's quest_db lacks (iRO client ids).
+# The dailies (21202, 21205, 21213-21220 and their cooldowns) are rAthena's own entries.
+Header:
+  Type: QUEST_DB
+  Version: 3
+
+Body:
+  - Id: 21201
+    Title: "Find the Lost"
+  - Id: 21204
+    Title: "Giving up an item because of back pain."
+    Drops:
+      - Mob: VERIT
+        Item: Field_Shovel
+        Rate: 1000
+      - Mob: MINOROUS
+        Item: Field_Shovel
+        Rate: 1000
+  - Id: 21207
+    Title: "The Whereabouts of Friends Beyond the Maze"
+  - Id: 21208
+    Title: "An old blue box and a good dream"
+  - Id: 21209
+    Title: "The Whereabouts of Friends Beyond the Maze"
+  - Id: 21210
+    Title: "What Isis Has"
+    Drops:
+      - Mob: ISIS
+        Item: Rotten_Bandage
+        Rate: 3000
+  - Id: 21211
+    Title: "The Workers of the Sphinx"
+    Targets:
+      - Mob: ZEROM
+        Count: 15
+      - Mob: REQUIEM
+        Count: 15
+  - Id: 21212
+    Title: "Secrets of the Sphinx"
+    Drops:
+      - Mob: MARDUK
+        Item: Worn_Out_Papyrus
+        Rate: 3000
